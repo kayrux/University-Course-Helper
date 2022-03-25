@@ -41,3 +41,27 @@
   .footer a:hover {
     color: #f1356d;
   }
+
+
+  .btn-block {
+    display: block;
+    width: 100%;
+  }
+  
+  .login-form {
+    max-width: 500px;
+    margin: 30px auto;
+    overflow: auto;
+    min-height: 300px;
+    border: 1px solid steelblue;
+    padding: 30px;
+    border-radius: 5px;
+  }
+
+  .login-form input {
+    width: 90%;
+    height: 40px;
+    margin: 5px;
+    padding: 3px 7px;
+    font-size: 17px;
+  }
