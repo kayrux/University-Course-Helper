@@ -6,8 +6,14 @@ const Navbar = () => {
         <div className="links">
             <Link to="/">Courses</Link>
             <Link to="/professors">Professors</Link>
-            <Link to="/faculty">Faculty</Link>
+            <Link to="/faculties">Faculties</Link>
+            <input 
+                type="text" 
+                placeholder="Search" 
+            />
+            <Link to="/login">Login</Link>
         </div>
+        
     </div>
   )
 }
