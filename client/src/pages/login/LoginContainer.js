@@ -33,6 +33,7 @@ const LoginContainer = ({onLogin}) => {
                 <h2>Welcome</h2>
             ) : (
             <form className="login-form" onSubmit={onSubmit}>
+                <h1>Sign in</h1>
                 <input 
                     type="text" 
                     placeholder="Username" 
