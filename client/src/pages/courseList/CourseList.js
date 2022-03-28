@@ -3,7 +3,7 @@ import ListDisplay from '../../components/ListDiplay';
 
 const CourseList = () => {
 
-    const [courseList, setCourseList] = useState(["cpsc 331", "cpsc 457", "cpsc 471"])
+    const [courseList, setCourseList] = useState(["CPSC 331", "CPSC 457", "CPSC 471"])
 
     const type = "course"
 
