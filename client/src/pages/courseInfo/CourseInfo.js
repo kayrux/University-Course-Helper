@@ -5,7 +5,7 @@ const CourseInformation = () => {
 
     const [courseInformation, setCourseInformation] = useState(["Courses", "Professor Links", "Department Links", "Degree Links", "Comments/Ratings"])
 
-    const type = "courseInfo"
+    const type = "course"
 
     return(
         <div>
