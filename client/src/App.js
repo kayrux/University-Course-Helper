@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import LoginContainer from "./pages/login/LoginContainer";
 
 const App = () => {
-    const [showLoggedAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
+    const [showLoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
 
     // TO DO: interacts with database to verify before logging in
     const login = (loginInfo) => {
@@ -21,7 +21,7 @@ const App = () => {
     return ( 
         <Router>
             <div className="container">
-                <Navbar onLogout={logout} loggedIn={showLoggedAsAdmin}/>
+                <Navbar onLogout={logout} loggedIn={showLoggedInAsAdmin}/>
                 <Routes>
                     // Replace elements with corresponding components
                     <Route path="/" element={<h1>Courses</h1>}></Route>
@@ -31,7 +31,7 @@ const App = () => {
                     <Route path="/login" element={<LoginContainer onLogin={login}/>}></Route>
                     <Route path="/edit-account" element={<h1>Edit Account</h1>}></Route>
                 </Routes>
-                <Footer />
+                <Footer loggedIn={showLoggedInAsAdmin}/>
             </div>
         </Router>
     )
