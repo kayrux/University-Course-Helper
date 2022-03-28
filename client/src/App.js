@@ -29,7 +29,6 @@ const App = () => {
             <div className="container">
                 <Navbar onLogout={logout} loggedIn={showLoggedInAsAdmin}/>
                 <Routes>
-                    // Replace elements with corresponding components
                     <Route path="/" element={<CourseList />}></Route>
                     <Route path="/professors" element={<ProfessorList />}></Route>
                     <Route path="/faculties" element={<FacultyList />}></Route>
