@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import Button from "./Button";
 
-const Navbar = () => {
+
+const Navbar = ({onLogout, loggedIn}) => {
   return (
     <div className="navbar">
         <div className="links">
@@ -11,7 +13,9 @@ const Navbar = () => {
                 type="text" 
                 placeholder="Search" 
             />
-            <Link to="/login">Login</Link>
+            {loggedIn ? <Link to="/"><Button text="Logout" color="red" onClick={onLogout}></Button></Link>
+            : <Link to="/login">Login</Link>}
+            {loggedIn && <Link to="/edit-account"><Button text="Edit Account" color="grey"></Button></Link>}
         </div>
         
     </div>

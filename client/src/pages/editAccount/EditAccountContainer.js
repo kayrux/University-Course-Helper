@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Login = ({onLogin}) => {
+const EditAccountContainer = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
@@ -16,35 +16,34 @@ const Login = ({onLogin}) => {
             alert("Please enter a password")
             return
         }
-        onLogin({username, password}) // To do
+
         setUsername("")
         setPassword("")
-        
-
         
     }
 
     return (
         <form className="login-form" onSubmit={onSubmit}>
-            <input 
-                type="text" 
-                placeholder="Username" 
-                value={username} 
+            <h1>Edit Account</h1>
+            <input
+                type="text"
+                placeholder="New Username"
+                value={username}
                 onChange={(e) =>
                     setUsername(e.target.value)}
             />
 
-            <input 
-                type="text" 
-                placeholder="Password" 
-                value={password} 
+            <input
+                type="text"
+                placeholder="New Password"
+                value={password}
                 onChange={(e) =>
                     setPassword(e.target.value)}
             />
 
-            <input type="submit" value="Login" className="btn btn-block" />
+            <input type="submit" value="Update" className="btn btn-block" />
         </form>
-        )
+    )
 }
 
-export default Login
+export default EditAccountContainer
