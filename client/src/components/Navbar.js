@@ -13,8 +13,9 @@ const Navbar = ({onLogout, loggedIn}) => {
                 type="text" 
                 placeholder="Search" 
             />
-            {loggedIn ? <Link to="/"><Button text="logout" color="red" onClick={onLogout}></Button></Link>
+            {loggedIn ? <Link to="/"><Button text="Logout" color="red" onClick={onLogout}></Button></Link>
             : <Link to="/login">Login</Link>}
+            {loggedIn && <Link to="/edit-account"><Button text="Edit Account" color="grey"></Button></Link>}
         </div>
         
     </div>
