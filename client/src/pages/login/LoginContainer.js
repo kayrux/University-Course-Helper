@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Login = ({onLogin}) => {
+const LoginContainer = ({onLogin}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loggedIn, setLoggedIn] = useState(false);
@@ -55,4 +55,4 @@ const Login = ({onLogin}) => {
         )
 }
 
-export default Login
+export default LoginContainer
