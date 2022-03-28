@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Navbar from './components/Navbar';
 import Footer from "./components/Footer";
 import LoginContainer from "./pages/login/LoginContainer";
+import EditAccountContainer from "./pages/editAccount/EditAccountContainer";
 
 const App = () => {
     const [showLoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
@@ -29,7 +30,7 @@ const App = () => {
                     <Route path="/faculties" element={<h1>Faculties</h1>}></Route>
                     <Route path="/reports" element={<h1>Reports</h1>}></Route>
                     <Route path="/login" element={<LoginContainer onLogin={login}/>}></Route>
-                    <Route path="/edit-account" element={<h1>Edit Account</h1>}></Route>
+                    <Route path="/edit-account" element={<EditAccountContainer />}></Route>
                 </Routes>
                 <Footer loggedIn={showLoggedInAsAdmin}/>
             </div>
