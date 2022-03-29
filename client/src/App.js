@@ -2,8 +2,13 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Navbar from './components/Navbar';
 import Footer from "./components/Footer";
+import CourseList from "./pages/courseList/CourseList";
+import ProfessorList from "./pages/professorList/ProfessorList";
+import FacultyList from "./pages/facultyList/FacultyList";
+import ReportList from "./pages/reportList/ReportList";
 import LoginContainer from "./pages/login/LoginContainer";
 import EditAccountContainer from "./pages/editAccount/EditAccountContainer";
+import CoursePage from "./pages/TEST/CoursePage.js"
 
 const App = () => {
     const [showLoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
@@ -24,13 +29,14 @@ const App = () => {
             <div className="container">
                 <Navbar onLogout={logout} loggedIn={showLoggedInAsAdmin}/>
                 <Routes>
-                    // Replace elements with corresponding components
-                    <Route path="/" element={<h1>Courses</h1>}></Route>
-                    <Route path="/professors" element={<h1>Professors</h1>}></Route>
-                    <Route path="/faculties" element={<h1>Faculties</h1>}></Route>
-                    <Route path="/reports" element={<h1>Reports</h1>}></Route>
+                    <Route path="/" element={<CourseList />}></Route>
+                    <Route path="/professors" element={<ProfessorList />}></Route>
+                    <Route path="/faculties" element={<FacultyList />}></Route>
+                    <Route path="/reports" element={<ReportList />}></Route>
                     <Route path="/login" element={<LoginContainer onLogin={login}/>}></Route>
                     <Route path="/edit-account" element={<EditAccountContainer />}></Route>
+                    {/*Below path is for luigi image (delete if you hate luigi)*/}
+                    <Route path="/:courseId" element={<CoursePage />}></Route>
                 </Routes>
                 <Footer loggedIn={showLoggedInAsAdmin}/>
             </div>
