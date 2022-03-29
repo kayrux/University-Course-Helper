@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 
+//display a list of links
 const ListDisplay = ({list,type}) => {
 
+    //determine which page the list is being displayed on to determine where the link should lead
     if (type === "course"){
+        //returns every course name in the given list and turns them into links to the corasponding course page
+        //(note all other if statements below do the same, just with a different path)
         return (
             <div>
                 {list.map((val) => {
@@ -15,7 +19,7 @@ const ListDisplay = ({list,type}) => {
             </div>
         )
     }
-    if (type === "professor"){
+    else if (type === "professor"){
         return (
             <div>
                 {list.map((val) => {
@@ -28,7 +32,7 @@ const ListDisplay = ({list,type}) => {
             </div>
         )
     }
-    if (type === "faculty"){
+    else if (type === "faculty"){
         return (
             <div>
                 {list.map((val) => {
@@ -41,7 +45,7 @@ const ListDisplay = ({list,type}) => {
             </div>
         )
     }
-    if (type === "report"){
+    else if (type === "report"){
         return (
             <div>
                 {list.map((val) => {
