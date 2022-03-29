@@ -1,7 +1,7 @@
 import { useState } from "react"
 import ListDisplay from '../../components/ListDiplay';
 
-const CourseInformation = () => {
+const CourseInfo = () => {
 
     const [courseInformation, setCourseInformation] = useState(["Courses", "Professor Links", "Department Links", "Degree Links", "Comments/Ratings"])
 
@@ -14,6 +14,6 @@ const CourseInformation = () => {
     )
 }
 
-export default CourseInformation
+export default CourseInfo
 
 
