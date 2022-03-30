@@ -4,7 +4,7 @@ import AddCommentContainer from "../courseInfo/AddCommentContainer"
 
 const CourseInfo = () => {
     return(
-        <div className="courseInfo-display">
+        <div className="display-container">
         <h1>Course Information</h1>
         <h3>Course description</h3>
         <p1>
