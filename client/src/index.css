@@ -68,7 +68,7 @@
   }
 
   .courseInfo-display {
-    width: 80%;
+    width: 60%;
     margin: 30px auto;
     overflow: auto;
     border: 1px solid steelblue;
@@ -76,15 +76,22 @@
     border-radius: 5px;
   }
 
-
-  .comment-form {
+  .raiting-form {
     max-width: 800px;
     margin: 30px auto;
     overflow: auto;
-    height: 150px;
+    height: 200px;
     border: 1px solid steelblue;
     padding: 30px;
     border-radius: 5px;
+  }
+
+  .raiting-input {
+    width: 20%;
+    height: 25px;
+    margin: 5px;
+    padding: 3px 7px;
+    font-size: 17px;
   }
 
   .comment-input {

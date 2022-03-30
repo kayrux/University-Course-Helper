@@ -38,7 +38,7 @@ const App = () => {
                     {/*Below path is for luigi image (delete if you hate luigi)*/}
                     <Route path="/:courseId" element={<CourseInfo />}></Route>
                 </Routes>
-                <Footer loggedIn={showLoggedInAsAdmin}/>
+                <b>{showLoggedInAsAdmin ? <Footer loggedIn={showLoggedInAsAdmin}/> : "" } </b>
             </div>
         </Router>
     )
