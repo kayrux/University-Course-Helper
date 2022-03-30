@@ -36,7 +36,6 @@ const App = () => {
                     <Route path="/reports" element={<ReportList />}></Route>
                     <Route path="/login" element={<LoginContainer onLogin={login}/>}></Route>
                     <Route path="/edit-account" element={<EditAccountContainer />}></Route>
-                    {/*Below path is for luigi image (delete if you hate luigi)*/}
                     <Route path="/:courseId" element={<CourseInfo />}></Route>
                     <Route path="/faculties/:facultyId" element={<FacultyInfo />}></Route>
                 </Routes>
