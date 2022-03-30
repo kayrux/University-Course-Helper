@@ -1,22 +1,34 @@
 import { useState } from "react"
 
 const AddCommentContainer = () => {
+    const [raiting, setRaiting] = useState("")
     const [comment, setComment] = useState("")
 
     const onSubmit = (e) => {
         e.preventDefault()
 
-        if(!comment) {
+        if(!raiting) {
             alert("Please enter a comment")
             return
         }
 
+        setRaiting("")
         setComment("")
     }
 
     return (
         <>
-            <form className="comment-form" onSubmit={onSubmit}>
+            <form className="raiting-form" onSubmit={onSubmit}>
+
+                <input 
+                    className="raiting-input"
+                    type="int" 
+                    placeholder="Raiting" 
+                    value={raiting} 
+                    onChange={(e) =>
+                        setRaiting(e.target.value)}
+                />
+
                 <input 
                     className="comment-input"
                     type="text" 
@@ -26,7 +38,7 @@ const AddCommentContainer = () => {
                         setComment(e.target.value)}
                 />
 
-                <input type="submit" value="Add Comment" className="btn btn-block" />
+                <input type="submit" value="Add Raiting" className="btn btn-block" />
             </form>
         </>
         )

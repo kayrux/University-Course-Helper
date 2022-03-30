@@ -39,7 +39,7 @@ const App = () => {
                     <Route path="/:courseId" element={<CourseInfo />}></Route>
                     <Route path="/faculties/:facultyId" element={<FacultyInfo />}></Route>
                 </Routes>
-                <Footer loggedIn={showLoggedInAsAdmin}/>
+                <b>{showLoggedInAsAdmin ? <Footer loggedIn={showLoggedInAsAdmin}/> : "" } </b>
             </div>
         </Router>
     )
