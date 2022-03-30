@@ -30,3 +30,5 @@ const FacultyInfo = () => {
 }
 
 export default FacultyInfo
+
+
