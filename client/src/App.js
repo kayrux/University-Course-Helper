@@ -8,7 +8,7 @@ import FacultyList from "./pages/facultyList/FacultyList";
 import ReportList from "./pages/reportList/ReportList";
 import LoginContainer from "./pages/login/LoginContainer";
 import EditAccountContainer from "./pages/editAccount/EditAccountContainer";
-import CoursePage from "./pages/TEST/CoursePage.js"
+import CourseInfo from "./pages/courseInfo/CourseInfo";
 
 const App = () => {
     const [showLoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
@@ -36,7 +36,7 @@ const App = () => {
                     <Route path="/login" element={<LoginContainer onLogin={login}/>}></Route>
                     <Route path="/edit-account" element={<EditAccountContainer />}></Route>
                     {/*Below path is for luigi image (delete if you hate luigi)*/}
-                    <Route path="/:courseId" element={<CoursePage />}></Route>
+                    <Route path="/:courseId" element={<CourseInfo />}></Route>
                 </Routes>
                 <Footer loggedIn={showLoggedInAsAdmin}/>
             </div>
