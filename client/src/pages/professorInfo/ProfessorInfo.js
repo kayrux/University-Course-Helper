@@ -3,28 +3,21 @@ import React from 'react'
 const ProfessorInfo = () => {
     return (
         <div className="display-container">
-            <h1>Professor Information</h1>
-            <h3>Professor Description </h3>
-            <p1>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-                ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-                Nulla consequat massa quis enim.
-            </p1>
-            <h3>Course Links</h3>
-            <p1>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-                ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-                Nulla consequat massa quis enim.
-            </p1>
-            <h3>Professor Websites</h3>
-            <p1>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-                ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-                Nulla consequat massa quis enim.
-            </p1>
+            <h1>Wayne Michael Eberly Information</h1>
+                <h3>General Description </h3>
+                    <div>
+                    Rating: (rate my professor) 1.9/5.0
+                    </div>
+                    <div>
+                    Rate my professor page: https://www.ratemyprofessors.com/ShowRatings.jsp?tid=31280
+                    </div>
+                <h3>Courses taught</h3>
+                        <div>
+                        CPSC 331: *link to cpsc 331 course page
+                        </div>
+                        <div>
+                        CPSC 513: *link to cpsc 513 course page
+                        </div>
         </div>
     )
 }
