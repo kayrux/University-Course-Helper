@@ -9,10 +9,14 @@ const ReportInfo = () => {
     return (
         <div className="display-container">
             <h1>Report Information</h1>
-            <h3>Report Type</h3>
+            <h3>Report Reason</h3>
             <p1>Racism</p1>
-            <h3>Reason for Report</h3>
-            <p1>The comment is racist</p1>
+            <h3>Date</h3>
+            <p1>30/03/2022</p1>
+            <button onClick={deleteReport}
+            className="btn-delete">
+                Reject Report
+            </button>
             <hr />
             <h1>Rating Reported</h1>
             <h3>Course Name and Number</h3>
@@ -28,10 +32,10 @@ const ReportInfo = () => {
                 This course reminds me of *insert something racist
             </p1>
             <h3>Date</h3>
-            <p1>30/03/2022</p1>
+            <p1>29/03/2022</p1>
             <button onClick={deleteReport}
             className="btn-delete">
-                Delete
+                Delete Comment
             </button>
         </div>
     )
