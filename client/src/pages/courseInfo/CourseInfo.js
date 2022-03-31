@@ -1,8 +1,8 @@
-import AddCommentContainer from "./AddRaiting"
+import AddCommentContainer from "./AddRatingContainer"
 
 const CourseInfo = () => {
     return(
-    <div className="courseInfo-display">
+    <div className="display-container">
         <h1>CPSC 331 Information</h1> 
             <div>
             <h3>General Information</h3>
@@ -47,7 +47,7 @@ const CourseInfo = () => {
                 <div>
                 relevant to: CPSC Degree
                 </div>      
-        <h3>Raitings</h3>
+        <h3>Ratings</h3>
         <div>
             2.5/5
         </div>
