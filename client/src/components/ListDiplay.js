@@ -12,7 +12,7 @@ const ListDisplay = ({list,type}) => {
                 {list.map((val) => {
                     return(
                         <h2>
-                            <Link to={`/${val}`}>{val}</Link>
+                            <Link to={`/${val}`}>{val.Course_name}</Link>
                         </h2>
                     );
                 })}
