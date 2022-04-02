@@ -3,7 +3,7 @@ import AddCommentContainer from "./AddRatingContainer"
 const CourseInfo = () => {
     return(
     <div className="display-container">
-        <h1>CPSC 331 Information</h1> 
+        <h1>CPSC 231 Information</h1> 
             <div>
             <h3>General Information</h3>
             <div>
