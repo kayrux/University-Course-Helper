@@ -1,9 +1,47 @@
-import AddCommentContainer from "./AddRatingContainer"
+import AddRaitingContainer from "./AddRatingContainer"
+import { useLocation } from "react-router"
+import { useState, useEffect } from "react"
+import Axios from "axios"
 
 const CourseInfo = () => {
+    const location = useLocation()
+    const path = location.pathname.split("/")[2];
+
+    const [courseList, setCourseList] = useState({})
+    const [CN, SCN] = useState("")
+
+    //Updates the list of courses
+    useEffect(() => {
+        const getCourses = async () => {
+            const courses = await Axios.get('http://localhost:3001/api/get/courseInfo/${path}')
+            const data = await courses.data
+            setCourseList(data)
+            SCN(courses.data.Course_name)
+        }
+        getCourses()
+    }, [])
+
     return(
+        <div>
+            <div>
+            hello
+            </div>
+            <div>
+            Can read course ID via url: {path}
+            </div>
+            <div>
+            Cant use course ID to read from database:
+            (course name corasponding to the given ID should be here)
+            {courseList.Course_name}
+            {CN}
+            </div>
+        </div>
+    )
+    
+    
+    /*
     <div className="display-container">
-        <h1>CPSC 231 Information</h1> 
+        <h1></h1> 
             <div>
             <h3>General Information</h3>
             <div>
@@ -54,10 +92,10 @@ const CourseInfo = () => {
         <div>
             Luigi is cooler than this course
         </div>
-        <AddCommentContainer />
+        <AddRaitingContainer />
         </div>
     </div>
-    )
+    */
 }
 
 export default CourseInfo

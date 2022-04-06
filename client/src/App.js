@@ -38,7 +38,7 @@ const App = () => {
                     <Route path="/reports" element={<ReportList />}></Route>
                     <Route path="/login" element={<LoginContainer onLogin={login}/>}></Route>
                     <Route path="/edit-account" element={<EditAccountContainer />}></Route>
-                    <Route path="/:courseId" element={<CourseInfo />}></Route>
+                    <Route path="/courseInfo/:courseId" element={<CourseInfo />}></Route>
                     <Route path="/faculties/:facultyId" element={<FacultyInfo />}></Route>
                     <Route path="/reports/:reportId" element={<ReportInfo />}></Route>
                     <Route path="/professors/:professorId" element={<ProfessorInfo />}></Route>
