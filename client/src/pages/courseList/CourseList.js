@@ -17,6 +17,8 @@ const CourseList = () => {
             const courses = await Axios.get("http://localhost:3001/api/get/courseList")
             const data = await courses.data
             setCourseList(data)
+            console.log(courses)
+            console.log(courses.data)
         }
         getCourses()
     }, [])
