@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const AddCommentContainer = () => {
+const AddCommentContainer = ({account_id, course_id}) => {
     const [rating, setRating] = useState("")
     const [comment, setComment] = useState("")
 
@@ -8,6 +8,11 @@ const AddCommentContainer = () => {
         e.preventDefault()
 
         if(!rating) {
+            alert("Please enter a rating")
+            return
+        }
+
+        if(!comment) {
             alert("Please enter a comment")
             return
         }
