@@ -11,10 +11,10 @@ const CourseList = () => {
     //This is used to tell ListDisplay which page to render the list (one of /,/professors,/faculties,/reports)
     const type = "course"
 
-    // Updates the list of courses
+    //Updates the list of courses
     useEffect(() => {
         const getCourses = async () => {
-            const courses = await Axios.get("http://localhost:3001/api/get")
+            const courses = await Axios.get("http://localhost:3001/api/get/courseList")
             const data = await courses.data
             setCourseList(data)
         }
