@@ -38,6 +38,17 @@ app.get("/api/get", (req, res) => {
 })
 
 
+// ------------------------------------ Admin Account ------------------------------------
+app.post("/api/user/:account_id", (req, res) => {
+
+    const username = req.body.username
+    const password = req.body.password
+
+    const sqlInsert = "INSERT INTO ADMIN_ACCOUNT (username, password) VALUES (?,?)"
+    db.query(sqlInsert, [username, password], (err, result) => {
+        if (err) console.log(err)
+    })
+})
 
 // ------------------------------------ Rating ------------------------------------
 
