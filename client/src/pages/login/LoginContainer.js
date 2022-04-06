@@ -1,9 +1,10 @@
 import { useState } from "react"
 
+// onLogin is called when the user succesfully logs in
 const LoginContainer = ({onLogin}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false); // Keeps track of whether the user is logged in
 
     const onSubmit = (e) => {
         e.preventDefault()

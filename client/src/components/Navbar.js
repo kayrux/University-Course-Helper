@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import Button from "./Button";
 
-
+/**
+ * 
+ * @param onLogout function which is called when the user logs out
+ * @param loggedIn whether or not the user is logged in 
+ * @returns
+ */
 const Navbar = ({onLogout, loggedIn}) => {
   return (
     <div className="navbar">
@@ -13,8 +18,11 @@ const Navbar = ({onLogout, loggedIn}) => {
                 type="text" 
                 placeholder="Search" 
             />
+            {/* Logout button is displayed only when user is logged in */}
             {loggedIn ? <Link to="/"><Button text="Logout" color="red" onClick={onLogout}></Button></Link>
             : <Link to="/login">Login</Link>}
+
+            {/* Edit Account button is displayed only when user is logged in */}
             {loggedIn && <Link to="/edit-account"><Button text="Edit Account" color="grey"></Button></Link>}
         </div>
         

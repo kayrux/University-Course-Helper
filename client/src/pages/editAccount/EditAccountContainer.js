@@ -16,10 +16,9 @@ const EditAccountContainer = () => {
             alert("Please enter a password")
             return
         }
-
+        // Should be updating the database somewhere
         setUsername("")
         setPassword("")
-        
     }
 
     return (

@@ -23,9 +23,9 @@
   }
   
   .footer {
-    position:fixed;
-    bottom:0;
-    left:0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width:100%;
     height: 50px;
     border-top: 4px solid #f2f2f2;
@@ -46,6 +46,14 @@
   .btn-block {
     display: block;
     width: 100%;
+    height: 30px;
+  }
+
+  .btn-delete {
+    display: block;
+    width: 100%;
+    height: 30px;
+    background-color:red
   }
   
   .login-form {
@@ -65,3 +73,40 @@
     padding: 3px 7px;
     font-size: 17px;
   }
+
+  .display-container {
+    width: 60%;
+    margin: 30px auto;
+    overflow: auto;
+    border: 1px solid steelblue;
+    padding: 30px;
+    border-radius: 5px;
+  }
+
+  .rating-form {
+    max-width: 800px;
+    margin: 30px auto;
+    overflow: auto;
+    height: 200px;
+    border: 1px solid steelblue;
+    padding: 30px;
+    border-radius: 5px;
+  }
+
+  .rating-input {
+    width: 20%;
+    height: 25px;
+    margin: 5px;
+    padding: 3px 7px;
+    font-size: 17px;
+  }
+
+  .comment-input {
+    width: 90%;
+    height: 100px;
+    margin: 5px;
+    padding: 3px 7px;
+    font-size: 17px;
+  }
+
+  
