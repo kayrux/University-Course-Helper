@@ -14,7 +14,7 @@ const CourseList = () => {
     //Updates the list of courses
     useEffect(() => {
         const getCourses = async () => {
-            const courses = await Axios.get("http://localhost:3001/api/get/courseList")
+            const courses = await Axios.get("http://localhost:3001/api/courseList")
             const data = await courses.data
             setCourseList(data)
         }
