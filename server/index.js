@@ -35,7 +35,7 @@ app.get("/api/get/courseList", (req, res) => {
 })
 
 //API endpoint find information on a specific course
-app.get('/api/get/courseInfo/:Course_id', (req, res) => {
+app.get(`/api/get/courseInfo/:Course_id`, (req, res) => {
     const name = req.params.Course_id
     db.query(
         'SELECT * FROM COURSE as c WHERE c.Course_id = ?',
