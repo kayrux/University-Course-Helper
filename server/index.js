@@ -195,13 +195,12 @@ app.put("/api/rating/:course_name/:rating_id", (req, res) => {
     const comment = req.body.comment
     const score = req.body.score
     const rating_date = req.body.rating_date
-    
 
-    "UPDATE ADMIN_ACCOUNT AS a SET a.Password=? WHERE a.Username=?"
     const sqlInsert = 
-    "UPDATE RATING AS r " + 
-    "SET r.Comment=?, r.Score=?, r.Rating_date=? " + 
-    "WHERE r.Rating_id=? AND r.Username=?"
+        ("UPDATE RATING AS r " + 
+        "SET r.Comment=?, r.Score=?, r.Rating_date=? " + 
+        "WHERE r.Rating_id=? AND r.Username=?")
+
     db.query(sqlInsert, [comment, score, rating_date, rating_id, username], (err, result) => {
         if (err) console.log(err);
     });
