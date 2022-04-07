@@ -5,18 +5,16 @@ import Axios from "axios"
 
 const CourseInfo = () => {
     const location = useLocation()
-    const path = location.pathname.split("/")[2];
+    const name = decodeURI(location.pathname.split("/")[2]);
 
-    const [courseList, setCourseList] = useState({})
-    const [CN, SCN] = useState("")
+    const [courseInfo, setCourseInfo] = useState([])
 
     //Updates the list of courses
     useEffect(() => {
         const getCourses = async () => {
-            const courses = await Axios.get(`http://localhost:3001/api/get/courseInfo/${path}`)
+            const courses = await Axios.get(`http://localhost:3001/api/courseList/${name}`)
             const data = await courses.data
-            setCourseList(data)
-            SCN(courses.data.Course_name)
+            setCourseInfo(data)
         }
         getCourses()
     }, [])
@@ -27,13 +25,18 @@ const CourseInfo = () => {
             hello
             </div>
             <div>
-            Can read course ID via url: {path}
+            Can read course ID via url: {name}
             </div>
             <div>
             Cant use course ID to read from database:
             (course name corasponding to the given ID should be here)
-            {courseList.Course_name}
-            {CN}
+            {courseInfo.map((val) => {
+            return(
+                        <h2>
+                            {val.Course_name}
+                        </h2>
+                    );
+                })}
             </div>
         </div>
     )
