@@ -2,21 +2,32 @@ import AddRaitingContainer from "./AddRatingContainer"
 import { useLocation } from "react-router"
 import { useState, useEffect } from "react"
 import Axios from "axios"
+import SemesterProf from '../../components/SemesterProf'
 
 const CourseInfo = () => {
     const location = useLocation()
     const name = decodeURI(location.pathname.split("/")[2]);
 
     const [courseInfo, setCourseInfo] = useState([])
+    const [semesterInfo, setSemesterInfo] = useState([])
 
     //Updates the list of courses
     useEffect(() => {
         const getCourses = async () => {
-            const courses = await Axios.get(`http://localhost:3001/api/courseList/${name}`)
+            const courses = await Axios.get(`http://localhost:3001/api/courseInfo/${name}`)
             const data = await courses.data
             setCourseInfo(data)
         }
         getCourses()
+    }, [])
+
+    useEffect(() => {
+        const getSemester = async () => {
+            const courses = await Axios.get(`http://localhost:3001/api/courseInfo/${name}/semester`)
+            const data = await courses.data
+            setSemesterInfo(data)
+        }
+        getSemester()
     }, [])
 
     return(
@@ -32,9 +43,22 @@ const CourseInfo = () => {
             (course name corasponding to the given ID should be here)
             {courseInfo.map((val) => {
             return(
+                    <div>
                         <h2>
                             {val.Course_name}
                         </h2>
+                        {semesterInfo.map((val2) => {
+                            return(
+                                <div>
+                                    <h3>
+                                        {val2.Sem_start_year}
+                                        {val2.Sem_start_term}
+                                    </h3>
+                                    <SemesterProf name = {val.Course_name} startYear = {val2.Sem_start_year} startTerm = {val2.Sem_start_term} />
+                                </div>
+                                );
+                            })}
+                    </div>
                     );
                 })}
             </div>
