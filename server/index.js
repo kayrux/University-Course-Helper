@@ -185,6 +185,30 @@ app.post("/api/rating/:course_name", (req, res) => {
 });
 
 // Tested: working
+// Edit Rating
+// The administrator account can edit/modify ratings made by users of the website. 
+app.put("/api/rating/:course_name/:rating_id", (req, res) => {
+    const course_name = req.params.course_name
+    const rating_id = req.params.rating_id
+
+    const username = req.body.username
+    const comment = req.body.comment
+    const score = req.body.score
+    const rating_date = req.body.rating_date
+    
+
+    "UPDATE ADMIN_ACCOUNT AS a SET a.Password=? WHERE a.Username=?"
+    const sqlInsert = 
+    "UPDATE RATING AS r " + 
+    "SET r.Comment=?, r.Score=?, r.Rating_date=? " + 
+    "WHERE r.Rating_id=? AND r.Username=?"
+    db.query(sqlInsert, [comment, score, rating_date, rating_id, username], (err, result) => {
+        if (err) console.log(err);
+    });
+});
+
+
+// Tested: working
 // The administrator account can delete ratings/comments made by users of the website. 
 app.delete("/api/rating/:course_name/:rating_id", (req, res) => {
     const rating_id = req.params.rating_id
