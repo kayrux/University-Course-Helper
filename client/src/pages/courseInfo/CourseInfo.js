@@ -10,6 +10,8 @@ const CourseInfo = () => {
 
     const [courseInfo, setCourseInfo] = useState([])
     const [semesterInfo, setSemesterInfo] = useState([])
+    const [degreeRequiredInfo, setDegreeRequiredInfo] = useState([])
+    const [degreeOptionalInfo, setDegreeOptionalInfo] = useState([])
 
     //Updates the list of courses
     useEffect(() => {
@@ -30,38 +32,65 @@ const CourseInfo = () => {
         getSemester()
     }, [])
 
+    useEffect(() => {
+        const getDegreeRequired = async () => {
+            const courses = await Axios.get(`http://localhost:3001/api/courseInfo/${name}/degreeRequired`)
+            const data = await courses.data
+            degreeRequiredInfo(data)
+        }
+        getDegreeRequired()
+    }, [])
+
+    useEffect(() => {
+        const getDegreeOptional = async () => {
+            const courses = await Axios.get(`http://localhost:3001/api/courseInfo/${name}/degreeOptional`)
+            const data = await courses.data
+            degreeOptionalInfo(data)
+        }
+        getDegreeOptional()
+    }, [])
+
     return(
         <div>
-            <div>
-            hello
-            </div>
-            <div>
-            Can read course ID via url: {name}
-            </div>
-            <div>
-            Cant use course ID to read from database:
-            (course name corasponding to the given ID should be here)
-            {courseInfo.map((val) => {
-            return(
+            {courseInfo.map((course) => {
+                return(
                     <div>
-                        <h2>
-                            {val.Course_name}
-                        </h2>
-                        {semesterInfo.map((val2) => {
+                        <h1>
+                            {course.Course_name}
+                        </h1>
+                        <div>
+                            {course.Course_description}
+                        </div>
+                        <br>
+                        </br>
+                        <div>
+                            - Hours: {course.Hours}
+                        </div>
+                        <div>
+                            - Prerequisites: {' '}
+                            {!!(course.Prerequisites)? course.Prerequisites : 'No prerequisites listed'}
+                        </div>
+                        <div>
+                            - Antirequisites: {' '}
+                            {!!(course.Antirequisites)? course.Antirequisites : 'No antirequisites listed'}
+                        </div>
+                        {semesterInfo.map((sem) => {
                             return(
                                 <div>
                                     <h3>
-                                        {val2.Sem_start_year}
-                                        {val2.Sem_start_term}
+                                        {sem.Sem_start_year} {' '}
+                                        {sem.Sem_start_term}
                                     </h3>
-                                    <SemesterProf name = {val.Course_name} startYear = {val2.Sem_start_year} startTerm = {val2.Sem_start_term} />
+                                    <div>
+                                        Duration: {sem.Duration} months
+                                    </div>
+                                    {<SemesterProf name = {course.Course_name} startYear = {sem.Sem_start_year} startTerm = {sem.Sem_start_term} />}
                                 </div>
                                 );
                             })}
                     </div>
                     );
                 })}
-            </div>
         </div>
     )
     

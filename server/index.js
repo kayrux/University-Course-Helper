@@ -75,8 +75,7 @@ app.get("/api/password", (req, res) => {
         }
 */
 
-// Tested: working
-//  View a list of all University of Calgary courses
+//View a list of all courses
 app.get("/api/courseList", (req, res) => {
     const sqlSelect = "SELECT Course_name FROM COURSE"
     db.query(sqlSelect, (err, result) => {
@@ -88,8 +87,8 @@ app.get("/api/courseList", (req, res) => {
     });
 })
 
-// Tested: working
-// View information about a specific(unique) course
+//Tested: working
+//View information about a specific(unique) course
 app.get("/api/courseInfo/:Course_name", (req, res) => {
     const course_name = req.params.Course_name
     const sqlSelect = "SELECT * FROM COURSE as c WHERE c.Course_name = ?"
@@ -102,12 +101,12 @@ app.get("/api/courseInfo/:Course_name", (req, res) => {
     });
 })
 
-// Tested: working
-// View information about a given semester (including information on the professor that taught that semester) for a given course
+//Tested: working
+//View information about what semesters the given course is offered in
 app.get("/api/courseInfo/:Course_name/semester", (req, res) => {
     const course_name = req.params.Course_name
     const sqlSelect = (
-        "SELECT s.Sem_start_term, s.Sem_start_year, s.Duration " + 
+        "SELECT s.Sem_start_year, s.Sem_start_term, s.Duration " + 
         "FROM SEMESTER AS s " + 
         "WHERE s.Course_name = ?" )
     db.query(sqlSelect, course_name, (err, result) => {
@@ -119,17 +118,49 @@ app.get("/api/courseInfo/:Course_name/semester", (req, res) => {
     });
 })
 
+//View information about the professors that taught the given course in the given semester
 app.get("/api/courseInfo/:Course_name/:Sem_start_year/:Sem_start_term/professor", (req, res) => {
     const course_name = req.params.Course_name
     const sem_start_year = req.params.Sem_start_year
     const sem_start_term = req.params.Sem_start_term
     const sqlSelect = (
-        //CONDENSE SELECT HERE
         "SELECT o.Mode_of_delivery, o.Syllabus_link, p.Prof_name, p.Prof_rating " + 
         "FROM OFFERED_IN as o NATURAL JOIN PROFESSOR as p " + 
         "WHERE o.Course_name = ? and o.Sem_start_year = ? and o.Sem_start_term = ? and " +
         "o.Prof_name = p.Prof_name ")
     db.query(sqlSelect, [course_name, sem_start_year, sem_start_term], (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+        res.send(result)
+    });
+})
+
+//View which degrees the given course is required for
+app.get("/api/courseInfo/:Course_name/degreeRequired", (req, res) => {
+    const course_name = req.params.Course_name
+    const sqlSelect = (
+        "SELECT r.Degree_name " + 
+        "FROM REQUIRED_FOR AS r " + 
+        "WHERE r.Course_name = ?" )
+    db.query(sqlSelect, course_name, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+        res.send(result)
+    });
+})
+
+//View which degrees the given course is optional for
+app.get("/api/courseInfo/:Course_name/degreeOptional", (req, res) => {
+    const course_name = req.params.Course_name
+    const sqlSelect = (
+        "SELECT o.Degree_name " + 
+        "FROM OPTIONAL_FOR as o " + 
+        "WHERE o.Course_name = ?" )
+    db.query(sqlSelect, course_name, (err, result) => {
         if(err){
             console.log("error:", err)
             res.sendStatus(null, err)
