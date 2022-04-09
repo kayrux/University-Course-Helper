@@ -230,7 +230,7 @@ app.get("/api/profInfo/:prof_name/courses", (req, res) => {
 //NEED TO DECIDE IF SPLIT UP BY FLAG (EG MAJOR MINOR OTHER)
 //IF DONT THEN NEED TO REMOVE THE SUPERKEY SUBKEY RELATION OVERSIMPLYFING OUR RM
 app.get("/api/degreeList", (req, res) => {
-    const sqlSelect = "SELECT d.Degree_name FROM DEGREE"
+    const sqlSelect = "SELECT d.Degree_name FROM DEGREE as d"
     db.query(sqlSelect, (err, result) => {
         if(err){
             console.log("error:", err)
