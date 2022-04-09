@@ -126,7 +126,7 @@ app.get("/api/courseInfo/:Course_name/:Sem_start_year/:Sem_start_term/professor"
     const sem_start_year = req.params.Sem_start_year
     const sem_start_term = req.params.Sem_start_term
     const sqlSelect = (
-        "SELECT o.Mode_of_delivery, o.Syllabus_link, p.Prof_name, p.Prof_rating " + 
+        "SELECT o.Mode_of_delivery, o.Syllabus_link, p.Prof_name, p.Prof_rating, p.Rate_my_professor_link " + 
         "FROM OFFERED_IN as o NATURAL JOIN PROFESSOR as p " + 
         "WHERE o.Course_name = ? and o.Sem_start_year = ? and o.Sem_start_term = ? and " +
         "o.Prof_name = p.Prof_name ")
@@ -192,7 +192,7 @@ app.get("/api/profList", (req, res) => {
 // Tested: working
 // 3.2 View specific professor information
 // View information about a specific (unique) professor that is stored in the database.
-app.get("/api/profList/:prof_name", (req, res) => {
+app.get("/api/profInfo/:prof_name", (req, res) => {
     const prof_name = req.params.prof_name
     const sqlSelect = "SELECT * FROM PROFESSOR AS p WHERE p.Prof_name = ?" 
     db.query(sqlSelect, prof_name, (err, result) => {
@@ -207,11 +207,11 @@ app.get("/api/profList/:prof_name", (req, res) => {
 // Tested: working
 // 3.3 Specific professor courses
 // View a list of current and previous courses taught by the professor being viewed.
-app.get("/api/profList/:prof_name/courses", (req, res) => {
+app.get("/api/profInfo/:prof_name/courses", (req, res) => {
     const prof_name = req.params.prof_name
     const sqlSelect = (
-        "SELECT c.Course_name, o.Sem_start_term, o.Sem_start_year " + 
-        "FROM COURSE AS c NATURAL JOIN OFFERED_IN AS o NATURAL JOIN PROFESSOR AS p " + 
+        "SELECT o.Course_name " + 
+        "FROM OFFERED_IN AS o NATURAL JOIN PROFESSOR AS p " + 
         "WHERE p.Prof_name = ?")
     db.query(sqlSelect, prof_name, (err, result) => {
         if(err){
@@ -223,12 +223,14 @@ app.get("/api/profList/:prof_name/courses", (req, res) => {
 })
 
 // ---------------------------------------------------------------------------------------------------------------
-// -------------------------------------------------- Faculties --------------------------------------------------
+// -------------------------------------------------- Degrees --------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
 
-// View the list of all University of Calgary faculties stored in the database. 
-app.get("/api/facultyList", (req, res) => {
-    const sqlSelect = "SELECT * FROM FACULTY"
+// View the list of all University of Calgary degrees stored in the database. 
+//NEED TO DECIDE IF SPLIT UP BY FLAG (EG MAJOR MINOR OTHER)
+//IF DONT THEN NEED TO REMOVE THE SUPERKEY SUBKEY RELATION OVERSIMPLYFING OUR RM
+app.get("/api/degreeList", (req, res) => {
+    const sqlSelect = "SELECT d.Degree_name FROM DEGREE"
     db.query(sqlSelect, (err, result) => {
         if(err){
             console.log("error:", err)
@@ -238,11 +240,11 @@ app.get("/api/facultyList", (req, res) => {
     });
 })
 
-// View information about a specific faculty that is stored in the course database, including the majors and minors offered by them.
-app.get("/api/facultyList/:faculty_id", (req, res) => {
-    const faculty_id = req.params.faculty_id
-    const sqlSelect = "SELECT * FROM FACULTY AS p WHERE p.Faculty_id = ?" 
-    db.query(sqlSelect, faculty_id, (err, result) => {
+// View information about a specific degree that is stored in the course database
+app.get("/api/degreeInfo/:degree_name", (req, res) => {
+    const degree_name = req.params.degree_name
+    const sqlSelect = "SELECT d.Degree_name, d.Degree_link FROM DEGREE AS d WHERE d.Degree_name = ?" 
+    db.query(sqlSelect, degree_name, (err, result) => {
         if(err){
             console.log("error:", err)
             res.sendStatus(null, err)
@@ -251,15 +253,30 @@ app.get("/api/facultyList/:faculty_id", (req, res) => {
     });
 })
 
-// NOT REALLY SURE WHAT TO DO HERE
-// View a list of courses offered by the faculty being viewed. 
-app.get("/api/facultyList/:faculty_id/courses", (req, res) => {
-    const faculty_id = req.params.faculty_id
+// View information about the required courses for a specific degree stored in the database
+app.get("/api/degreeInfo/:degree_name/coursesRequired", (req, res) => {
+    const degree_name = req.params.degree_name
     const sqlSelect = (
-        "SELECT DISTINCT c.Course_name" + 
-        "FROM COURSE AS c NATURAL JOIN OFFERED_IN AS o NATURAL JOIN PROFESSOR AS p " + 
-        "WHERE p.Prof_id = ?")
-    db.query(sqlSelect, faculty_id, (err, result) => {
+        "SELECT r.Course_name " +
+        "FROM REQUIRED_FOR AS r NATURAL JOIN DEGREE as d " +
+        "WHERE d.Degree_name = ?" )
+    db.query(sqlSelect, degree_name, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+        res.send(result)
+    });
+})
+
+// View information about the optional courses for a specific degree stored in the database
+app.get("/api/degreeInfo/:degree_name/coursesOptional", (req, res) => {
+    const degree_name = req.params.degree_name
+    const sqlSelect = (
+        "SELECT o.Course_name " +
+        "FROM OPTIONAL_FOR AS o NATURAL JOIN DEGREE as d " +
+        "WHERE d.Degree_name = ?" )
+    db.query(sqlSelect, degree_name, (err, result) => {
         if(err){
             console.log("error:", err)
             res.sendStatus(null, err)

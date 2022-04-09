@@ -12,7 +12,7 @@ const ListDisplay = ({list,type}) => {
                 {list.map((val) => {
                     return(
                         <h2>
-                            <Link to={`/courseInfo/${val.Course_name}`}>{val.Course_name}</Link>
+                            <Link to={`/courses/${val.Course_name}`}>{val.Course_name}</Link>
                         </h2>
                     );
                 })}
@@ -25,20 +25,20 @@ const ListDisplay = ({list,type}) => {
                 {list.map((val) => {
                     return(
                         <h2>
-                            <Link to={`/professors/${val}`}>{val}</Link>
+                            <Link to={`/professors/${val.Prof_name}`}>{val.Prof_name}</Link>
                         </h2>
                     );
                 })}
             </div>
         )
     }
-    else if (type === "faculty"){
+    else if (type === "degree"){
         return (
             <div>
                 {list.map((val) => {
                     return(
                         <h2>
-                            <Link to={`/faculties/${val}`}>{val}</Link>
+                            <Link to={`/degrees/${val.Degree_name}`}>{val.Degree_name}</Link>
                         </h2>
                     );
                 })}

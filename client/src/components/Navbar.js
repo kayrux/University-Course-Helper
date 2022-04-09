@@ -13,7 +13,7 @@ const Navbar = ({onLogout, loggedIn}) => {
         <div className="links">
             <Link to="/">Courses</Link>
             <Link to="/professors">Professors</Link>
-            <Link to="/faculties">Faculties</Link>
+            <Link to="/degrees">Degrees</Link>
             <input 
                 type="text" 
                 placeholder="Search" 
