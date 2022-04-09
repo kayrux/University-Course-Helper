@@ -1,25 +1,69 @@
 import React from 'react'
+import { useLocation } from "react-router"
+import { useState, useEffect } from "react"
+import Axios from "axios"
+import { Link } from "react-router-dom";
 
-const ProfessorInfo = () => {
+const ProfInfo = () => {
+
+    // Read the URL for the course name
+    const location = useLocation()
+    const name = decodeURI(location.pathname.split("/")[2]);
+
+    // Setup state hooks to store data gotten from api calls
+    const [profInfo, setProfInfo] = useState([])
+    const [courseInfo, setCourseInfo] = useState([])
+
+    // Call apis (for more info on what each does look at client > index.js)
+    useEffect(() => {
+        const getProfessors = async () => {
+            const professors = await Axios.get(`http://localhost:3001/api/profInfo/${name}`)
+            const data = await professors.data
+            setProfInfo(data)
+        }
+        getProfessors()
+    }, [])
+
+    useEffect(() => {
+        const getCourses = async () => {
+            const courses = await Axios.get(`http://localhost:3001/api/profInfo/${name}/courses`)
+            const data = await courses.data
+            setCourseInfo(data)
+        }
+        getCourses()
+    }, [])
+
+    // Print out course info
     return (
-        <div className="display-container">
-            <h1>Wayne Michael Eberly Information</h1>
-                <h3>General Description </h3>
+        <div>
+            {profInfo.map((prof) => {
+                return(
                     <div>
-                    Rating: (rate my professor) 1.9/5.0
-                    </div>
-                    <div>
-                    Rate my professor page: https://www.ratemyprofessors.com/ShowRatings.jsp?tid=31280
-                    </div>
-                <h3>Courses taught</h3>
+                        <h1>
+                            {prof.Prof_name}
+                        </h1> 
                         <div>
-                        CPSC 331: *link to cpsc 331 course page
+                            -Rating (rate my professor): {' '}
+                            {!!(prof.Prof_rating)? prof.Prof_rating : 'Not rated'}
                         </div>
                         <div>
-                        CPSC 513: *link to cpsc 513 course page
+                            {!!(prof.Rate_my_professor_link)? <a target="_blank" href={prof.Rate_my_professor_link} > Rate my professor</a> : ''}
                         </div>
-        </div>
+                        <h2>
+                            Has offered
+                        </h2>
+                        {courseInfo.map((course) => {
+                            return(
+                                <div>
+                                    <Link to={`/courses/${course.Course_name}`}>{course.Course_name}</Link>
+                                </div>
+                            );
+                        })}
+                    </div>
+                );
+            })}
+        </div>   
     )
 }
 
-export default ProfessorInfo
+export default ProfInfo

@@ -4,12 +4,12 @@ import Navbar from './components/Navbar';
 import Footer from "./components/Footer";
 import CourseList from "./pages/courseList/CourseList";
 import ProfessorList from "./pages/professorList/ProfessorList";
-import FacultyList from "./pages/facultyList/FacultyList";
+import DegreeList from "./pages/degreeList/DegreeList";
 import ReportList from "./pages/reportList/ReportList";
 import LoginContainer from "./pages/login/LoginContainer";
 import EditAccountContainer from "./pages/editAccount/EditAccountContainer";
 import CourseInfo from "./pages/courseInfo/CourseInfo";
-import FacultyInfo from "./pages/facultyInfo/FacultyInfo";
+import DegreeInfo from "./pages/degreeInfo/DegreeInfo";
 import ReportInfo from "./pages/reportInfo/ReportInfo";
 import ProfessorInfo from "./pages/professorInfo/ProfessorInfo";
 
@@ -27,6 +27,7 @@ const App = () => {
         setLoggedAsAdmin(false) 
     }
 
+    //renders current page as well as persistent elements, such as navbar
     return ( 
         <Router>
             <div className="container">
@@ -34,12 +35,12 @@ const App = () => {
                 <Routes>
                     <Route path="/" element={<CourseList />}></Route>
                     <Route path="/professors" element={<ProfessorList />}></Route>
-                    <Route path="/faculties" element={<FacultyList />}></Route>
+                    <Route path="/degrees" element={<DegreeList />}></Route>
                     <Route path="/reports" element={<ReportList />}></Route>
                     <Route path="/login" element={<LoginContainer onLogin={login}/>}></Route>
                     <Route path="/edit-account" element={<EditAccountContainer />}></Route>
-                    <Route path="/:courseId" element={<CourseInfo />}></Route>
-                    <Route path="/faculties/:facultyId" element={<FacultyInfo />}></Route>
+                    <Route path="/courses/:courseId" element={<CourseInfo />}></Route>
+                    <Route path="/degrees/:degreeId" element={<DegreeInfo />}></Route>
                     <Route path="/reports/:reportId" element={<ReportInfo />}></Route>
                     <Route path="/professors/:professorId" element={<ProfessorInfo />}></Route>
                 </Routes>

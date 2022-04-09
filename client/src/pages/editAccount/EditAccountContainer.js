@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const EditAccountContainer = () => {
+const EditAccountContainer = ({ account_id }) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
@@ -33,7 +33,7 @@ const EditAccountContainer = () => {
             />
 
             <input
-                type="text"
+                type="password"
                 placeholder="New Password"
                 value={password}
                 onChange={(e) =>
