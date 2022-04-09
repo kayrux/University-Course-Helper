@@ -75,7 +75,8 @@ app.get("/api/password", (req, res) => {
         }
 */
 
-//View a list of all courses
+// 2.1 List of courses
+// View a list of all courses
 app.get("/api/courseList", (req, res) => {
     const sqlSelect = "SELECT Course_name FROM COURSE"
     db.query(sqlSelect, (err, result) => {
@@ -87,8 +88,9 @@ app.get("/api/courseList", (req, res) => {
     });
 })
 
-//Tested: working
-//View information about a specific(unique) course
+// Tested: working
+// 2.2 View specific course information
+// View information about a specific(unique) course
 app.get("/api/courseInfo/:Course_name", (req, res) => {
     const course_name = req.params.Course_name
     const sqlSelect = "SELECT * FROM COURSE as c WHERE c.Course_name = ?"
@@ -174,6 +176,7 @@ app.get("/api/courseInfo/:Course_name/degreeOptional", (req, res) => {
 // ---------------------------------------------------------------------------------------------------------------
 
 // Tested: working
+// 3.1 List of professors
 // View the list of all University of Calgary professors stored in the database
 app.get("/api/profList", (req, res) => {
     const sqlSelect = "SELECT Prof_name FROM PROFESSOR"
@@ -187,6 +190,7 @@ app.get("/api/profList", (req, res) => {
 })
 
 // Tested: working
+// 3.2 View specific professor information
 // View information about a specific (unique) professor that is stored in the database.
 app.get("/api/profList/:prof_name", (req, res) => {
     const prof_name = req.params.prof_name
@@ -201,6 +205,7 @@ app.get("/api/profList/:prof_name", (req, res) => {
 })
 
 // Tested: working
+// 3.3 Specific professor courses
 // View a list of current and previous courses taught by the professor being viewed.
 app.get("/api/profList/:prof_name/courses", (req, res) => {
     const prof_name = req.params.prof_name
@@ -268,6 +273,7 @@ app.get("/api/facultyList/:faculty_id/courses", (req, res) => {
 // ---------------------------------------------------------------------------------------------------------------
 
 // Tested: working
+// 5.1 Create rating 
 // Allow users to create a publicly available rating/comment based on their experience of the course. 
 app.post("/api/rating/:course_name", (req, res) => {
     const comment = req.body.comment
@@ -286,7 +292,7 @@ app.post("/api/rating/:course_name", (req, res) => {
 });
 
 // Tested: working
-// Edit Rating
+// 5.2 Edit Rating
 // The administrator account can edit/modify ratings made by users of the website. 
 app.put("/api/rating/:course_name/:rating_id", (req, res) => {
     const course_name = req.params.course_name
@@ -312,6 +318,7 @@ app.put("/api/rating/:course_name/:rating_id", (req, res) => {
 
 
 // Tested: working
+// 5.3 Delete Rating
 // The administrator account can delete ratings/comments made by users of the website. 
 app.delete("/api/rating/:course_name/:rating_id", (req, res) => {
     const rating_id = req.params.rating_id
