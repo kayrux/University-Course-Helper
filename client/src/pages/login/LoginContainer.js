@@ -9,12 +9,12 @@ const LoginContainer = ({onLogin}) => {
     const [loginError, setLoginError] = useState(false) // Used for wrong username/password
     const [loggedIn, setLoggedIn] = useState(false); // Keeps track of whether the user is logged in
 
-    const getPassword = async () => {
+    const fetchPassword = async () => {
         
         const password1 = await Axios.get(`http://localhost:3001/api/password/${username}`)
         const data = await password1.data
         {data.map((pswrd) => {
-            console.log("Setting database password")
+            //console.log("Setting database password")
             setDbPassword(pswrd.Password)
         })}
     }
@@ -33,16 +33,10 @@ const LoginContainer = ({onLogin}) => {
             return
         }
         
-        // Retrieve password from database
-        // const password1 = await Axios.get(`http://localhost:3001/api/password/${username}`)
-        // const data = await password1.data
+        fetchPassword()
+        // console.log({username})
+        // console.log({dbPassword})
 
-        // {data.map((pswrd) => {
-        //         setDbPassword(pswrd.Password)
-        // })}
-        getPassword()
-        console.log({username})
-        console.log({dbPassword})
         // Verify password
         if (dbPassword === password && dbPassword != "") {
             
