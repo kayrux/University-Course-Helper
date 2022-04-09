@@ -1,12 +1,23 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import Axios from "axios"
 
 // onLogin is called when the user succesfully logs in
 const LoginContainer = ({onLogin}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [dbPassword, setDbPassword] = useState("")
+    const [loginError, setLoginError] = useState(false) // Used for wrong username/password
     const [loggedIn, setLoggedIn] = useState(false); // Keeps track of whether the user is logged in
 
-    const onSubmit = (e) => {
+    
+    const getPassword = async () => {
+        console.log({username})
+        const password1 = await Axios.get(`http://localhost:3001/api/password/${username}`)
+        const data = await password1.data
+        setDbPassword(data)
+    }
+
+    const onSubmit = async (e) => {
         e.preventDefault()
 
         if(!username) {
@@ -18,15 +29,29 @@ const LoginContainer = ({onLogin}) => {
             alert("Please enter a password")
             return
         }
-        // TO DO:
-            // Try to login
-        // Upon successful login:
-        onLogin({username, password}) // To do
-        setUsername("")
-        setPassword("")
-        setLoggedIn(true)
+        
+        // Retrieve password from database
+        const password1 = await Axios.get(`http://localhost:3001/api/password/${username}`)
+        const data = await password1.data
+
+        {data.map((pswrd) => {
+                setDbPassword(pswrd.Password)
+        })}
+
+        // Verify password
+        if (dbPassword === password && dbPassword != "") {
+            onLogin({username, password}) // To do
+            setUsername("")
+            setPassword("")
+            setLoggedIn(true)
+            setLoginError(false)
+        } else {
+            setLoginError(true)
+        }
         
     }
+
+    
 
     return (
         <>
