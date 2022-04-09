@@ -5,17 +5,20 @@ import Axios from "axios"
 const LoginContainer = ({onLogin}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [dbPassword, setDbPassword] = useState("")
+    const [dbPassword, setDbPassword] = useState("") // Password returned from database
     const [loginError, setLoginError] = useState(false) // Used for wrong username/password
     const [loggedIn, setLoggedIn] = useState(false); // Keeps track of whether the user is logged in
 
-    
     const getPassword = async () => {
-        console.log({username})
+        
         const password1 = await Axios.get(`http://localhost:3001/api/password/${username}`)
         const data = await password1.data
-        setDbPassword(data)
+        {data.map((pswrd) => {
+            console.log("Setting database password")
+            setDbPassword(pswrd.Password)
+        })}
     }
+
 
     const onSubmit = async (e) => {
         e.preventDefault()
@@ -31,24 +34,29 @@ const LoginContainer = ({onLogin}) => {
         }
         
         // Retrieve password from database
-        const password1 = await Axios.get(`http://localhost:3001/api/password/${username}`)
-        const data = await password1.data
+        // const password1 = await Axios.get(`http://localhost:3001/api/password/${username}`)
+        // const data = await password1.data
 
-        {data.map((pswrd) => {
-                setDbPassword(pswrd.Password)
-        })}
-
+        // {data.map((pswrd) => {
+        //         setDbPassword(pswrd.Password)
+        // })}
+        getPassword()
+        console.log({username})
+        console.log({dbPassword})
         // Verify password
         if (dbPassword === password && dbPassword != "") {
+            
             onLogin({username, password}) // To do
-            setUsername("")
-            setPassword("")
+            
             setLoggedIn(true)
             setLoginError(false)
         } else {
+            setLoggedIn(false)
             setLoginError(true)
         }
-        
+        setUsername("")
+        setPassword("")
+        setDbPassword("")
     }
 
     
@@ -60,7 +68,9 @@ const LoginContainer = ({onLogin}) => {
             ) : (
             <form className="login-form" onSubmit={onSubmit}>
                 <h1>Sign in</h1>
+                
                 {loginError && (<p className="err">Incorrect username or password</p>)}
+
                 <input 
                     type="text" 
                     placeholder="Username" 
