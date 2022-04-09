@@ -55,6 +55,10 @@ app.get("/api/password", (req, res) => {
 
     const sqlSelect = "SELECT a.Password FROM ADMIN_ACCOUNT AS a WHERE a.Username = ?"
     db.query(sqlSelect, username, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
         res.send(result)
     });
 })
@@ -63,34 +67,104 @@ app.get("/api/password", (req, res) => {
 // -------------------------------------------------- Course --------------------------------------------------
 // ------------------------------------------------------------------------------------------------------------
 
-// Tested: working
-//  View a list of all University of Calgary courses
+//NOTE: have not tested the chunk of code:
+/*
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+*/
+
+//View a list of all courses
 app.get("/api/courseList", (req, res) => {
     const sqlSelect = "SELECT Course_name FROM COURSE"
     db.query(sqlSelect, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
         res.send(result)
     });
 })
 
-// Tested: working
-// View information about a specific(unique) course
-app.get("/api/courseList/:course_name", (req, res) => {
-    const course_name = req.params.course_name
+//Tested: working
+//View information about a specific(unique) course
+app.get("/api/courseInfo/:Course_name", (req, res) => {
+    const course_name = req.params.Course_name
     const sqlSelect = "SELECT * FROM COURSE as c WHERE c.Course_name = ?"
     db.query(sqlSelect, course_name, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
         res.send(result)
     });
 })
 
-// Tested: working
-// View basic information for the professors who teach, or taught, the course.
-app.get("/api/course/:course_name/professors", (req, res) => {
-    const course_name = req.params.course_name
+//Tested: working
+//View information about what semesters the given course is offered in
+app.get("/api/courseInfo/:Course_name/semester", (req, res) => {
+    const course_name = req.params.Course_name
     const sqlSelect = (
-        "SELECT p.Prof_name, p.Prof_rating, p.Rate_my_professor_link " + 
-        "FROM OFFERED_IN AS o NATURAL JOIN PROFESSOR AS p " + 
-        "WHERE o.Course_name = ?")
+        "SELECT s.Sem_start_year, s.Sem_start_term, s.Duration " + 
+        "FROM SEMESTER AS s " + 
+        "WHERE s.Course_name = ?" )
     db.query(sqlSelect, course_name, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+        res.send(result)
+    });
+})
+
+//View information about the professors that taught the given course in the given semester
+app.get("/api/courseInfo/:Course_name/:Sem_start_year/:Sem_start_term/professor", (req, res) => {
+    const course_name = req.params.Course_name
+    const sem_start_year = req.params.Sem_start_year
+    const sem_start_term = req.params.Sem_start_term
+    const sqlSelect = (
+        "SELECT o.Mode_of_delivery, o.Syllabus_link, p.Prof_name, p.Prof_rating " + 
+        "FROM OFFERED_IN as o NATURAL JOIN PROFESSOR as p " + 
+        "WHERE o.Course_name = ? and o.Sem_start_year = ? and o.Sem_start_term = ? and " +
+        "o.Prof_name = p.Prof_name ")
+    db.query(sqlSelect, [course_name, sem_start_year, sem_start_term], (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+        res.send(result)
+    });
+})
+
+//View which degrees the given course is required for
+app.get("/api/courseInfo/:Course_name/degreeRequired", (req, res) => {
+    const course_name = req.params.Course_name
+    const sqlSelect = (
+        "SELECT r.Degree_name " + 
+        "FROM REQUIRED_FOR AS r " + 
+        "WHERE r.Course_name = ?" )
+    db.query(sqlSelect, course_name, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+        res.send(result)
+    });
+})
+
+//View which degrees the given course is optional for
+app.get("/api/courseInfo/:Course_name/degreeOptional", (req, res) => {
+    const course_name = req.params.Course_name
+    const sqlSelect = (
+        "SELECT o.Degree_name " + 
+        "FROM OPTIONAL_FOR as o " + 
+        "WHERE o.Course_name = ?" )
+    db.query(sqlSelect, course_name, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
         res.send(result)
     });
 })
@@ -104,6 +178,10 @@ app.get("/api/course/:course_name/professors", (req, res) => {
 app.get("/api/profList", (req, res) => {
     const sqlSelect = "SELECT Prof_name FROM PROFESSOR"
     db.query(sqlSelect, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
         res.send(result)
     });
 })
@@ -114,6 +192,10 @@ app.get("/api/profList/:prof_name", (req, res) => {
     const prof_name = req.params.prof_name
     const sqlSelect = "SELECT * FROM PROFESSOR AS p WHERE p.Prof_name = ?" 
     db.query(sqlSelect, prof_name, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
         res.send(result)
     });
 })
@@ -127,6 +209,10 @@ app.get("/api/profList/:prof_name/courses", (req, res) => {
         "FROM COURSE AS c NATURAL JOIN OFFERED_IN AS o NATURAL JOIN PROFESSOR AS p " + 
         "WHERE p.Prof_name = ?")
     db.query(sqlSelect, prof_name, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
         res.send(result)
     });
 })
@@ -139,6 +225,10 @@ app.get("/api/profList/:prof_name/courses", (req, res) => {
 app.get("/api/facultyList", (req, res) => {
     const sqlSelect = "SELECT * FROM FACULTY"
     db.query(sqlSelect, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
         res.send(result)
     });
 })
@@ -148,6 +238,10 @@ app.get("/api/facultyList/:faculty_id", (req, res) => {
     const faculty_id = req.params.faculty_id
     const sqlSelect = "SELECT * FROM FACULTY AS p WHERE p.Faculty_id = ?" 
     db.query(sqlSelect, faculty_id, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
         res.send(result)
     });
 })
@@ -161,6 +255,10 @@ app.get("/api/facultyList/:faculty_id/courses", (req, res) => {
         "FROM COURSE AS c NATURAL JOIN OFFERED_IN AS o NATURAL JOIN PROFESSOR AS p " + 
         "WHERE p.Prof_id = ?")
     db.query(sqlSelect, faculty_id, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
         res.send(result)
     });
 })
@@ -180,7 +278,10 @@ app.post("/api/rating/:course_name", (req, res) => {
 
     const sqlInsert = "INSERT INTO RATING (Comment, Score, Rating_date, Username, Course_name) VALUES (?,?,?,?,?)"
     db.query(sqlInsert, [comment, score, rating_date, username, course_name], (err, result) => {
-        if (err) console.log(err);
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
     });
 });
 
@@ -202,7 +303,10 @@ app.put("/api/rating/:course_name/:rating_id", (req, res) => {
         "WHERE r.Rating_id=? AND r.Username=?")
 
     db.query(sqlInsert, [comment, score, rating_date, rating_id, username], (err, result) => {
-        if (err) console.log(err);
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
     });
 });
 
@@ -213,6 +317,9 @@ app.delete("/api/rating/:course_name/:rating_id", (req, res) => {
     const rating_id = req.params.rating_id
     const sqlDelete = "DELETE FROM RATING WHERE Rating_id = ?"
     db.query(sqlDelete, rating_id, (err, result) => {
-        if (err) console.log(err);
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
     });
 })

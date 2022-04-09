@@ -1,3 +1,5 @@
+//SHOULD PROBS MOVE THIS TO COMPONENTS
+
 import { useState } from "react"
 
 const AddCommentContainer = ({account_id, course_id}) => {
