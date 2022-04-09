@@ -16,6 +16,7 @@ const CourseInfo = () => {
     const [semesterInfo, setSemesterInfo] = useState([])
     const [degreeRequiredInfo, setDegreeRequiredInfo] = useState([])
     const [degreeOptionalInfo, setDegreeOptionalInfo] = useState([])
+    const [getRatings, setGetRatings] = useState([])
 
     // Call apis (for more info on what each does look at client > index.js)
     useEffect(() => {
@@ -52,6 +53,15 @@ const CourseInfo = () => {
             setDegreeOptionalInfo(data)
         }
         getDegreeOptional()
+    }, [])
+
+    useEffect(() => {
+        const getRatings = async () => {
+            const ratings = await Axios.get(`http://localhost:3001/api/rating/${name}`)
+            const data = await ratings.data
+            setGetRatings(data)
+        }
+        getRatings()
     }, [])
 
     // Print out course info
@@ -95,6 +105,7 @@ const CourseInfo = () => {
                                     <div>
                                         Duration: {sem.Duration} months
                                     </div>
+                                    {/* semesterProf returns information on a specific semester and prof*/}
                                     {<SemesterProf name = {course.Course_name} startYear = {sem.Sem_start_year} startTerm = {sem.Sem_start_term} />}
                                 </div>
                             );
@@ -110,9 +121,9 @@ const CourseInfo = () => {
                         </h3>
                         {degreeRequiredInfo.map((required) => {
                             return(
-                                <Link to={`/degrees/${required.Degree_name}`}>{required.Degree_name}</Link>
-                                
-
+                                <div>
+                                    <Link to={`/degrees/${required.Degree_name}`}>{required.Degree_name}</Link>
+                                </div>
                             );
                         })}
                         <h3>
@@ -120,11 +131,38 @@ const CourseInfo = () => {
                         </h3>
                         {degreeOptionalInfo.map((optional) => {
                             return(
-                                <Link to={`/degrees/${optional.Degree_name}`}>{optional.Degree_name}</Link>
+                                <div>
+                                    <Link to={`/degrees/${optional.Degree_name}`}>{optional.Degree_name}</Link>
+                                </div>
                             );
                         })}
 
+                        <hr />
 
+                        <div> Make pretend that there is a rating input thing here </div>
+
+                        <hr />
+
+                        {getRatings.map((rating) => {
+                            return(
+                                <div>
+                                    <div>
+                                        Posted: {' '}
+                                        {rating.Rating_date.slice(0, 10)}
+                                        {!!(rating.Username)? ` By admin ${rating.Username}` : ''}     
+                                    </div>
+                                    <div>
+                                        {rating.Score}
+                                        /5
+                                    </div>
+                                    <div>
+                                        {rating.Comment}
+                                    </div>
+                                    <br>
+                                    </br>
+                                </div>
+                            );
+                        })}
                     </div>
                 );
             })}
