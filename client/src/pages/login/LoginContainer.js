@@ -60,6 +60,7 @@ const LoginContainer = ({onLogin}) => {
             ) : (
             <form className="login-form" onSubmit={onSubmit}>
                 <h1>Sign in</h1>
+                {loginError && (<p className="err">Incorrect username or password</p>)}
                 <input 
                     type="text" 
                     placeholder="Username" 
