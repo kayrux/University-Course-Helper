@@ -227,10 +227,32 @@ app.get("/api/profInfo/:prof_name/courses", (req, res) => {
 // ---------------------------------------------------------------------------------------------------------------
 
 // View the list of all University of Calgary degrees stored in the database. 
-//NEED TO DECIDE IF SPLIT UP BY FLAG (EG MAJOR MINOR OTHER)
-//IF DONT THEN NEED TO REMOVE THE SUPERKEY SUBKEY RELATION OVERSIMPLYFING OUR RM
-app.get("/api/degreeList", (req, res) => {
-    const sqlSelect = "SELECT d.Degree_name FROM DEGREE as d"
+app.get("/api/degreeList/major", (req, res) => {
+    const sqlSelect = "SELECT d.Degree_name FROM DEGREE as d WHERE d.flag = 1"
+    db.query(sqlSelect, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+        res.send(result)
+    });
+})
+
+// View the list of all University of Calgary degrees stored in the database. 
+app.get("/api/degreeList/minor", (req, res) => {
+    const sqlSelect = "SELECT d.Degree_name FROM DEGREE as d WHERE d.flag = 2"
+    db.query(sqlSelect, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+        res.send(result)
+    });
+})
+
+// View the list of all University of Calgary degrees stored in the database. 
+app.get("/api/degreeList/other", (req, res) => {
+    const sqlSelect = "SELECT d.Degree_name FROM DEGREE as d WHERE d.flag = 3"
     db.query(sqlSelect, (err, result) => {
         if(err){
             console.log("error:", err)
@@ -243,7 +265,7 @@ app.get("/api/degreeList", (req, res) => {
 // View information about a specific degree that is stored in the course database
 app.get("/api/degreeInfo/:degree_name", (req, res) => {
     const degree_name = req.params.degree_name
-    const sqlSelect = "SELECT d.Degree_name, d.Degree_link FROM DEGREE AS d WHERE d.Degree_name = ?" 
+    const sqlSelect = "SELECT * FROM DEGREE AS d WHERE d.Degree_name = ?" 
     db.query(sqlSelect, degree_name, (err, result) => {
         if(err){
             console.log("error:", err)
@@ -288,6 +310,22 @@ app.get("/api/degreeInfo/:degree_name/coursesOptional", (req, res) => {
 // ---------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------- Rating -----------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
+
+// View the comments for a specific course
+app.get("/api/rating/:course_name", (req, res) => {
+    const course_name = req.params.course_name
+    const sqlSelect = (
+        "SELECT r.Comment, r.Score, r.Rating_date, r.Username " +
+        "FROM RATING as r " +
+        "WHERE r.Course_name = ?" )
+    db.query(sqlSelect, course_name, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+        res.send(result)
+    });
+})
 
 // Tested: working
 // 5.1 Create rating 

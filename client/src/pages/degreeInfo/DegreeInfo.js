@@ -55,9 +55,15 @@ const DegreeInfo = () => {
                         <div>
                             <a target="_blank" href={degree.Degree_link} > Detailed degree information</a>
                         </div>
-                        <h2>
-                            Required courses
-                        </h2>
+                        {/* only print courses if looking at major or minor degree, not other (which has flag 3) */}
+                        {degree.Flag === 3?
+                            <h2>
+                                Courses not listed for other degrees
+                            </h2> :
+                            <h2>
+                                Required courses
+                            </h2>
+                        }
                         {requiredCourseInfo.map((course) => {
                             return(
                                 <div>
@@ -65,9 +71,14 @@ const DegreeInfo = () => {
                                 </div>
                             );
                         })}
+                        {degree.Flag === 3?
                         <h2>
-                            Optional courses
+                            
+                        </h2> :
+                        <h2>
+                            Required courses
                         </h2>
+                        }
                         {optionalCourseInfo.map((course) => {
                             return(
                                 <div>
