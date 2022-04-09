@@ -40,7 +40,7 @@ const LoginContainer = ({onLogin}) => {
         // Verify password
         if (dbPassword === password && dbPassword != "") {
             
-            onLogin({username, password}) // To do
+            onLogin({username, password})
             
             setLoggedIn(true)
             setLoginError(false)

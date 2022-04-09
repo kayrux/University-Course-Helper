@@ -15,11 +15,13 @@ import ProfessorInfo from "./pages/professorInfo/ProfessorInfo";
 
 const App = () => {
     const [showLoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
+    const [username, setUsername] = useState("")
 
     // TO DO: interacts with database to verify before logging in
     const login = (loginInfo) => {
         console.log("Logging in") // Assume login successful
         setLoggedAsAdmin(true) 
+        setUsername(loginInfo.username)
     }
 
     const logout = (loginInfo) => {
@@ -38,7 +40,7 @@ const App = () => {
                     <Route path="/degrees" element={<DegreeList />}></Route>
                     <Route path="/reports" element={<ReportList />}></Route>
                     <Route path="/login" element={<LoginContainer onLogin={login}/>}></Route>
-                    <Route path="/edit-account" element={<EditAccountContainer />}></Route>
+                    <Route path="/edit-account" element={<EditAccountContainer username={username}/>}></Route>
                     <Route path="/courses/:courseId" element={<CourseInfo />}></Route>
                     <Route path="/degrees/:degreeId" element={<DegreeInfo />}></Route>
                     <Route path="/reports/:reportId" element={<ReportInfo />}></Route>
