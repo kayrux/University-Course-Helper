@@ -1,11 +1,12 @@
-import AddRaitingContainer from "../../components/AddRatingContainer"
+import EnterRating from "../../components/EnterRating"
 import { useLocation } from "react-router"
 import { useState, useEffect } from "react"
 import Axios from "axios"
 import SemesterProf from '../../components/SemesterProf'
 import { Link } from "react-router-dom";
+import Button from "../../components/Button";
 
-const CourseInfo = () => {
+const CourseInfo = ({onLogin}) => {
 
     // Read the URL for the course name
     const location = useLocation()
@@ -16,7 +17,10 @@ const CourseInfo = () => {
     const [semesterInfo, setSemesterInfo] = useState([])
     const [degreeRequiredInfo, setDegreeRequiredInfo] = useState([])
     const [degreeOptionalInfo, setDegreeOptionalInfo] = useState([])
+    const [score, setScore] = useState("")
+    const [comment, setComment] = useState("")
     const [getRatings, setGetRatings] = useState([])
+    const [isEditingRating, setIsEditingRating] = useState("")
 
     // Call apis (for more info on what each does look at client > index.js)
     useEffect(() => {
@@ -63,6 +67,40 @@ const CourseInfo = () => {
         }
         getRatings()
     }, [])
+
+    // Handling submission of new comment
+    const onSubmit = async (e) => {
+        e.preventDefault()
+
+        try{
+            const rating = await Axios.post(`http://localhost:3001/api/rating/${name}`, {
+                score,
+                comment,
+                rating_date: new Date().toISOString().slice(0, 10),
+                //
+                //THIS IS PLACEHOLDER NEED TO GET USERNAME IN HERE SOMEHOW BUT CANT FIGURE OUT HOW
+                //
+                username: null,
+                course_name: 'Cpsc 331'
+            })
+        }
+        catch(err) {
+            console.log("ERROR HERE")
+
+        }
+
+        console.log("hello")
+        console.log(comment)
+
+
+        if(!score) {
+            alert("Please enter a score")
+            return
+        }
+
+        setScore("")
+        setComment("")
+    }
 
     // Print out course info
     return(
@@ -139,25 +177,63 @@ const CourseInfo = () => {
 
                         <hr />
 
-                        <div> Make pretend that there is a rating input thing here </div>
+                        <div>
+                            <form className="rating-form" onSubmit={onSubmit}>
+
+                                <label>
+                                Class Score: {' '}
+                                <select value={score} onChange={(e) => {setScore(e.target.value)}}>            
+                                    <option value = "1"> 1 </option>
+                                    <option value = "2"> 2 </option>
+                                    <option value = "3"> 3 </option>
+                                    <option value = "4"> 4 </option>
+                                    <option value = "5"> 5 </option>
+                                </select>
+                                </label>
+
+                                <input 
+                                    className="comment-input"
+                                    type="text" 
+                                    maxLength="255"
+                                    placeholder="Additional Comments" 
+                                    value={comment}
+                                    onChange={(e) =>
+                                        setComment(e.target.value)}
+                                />
+
+                                <input type="submit" value="Add Rating" className="btn btn-block" />
+                            </form>
+                        </div>
 
                         <hr />
 
                         {getRatings.map((rating) => {
                             return(
                                 <div>
-                                    <div>
-                                        Posted: {' '}
-                                        {rating.Rating_date.slice(0, 10)}
-                                        {!!(rating.Username)? ` By admin ${rating.Username}` : ''}     
-                                    </div>
-                                    <div>
-                                        {rating.Score}
-                                        /5
-                                    </div>
-                                    <div>
-                                        {rating.Comment}
-                                    </div>
+                                    {isEditingRating === rating.Rating_id? ( <div> 
+                                        <div>
+                                            EDITING THIS RATING NOW
+                                        </div>
+                                    </div> ) : ( <div>                      
+                                        <div>
+                                            Posted: {' '}
+                                            {rating.Rating_date.slice(0, 10)}
+                                            {!!(rating.Username)? ` By admin ${rating.Username}` : ''}     
+                                        </div>
+                                        <div>
+                                            {rating.Score}
+                                            /5
+                                        </div>
+                                        <div>
+                                            {rating.Comment}
+                                        </div>
+
+                                        <div>
+                                        {/*THIS WRITTEN WITH BELIEF IS LOGGED IN WILL BE NULL IF NOT LOGGED IN AND WILL BE USERNAME IF LOGGED IN */}
+                                        {onLogin ? <Button text="Edit" color="yellow" onClick={() => setIsEditingRating(rating.Rating_id)}></Button> : ''}
+                                        {/* ^to replace above isLoggedIn with ^(rating.Username) === (isLoggedIn)*/}
+                                        </div>
+                                    </div>)}  
                                     <br>
                                     </br>
                                 </div>

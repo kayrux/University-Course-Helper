@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-const AddCommentContainer = ({account_id, course_id}) => {
+const EnterRating = () => {
     const [rating, setRating] = useState("")
     const [comment, setComment] = useState("")
 
@@ -39,8 +39,9 @@ const AddCommentContainer = ({account_id, course_id}) => {
                 <input 
                     className="comment-input"
                     type="text" 
-                    placeholder="Comment" 
-                    value={comment} 
+                    maxLength="255"
+                    placeholder="Additional Comments" 
+                    value={comment}
                     onChange={(e) =>
                         setComment(e.target.value)}
                 />
@@ -51,4 +52,4 @@ const AddCommentContainer = ({account_id, course_id}) => {
         )
 }
 
-export default AddCommentContainer
+export default EnterRating

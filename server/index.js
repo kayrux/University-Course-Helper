@@ -315,7 +315,7 @@ app.get("/api/degreeInfo/:degree_name/coursesOptional", (req, res) => {
 app.get("/api/rating/:course_name", (req, res) => {
     const course_name = req.params.course_name
     const sqlSelect = (
-        "SELECT r.Comment, r.Score, r.Rating_date, r.Username " +
+        "SELECT r.Rating_id, r.Comment, r.Score, r.Rating_date, r.Username " +
         "FROM RATING as r " +
         "WHERE r.Course_name = ?" )
     db.query(sqlSelect, course_name, (err, result) => {

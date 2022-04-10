@@ -14,7 +14,7 @@ import ReportInfo from "./pages/reportInfo/ReportInfo";
 import ProfessorInfo from "./pages/professorInfo/ProfessorInfo";
 
 const App = () => {
-    const [showLoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
+    const [LoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
 
     // TO DO: interacts with database to verify before logging in
     const login = (loginInfo) => {
@@ -31,20 +31,20 @@ const App = () => {
     return ( 
         <Router>
             <div className="container">
-                <Navbar onLogout={logout} loggedIn={showLoggedInAsAdmin}/>
+                <Navbar onLogout={logout} loggedIn={LoggedInAsAdmin}/>
                 <Routes>
                     <Route path="/" element={<CourseList />}></Route>
                     <Route path="/professors" element={<ProfessorList />}></Route>
                     <Route path="/degrees" element={<DegreeList />}></Route>
-                    <Route path="/reports" element={<ReportList />}></Route>
-                    <Route path="/login" element={<LoginContainer onLogin={login}/>}></Route>
-                    <Route path="/edit-account" element={<EditAccountContainer />}></Route>
-                    <Route path="/courses/:courseId" element={<CourseInfo />}></Route>
+                    <Route path="/reports" element= {LoggedInAsAdmin ? <ReportList /> : <LoginContainer onLogin={login}/>}></Route>
+                    <Route path="/login" element={LoggedInAsAdmin ? <CourseList /> : <LoginContainer onLogin={login}/>}></Route>
+                    <Route path="/edit-account" element={LoggedInAsAdmin ? <EditAccountContainer /> : <LoginContainer onLogin={login}/>}></Route>
+                    <Route path="/courses/:courseId" element={<CourseInfo onLogin={login}/> }></Route>
                     <Route path="/degrees/:degreeId" element={<DegreeInfo />}></Route>
-                    <Route path="/reports/:reportId" element={<ReportInfo />}></Route>
+                    <Route path="/reports/:reportId" element={LoggedInAsAdmin ? <ReportInfo /> : <LoginContainer onLogin={login}/>}></Route>
                     <Route path="/professors/:professorId" element={<ProfessorInfo />}></Route>
                 </Routes>
-                <b>{showLoggedInAsAdmin ? <Footer loggedIn={showLoggedInAsAdmin}/> : "" } </b>
+                <b>{LoggedInAsAdmin ? <Footer loggedIn={LoggedInAsAdmin}/> : "" } </b>
             </div>
         </Router>
     )

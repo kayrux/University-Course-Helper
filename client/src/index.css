@@ -93,14 +93,6 @@
     border-radius: 5px;
   }
 
-  .rating-input {
-    width: 20%;
-    height: 25px;
-    margin: 5px;
-    padding: 3px 7px;
-    font-size: 17px;
-  }
-
   .comment-input {
     width: 90%;
     height: 100px;

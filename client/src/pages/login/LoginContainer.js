@@ -4,7 +4,6 @@ import { useState } from "react"
 const LoginContainer = ({onLogin}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [loggedIn, setLoggedIn] = useState(false); // Keeps track of whether the user is logged in
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -23,16 +22,12 @@ const LoginContainer = ({onLogin}) => {
         // Upon successful login:
         onLogin({username, password}) // To do
         setUsername("")
-        setPassword("")
-        setLoggedIn(true)
-        
+        setPassword("")        
     }
 
     return (
         <>
-            {loggedIn ? (
-                <h2>Welcome</h2>
-            ) : (
+            {/* removed the conditional (and variables relating to it) to deal with user being logged in that was here because made it so this chunk of code is only acessable if not logged in (via app.js)*/}
             <form className="login-form" onSubmit={onSubmit}>
                 <h1>Sign in</h1>
                 <input 
@@ -52,9 +47,9 @@ const LoginContainer = ({onLogin}) => {
                 />
 
                 <input type="submit" value="Login" className="btn btn-block" />
-            </form>)}
+            </form>
         </>
-        )
+    )
 }
 
 export default LoginContainer
