@@ -40,8 +40,11 @@ const ReportInfo = () => {
     // Delete Report
     const deleteReport = async (id) => {
         await Axios.delete(`http://localhost:3001/api/reportList/${id}`)
-        //setTasks(tasks.filter((task) => task.id !== id))
-        //console.log("Deleting report") // Assume login successful
+    }
+
+    // Delete Comment
+    const deleteRating = async (id) => {
+        await Axios.delete(`http://localhost:3001/api/rating/${id}`)
     }
 
     return (
@@ -64,26 +67,30 @@ const ReportInfo = () => {
                     </Link>
                     <hr />
                     {/* Display rating info */}
-                    {ratingInfo.map((rating) => {
-                        return (
-                            <>
-                                <h1>Rating Reported</h1>
-                                <h3>Course Name and Number</h3>
-                                <p>{rating.Course_name}</p>
-                                <h3>Score</h3>
-                                <p>{rating.Score}/5</p>
-                                <h3>Comment</h3>
-                                <p>{rating.Comment}</p>
-                                <h3>Date</h3>
-                                <p>{rating.Rating_date}</p>
-
-                                    <button className="btn-delete">
-                                        Delete Comment
-                                    </button>
-
-                            </>
-                        )
-                    })}
+                    {ratingInfo.length > 0 ? (
+                        <>{ratingInfo.map((rating) => {
+                            return (
+                                <>
+                                    <h1>Rating Reported</h1>
+                                    <h3>Course Name and Number</h3>
+                                    <p>{rating.Course_name}</p>
+                                    <h3>Score</h3>
+                                    <p>{rating.Score}/5</p>
+                                    <h3>Comment</h3>
+                                    <p>{rating.Comment}</p>
+                                    <h3>Date</h3>
+                                    <p>{rating.Rating_date}</p>
+                                    <Link to="/reports">
+                                        <button onClick={() => deleteRating(rating.Rating_id)}
+                                            className="btn-delete">
+                                            Delete Rating
+                                        </button>
+                                    </Link>
+                                </>
+                            )
+                        })}</>
+                    ) : <p>Comment Removed</p>}
+                    
                     
                 </div>
                 );

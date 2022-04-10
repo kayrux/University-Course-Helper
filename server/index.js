@@ -375,7 +375,7 @@ app.put("/api/rating/:course_name/:rating_id", (req, res) => {
 // Tested: working
 // 5.3 Delete Rating
 // The administrator account can delete ratings/comments made by users of the website. 
-app.delete("/api/rating/:course_name/:rating_id", (req, res) => {
+app.delete("/api/rating/:rating_id", (req, res) => {
     const rating_id = req.params.rating_id
     const sqlDelete = "DELETE FROM RATING WHERE Rating_id = ?"
     db.query(sqlDelete, rating_id, (err, result) => {
@@ -460,6 +460,18 @@ app.delete("/api/reportList/:report_id", (req, res) => {
     const report_id = req.params.report_id
     const sqlDelete = "DELETE FROM REPORT WHERE Report_id = ?"
     db.query(sqlDelete, report_id, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+    });
+})
+
+// Administrator account has the ability to delete a rating. 
+app.delete("/api/reportList/:report_id/rating", (req, res) => {
+    const Rating_id = req.body.Rating_id
+    const sqlDelete = "DELETE FROM RATING WHERE Rating_id = ?"
+    db.query(sqlDelete, Rating_id, (err, result) => {
         if(err){
             console.log("error:", err)
             res.sendStatus(null, err)
