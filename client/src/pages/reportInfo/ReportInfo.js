@@ -1,6 +1,7 @@
 import Button from "../../components/Button"
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router"
+import { Link } from "react-router-dom"
 import Axios from "axios"
 
 const ReportInfo = () => {
@@ -36,8 +37,11 @@ const ReportInfo = () => {
         fetchRatingInfo()
     }, [])
 
-    const deleteReport = (reportInfo) => {
-        console.log("Deleting report") // Assume login successful
+    // Delete Report
+    const deleteReport = async (id) => {
+        await Axios.delete(`http://localhost:3001/api/reportList/${id}`)
+        //setTasks(tasks.filter((task) => task.id !== id))
+        //console.log("Deleting report") // Assume login successful
     }
 
     return (
@@ -49,13 +53,15 @@ const ReportInfo = () => {
                 <div>
                     <h1>Report Information</h1>
                     <h3>Report Reason</h3>
-                    <p1>{report.Reason}</p1>
+                    <p>{report.Reason}</p>
                     <h3>Date</h3>
                     <p>{report.Report_date}</p>
-                    <button onClick={deleteReport}
-                    className="btn-delete">
-                        Reject Report
-                    </button>
+                    <Link to="/reports">
+                        <button onClick={() => deleteReport(report.Report_id)}
+                            className="btn-delete">
+                            Delete Report
+                        </button>
+                    </Link>
                     <hr />
                     {/* Display rating info */}
                     {ratingInfo.map((rating) => {
@@ -70,10 +76,11 @@ const ReportInfo = () => {
                                 <p>{rating.Comment}</p>
                                 <h3>Date</h3>
                                 <p>{rating.Rating_date}</p>
-                                <button onClick={deleteReport}
-                                className="btn-delete">
-                                    Delete Comment
-                                </button>
+
+                                    <button className="btn-delete">
+                                        Delete Comment
+                                    </button>
+
                             </>
                         )
                     })}
