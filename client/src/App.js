@@ -19,9 +19,10 @@ const App = () => {
 
     // TO DO: interacts with database to verify before logging in
     const login = (loginInfo) => {
-        console.log("Logging in") // Assume login successful
+        
         setLoggedAsAdmin(true) 
         setUsername(loginInfo.username)
+        console.log("Logging in: " + username)
     }
 
     const logout = (loginInfo) => {

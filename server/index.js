@@ -33,16 +33,16 @@ app.listen(3001, () => {
 // -------------------------------------------------- Admin Account --------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------------
 
-// Tested: working
-// CHANGED FUNCTIONALITY: now only updates the password
-// Update user password
-app.put("/api/user", (req, res) => {
+// Tested (Database-v11): working
+// 1.3 Edit Account 
+// User has the ability to edit/update your account information.
+app.put("/api/user/:username", (req, res) => {
+    const currentUsername = req.params.username
+    const newUsername = req.body.newUsername
+    const newPassword = req.body.newPassword
 
-    const username = req.body.username
-    const password = req.body.password
-
-    const sqlInsert = "UPDATE ADMIN_ACCOUNT AS a SET a.Password=? WHERE a.Username=?"
-    db.query(sqlInsert, [password, username], (err, result) => {
+    const sqlInsert = "UPDATE ADMIN_ACCOUNT AS a SET a.Password=?, a.Username=? WHERE a.Username=?"
+    db.query(sqlInsert, [newPassword, newUsername, currentUsername], (err, result) => {
         if (err) console.log(err)
     })
 })

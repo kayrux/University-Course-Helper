@@ -2,55 +2,55 @@ import { useState } from "react"
 import Axios from "axios"
 
 const EditAccountContainer = ({ username }) => {
-    const [password, setPassword] = useState("")
+    const [newPassword, setNewPassword] = useState("")
+    const [newUsername, setNewUsername] = useState("")
     const [success, setSuccess] = useState(false)
 
     const onSubmit = (e) => {
         e.preventDefault()
 
-        // if(!username) {
-        //     alert("Please enter a username")
-        //     return
-        // }
+        if(!newUsername) {
+            alert("Please enter a username")
+            return
+        }
 
-        if (!password) {
+        if (!newPassword) {
             alert("Please enter a password")
             return
         }
 
         // Update database
         try {
-            Axios.put("http://localhost:3001/api/user", {username, password})
+            Axios.put(`http://localhost:3001/api/user/${username}`, {newUsername, newPassword})
             setSuccess(true)
         } catch (err) {
             console.log(err)
             setSuccess(false)
         }
         
-        // Should be updating the database somewhere
-        //setUsername("")
-        setPassword("")
+        // Clear input fields
+        setNewUsername("")
+        setNewPassword("")
     }
 
     return (
         <form className="login-form" onSubmit={onSubmit}>
             <h1>Edit Account</h1>
-            {/* <input
+            {success && <p>Password updated</p>}
+            <input
                 type="text"
                 placeholder="New Username"
-                value={username}
+                value={newUsername}
                 onChange={(e) =>
-                    setUsername(e.target.value)}
-            /> */}
-            {success && <p>Password updated</p>}
+                    setNewUsername(e.target.value)}
+            />
             <input
                 type="password"
                 placeholder="New Password"
-                value={password}
+                value={newPassword}
                 onChange={(e) =>
-                    setPassword(e.target.value)}
+                    setNewPassword(e.target.value)}
             />
-
             <input type="submit" value="Update" className="btn btn-block" />
         </form>
     )

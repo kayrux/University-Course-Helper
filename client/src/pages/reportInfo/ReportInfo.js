@@ -1,4 +1,4 @@
-import Button from "../../components/Button"
+//import Button from "../../components/Button"
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router"
 import { Link } from "react-router-dom"
@@ -10,9 +10,6 @@ const ReportInfo = () => {
     const location = useLocation()
     const pathname = decodeURI(location.pathname.split("/")[2]);
 
-    const [reportReason, setReportReason] = useState([])
-    const [reportDate, setReportDate] = useState([])
-    const [ratingId, setRatingId] = useState([])
     const [reportInfo, setReportInfo] = useState([])
     const [ratingInfo, setRatingInfo] = useState([])
 
@@ -22,10 +19,9 @@ const ReportInfo = () => {
             const reports = await Axios.get(`http://localhost:3001/api/reportList/${pathname}`)
             const data = await reports.data
             setReportInfo(data)
-            setRatingId(data.Rating_id)
         }
         fetchReportInfo()
-    }, [])
+    }, [pathname])
 
     // Fetch the rating information from the database
     useEffect(() => {
@@ -35,7 +31,7 @@ const ReportInfo = () => {
             setRatingInfo(data)
         }
         fetchRatingInfo()
-    }, [])
+    }, [pathname])
 
     // Delete Report
     const deleteReport = async (id) => {

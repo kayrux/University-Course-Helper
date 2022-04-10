@@ -5,7 +5,7 @@ import Axios from "axios"
 import { Link } from "react-router-dom";
 
 const DegreeInfo = () => {
-
+    //
     // Read the URL for the course name
     const location = useLocation()
     const name = decodeURI(location.pathname.split("/")[2]);
@@ -23,7 +23,7 @@ const DegreeInfo = () => {
             setDegreeInfo(data)
         }
         getDegrees()
-    }, [])
+    }, [name])
 
     useEffect(() => {
         const getRequiredCourses = async () => {
@@ -32,7 +32,7 @@ const DegreeInfo = () => {
             setRequiredCourseInfo(data)
         }
         getRequiredCourses()
-    }, [])
+    }, [name])
 
     useEffect(() => {
         const getOptionalCourses = async () => {
@@ -41,7 +41,7 @@ const DegreeInfo = () => {
             setOptionalCourseInfo(data)
         }
         getOptionalCourses()
-    }, [])
+    }, [name])
 
     // Print out course info
     return (
