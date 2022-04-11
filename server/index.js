@@ -52,7 +52,6 @@ app.put("/api/user/:username", (req, res) => {
 // Changed from /api/username to /api/password
 app.get("/api/password/:username", (req, res) => {
     const username = req.params.username
-    //console.log("API: " + username)
     const sqlSelect = "SELECT a.Password FROM ADMIN_ACCOUNT AS a WHERE a.Username = ?"
     db.query(sqlSelect, username, (err, result) => {
         if(err){
