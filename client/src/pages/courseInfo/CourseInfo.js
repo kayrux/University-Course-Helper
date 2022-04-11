@@ -5,7 +5,7 @@ import SemesterProf from '../../components/SemesterProf'
 import { Link } from "react-router-dom";
 import Button from "../../components/Button";
 
-const CourseInfo = ({onLogin}) => {
+const CourseInfo = ({username}) => {
 
     // Read the URL for the course name
     const location = useLocation()
@@ -81,21 +81,34 @@ const CourseInfo = ({onLogin}) => {
         if(!score) {
             e.preventDefault();
             alert("Please select a score")
+
         }
         else{
-            try{
-                const rating = await Axios.post(`http://localhost:3001/api/rating/${name}`, {
-                    score,
-                    comment,
-                    rating_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
-                    //
-                    //THIS IS PLACEHOLDER NEED TO GET USERNAME IN HERE SOMEHOW BUT CANT FIGURE OUT HOW
-                    //
-                    username: null,
-                    course_name: 'Cpsc 331'
-                })
+            if(!username){
+                try{
+                    const rating = await Axios.post(`http://localhost:3001/api/rating/${name}`, {
+                        score,
+                        comment,
+                        rating_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
+                        username: null,
+                        course_name: 'Cpsc 331'
+                    })
+                }
+                catch(err) {
+                }
             }
-            catch(err) {
+            else{
+                try{
+                    const rating = await Axios.post(`http://localhost:3001/api/rating/${name}`, {
+                        score,
+                        comment,
+                        rating_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
+                        username: username,
+                        course_name: 'Cpsc 331'
+                    })
+                }
+                catch(err) {
+                }
             }
         }
     }
@@ -104,8 +117,6 @@ const CourseInfo = ({onLogin}) => {
     const SaveRatingIdEdit = (prop) => {
         useEffect(() => {
             setRatingIdEdit(prop.ratingIdEdit)
-            console.log("NEW")
-            console.log(ratingIdEdit)
         })
         return(
             
@@ -125,6 +136,7 @@ const CourseInfo = ({onLogin}) => {
         else{
             try{
                 const rating = await Axios.put(`http://localhost:3001/api/rating/${ratingIdEdit}`, {
+                    username: username,
                     score: scoreEdit,
                     comment: commentEdit,
                     rating_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
@@ -143,8 +155,6 @@ const CourseInfo = ({onLogin}) => {
     const SaveRatingIdReport = (prop) => {
         useEffect(() => {
             setRatingIdReport(prop.ratingIdReport)
-            console.log("NEW")
-            console.log(ratingIdReport)
         })
         return(
             
@@ -161,9 +171,8 @@ const CourseInfo = ({onLogin}) => {
         }
         else{
             e.preventDefault();
-            {console.log("IN HERE NOW")}
-            {console.log(reportReason)}
             try{
+                alert("Report Submitted")
                 const rating = await Axios.post(`http://localhost:3001/api/reportInfo`, {
                     reason: reportReason,
                     report_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
@@ -329,8 +338,10 @@ const CourseInfo = ({onLogin}) => {
                                     </div> ) : ( <div> 
                                         <div>
                                         {/*THIS WRITTEN WITH BELIEF IS LOGGED IN WILL BE NULL IF NOT LOGGED IN AND WILL BE USERNAME IF LOGGED IN */}
-                                        {onLogin ? <Button text="Edit" color="#7babe3" onClick={() => setIsEditRating(rating.Rating_id)}></Button> : ''}
-                                        {onLogin ? <Button text="Delete" color="#7babe3" onClick={() => deleteRating(rating.Rating_id)}></Button> : ''}
+                                        {username === rating.Username ? <Button text="Edit" color="#7babe3" onClick={() => setIsEditRating(rating.Rating_id)}></Button> : '' }
+                                        </div>
+                                        <div>
+                                        {!username ? '' : <Button text="Delete" color="#7babe3" onClick={() => deleteRating(rating.Rating_id)}></Button>}
                                         </div>
                                         {isCreateReport === rating.Rating_id? ( <div> 
                                             
@@ -347,7 +358,6 @@ const CourseInfo = ({onLogin}) => {
                                                         <option value = "Waluigi?"> Waluigi? </option>
                                                         <option value = "Not able to come up with actually good report reasons"> Not able to come up with actually good report reasons </option>
                                                     </select>
-                                                    {console.log(reportReason)}
                                                 </label>
 
                                                 <input type="submit" value="Submit" />

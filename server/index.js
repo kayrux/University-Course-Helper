@@ -348,9 +348,10 @@ app.post("/api/rating/:course_name", (req, res) => {
 
 // Tested: working
 // 5.2 Edit Rating
-// The administrator account can edit/modify ratings made by users of the website. 
+// The administrator account can edit/modify theor own ratings. 
 app.put("/api/rating/:rating_id", (req, res) => {
     const rating_id = req.params.rating_id
+    const username = req.body.username
     const comment = req.body.comment
     const score = req.body.score
     const rating_date = req.body.rating_date
@@ -358,9 +359,9 @@ app.put("/api/rating/:rating_id", (req, res) => {
     const sqlInsert = 
         ("UPDATE RATING AS r " + 
         "SET r.Comment=?, r.Score=?, r.Rating_date=? " + 
-        "WHERE r.Rating_id=?")
+        "WHERE r.Rating_id=? AND r.Username=?")
 
-    db.query(sqlInsert, [comment, score, rating_date, rating_id], (err, result) => {
+    db.query(sqlInsert, [comment, score, rating_date, rating_id, username], (err, result) => {
         if(err){
             console.log("error:", err)
             res.sendStatus(null, err)
