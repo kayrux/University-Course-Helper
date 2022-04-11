@@ -1,4 +1,3 @@
-import EnterRating from "../../components/EnterRating"
 import { useLocation } from "react-router"
 import { useState, useEffect } from "react"
 import Axios from "axios"
@@ -11,6 +10,7 @@ const CourseInfo = ({onLogin}) => {
     // Read the URL for the course name
     const location = useLocation()
     const name = decodeURI(location.pathname.split("/")[2]);
+    const date = new Date();
 
     // Setup state hooks to store data gotten from api calls
     const [courseInfo, setCourseInfo] = useState([])
@@ -20,7 +20,13 @@ const CourseInfo = ({onLogin}) => {
     const [score, setScore] = useState("")
     const [comment, setComment] = useState("")
     const [getRatings, setGetRatings] = useState([])
-    const [isEditingRating, setIsEditingRating] = useState("")
+    const [isEditRating, setIsEditRating] = useState("")
+    const [ratingIdEdit, setRatingIdEdit] = useState("")
+    const [scoreEdit, setScoreEdit] = useState("")
+    const [commentEdit, setCommentEdit] = useState("")
+    const [isCreateReport, setIsCreateReport] = useState("")
+    const [ratingIdReport, setRatingIdReport] = useState("")
+    const [reportReason, setReportReason] = useState("")
 
     // Call apis (for more info on what each does look at client > index.js)
     useEffect(() => {
@@ -30,7 +36,7 @@ const CourseInfo = ({onLogin}) => {
             setCourseInfo(data)
         }
         getCourses()
-    }, [])
+    }, [name])
 
     useEffect(() => {
         const getSemester = async () => {
@@ -39,7 +45,7 @@ const CourseInfo = ({onLogin}) => {
             setSemesterInfo(data)
         }
         getSemester()
-    }, [])
+    }, [name])
 
     useEffect(() => {
         const getDegreeRequired = async () => {
@@ -48,7 +54,7 @@ const CourseInfo = ({onLogin}) => {
             setDegreeRequiredInfo(data)
         }
         getDegreeRequired()
-    }, [])
+    }, [name])
 
     useEffect(() => {
         const getDegreeOptional = async () => {
@@ -57,7 +63,7 @@ const CourseInfo = ({onLogin}) => {
             setDegreeOptionalInfo(data)
         }
         getDegreeOptional()
-    }, [])
+    }, [name])
 
     useEffect(() => {
         const getRatings = async () => {
@@ -66,45 +72,113 @@ const CourseInfo = ({onLogin}) => {
             setGetRatings(data)
         }
         getRatings()
-    }, [])
+    }, [name])
 
     // Handling submission of new comment
-    const onSubmit = async (e) => {
-        e.preventDefault()
+    const createRating = async (e) => {
 
-        try{
-            const rating = await Axios.post(`http://localhost:3001/api/rating/${name}`, {
-                score,
-                comment,
-                rating_date: new Date().toISOString().slice(0, 10),
-                //
-                //THIS IS PLACEHOLDER NEED TO GET USERNAME IN HERE SOMEHOW BUT CANT FIGURE OUT HOW
-                //
-                username: null,
-                course_name: 'Cpsc 331'
-            })
-        }
-        catch(err) {
-            console.log("ERROR HERE")
-
-        }
-
-        console.log("hello")
-        console.log(comment)
-
-
+        //stops prevents the post request and reload if no score selected
         if(!score) {
-            alert("Please enter a score")
-            return
+            e.preventDefault();
+            alert("Please select a score")
         }
-
-        setScore("")
-        setComment("")
+        else{
+            try{
+                const rating = await Axios.post(`http://localhost:3001/api/rating/${name}`, {
+                    score,
+                    comment,
+                    rating_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
+                    //
+                    //THIS IS PLACEHOLDER NEED TO GET USERNAME IN HERE SOMEHOW BUT CANT FIGURE OUT HOW
+                    //
+                    username: null,
+                    course_name: 'Cpsc 331'
+                })
+            }
+            catch(err) {
+            }
+        }
     }
 
-    // Print out course info
+    //used to save the rating id so edit rating knows what to edit
+    const SaveRatingIdEdit = (prop) => {
+        useEffect(() => {
+            setRatingIdEdit(prop.ratingIdEdit)
+            console.log("NEW")
+            console.log(ratingIdEdit)
+        })
+        return(
+            
+            <></>
+        )
+    }
+
+
+    // Handling submission of new comment
+    const editRating = async (e) => {
+
+        //stops prevents the post request and reload if no score selected
+        if(!scoreEdit) {
+            e.preventDefault();
+            alert("Please select a score")
+        }
+        else{
+            try{
+                const rating = await Axios.put(`http://localhost:3001/api/rating/${ratingIdEdit}`, {
+                    score: scoreEdit,
+                    comment: commentEdit,
+                    rating_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
+                })
+            }
+            catch(err) {
+            }
+        }
+    }
+
+    const deleteRating = async (id) => {
+        window.location.reload();
+        await Axios.delete(`http://localhost:3001/api/rating/${id}`)
+    }
+
+    const SaveRatingIdReport = (prop) => {
+        useEffect(() => {
+            setRatingIdReport(prop.ratingIdReport)
+            console.log("NEW")
+            console.log(ratingIdReport)
+        })
+        return(
+            
+            <></>
+        )
+    }
+
+    const createReport = async (e) => {
+
+        //stops prevents the post request and reload if no score selected
+        if(!reportReason) {
+            e.preventDefault();
+            alert("Please select a reason for the report")
+        }
+        else{
+            e.preventDefault();
+            {console.log("IN HERE NOW")}
+            {console.log(reportReason)}
+            try{
+                const rating = await Axios.post(`http://localhost:3001/api/reportInfo`, {
+                    reason: reportReason,
+                    report_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
+                    rating_id: ratingIdReport,
+                })
+            }
+            catch(err) {
+            }
+        }
+    }
+
+    //Print out course info
     return(
         <div>
+            {/*generic course info */}
             {courseInfo.map((course) => {
                 return(
                     <div>
@@ -133,6 +207,7 @@ const CourseInfo = ({onLogin}) => {
                         <h2>
                             Offered in
                         </h2>
+                        {/*course info for each semester taught*/}
                         {semesterInfo.map((sem) => {
                             return(
                                 <div>
@@ -143,7 +218,7 @@ const CourseInfo = ({onLogin}) => {
                                     <div>
                                         Duration: {sem.Duration} months
                                     </div>
-                                    {/* semesterProf returns information on a specific semester and prof*/}
+                                    {/* semesterProf returns information on further info on semester (related to prof) as well as prof info*/}
                                     {<SemesterProf name = {course.Course_name} startYear = {sem.Sem_start_year} startTerm = {sem.Sem_start_term} />}
                                 </div>
                             );
@@ -157,6 +232,7 @@ const CourseInfo = ({onLogin}) => {
                         <h3>
                             Required for:
                         </h3>
+                        {/*info on how the course related to degrees*/}
                         {degreeRequiredInfo.map((required) => {
                             return(
                                 <div>
@@ -174,23 +250,22 @@ const CourseInfo = ({onLogin}) => {
                                 </div>
                             );
                         })}
-
                         <hr />
-
+                        {/*form to submit rating*/}
                         <div>
-                            <form className="rating-form" onSubmit={onSubmit}>
+                            <form className="rating-form" onSubmit={createRating}>
 
                                 <label>
-                                Class Score: {' '}
-                                <select value={score} onChange={(e) => {setScore(e.target.value)}}>            
-                                    <option value = "1"> 1 </option>
-                                    <option value = "2"> 2 </option>
-                                    <option value = "3"> 3 </option>
-                                    <option value = "4"> 4 </option>
-                                    <option value = "5"> 5 </option>
-                                </select>
+                                    Rate this class: {' '}
+                                    <select value={score || null} onChange={(e) => {setScore(e.target.value || null )}}>  
+                                        <option value = ""> </option>          
+                                        <option value = "1"> 1 </option>
+                                        <option value = "2"> 2 </option>
+                                        <option value = "3"> 3 </option>
+                                        <option value = "4"> 4 </option>
+                                        <option value = "5"> 5 </option>
+                                    </select>
                                 </label>
-
                                 <input 
                                     className="comment-input"
                                     type="text" 
@@ -206,33 +281,81 @@ const CourseInfo = ({onLogin}) => {
                         </div>
 
                         <hr />
-
                         {getRatings.map((rating) => {
                             return(
                                 <div>
-                                    {isEditingRating === rating.Rating_id? ( <div> 
-                                        <div>
-                                            EDITING THIS RATING NOW
-                                        </div>
-                                    </div> ) : ( <div>                      
-                                        <div>
-                                            Posted: {' '}
-                                            {rating.Rating_date.slice(0, 10)}
-                                            {!!(rating.Username)? ` By admin ${rating.Username}` : ''}     
-                                        </div>
-                                        <div>
-                                            {rating.Score}
-                                            /5
-                                        </div>
-                                        <div>
-                                            {rating.Comment}
-                                        </div>
+                                    {/*list all ratings for the given class*/}                     
+                                    <div>
+                                        Posted: {' '}
+                                        {rating.Rating_date.slice(0, 10)}
+                                        {!!(rating.Username)? ` By admin ${rating.Username}` : ''}     
+                                    </div>
+                                    <div>
+                                        {rating.Score}
+                                        /5
+                                    </div>
+                                    <div>
+                                        {rating.Comment}
+                                    </div>
+                                    {isEditRating === rating.Rating_id? ( <div> 
+                                        <SaveRatingIdEdit ratingIdEdit = {rating.Rating_id}/>
+                                        {/*form for editing ratings when edit button is pressed*/} 
+                                        <form className="rating-form" onSubmit={editRating}>  
+                                            <label>
+                                                Edit score: {' '}
+                                                <select value={scoreEdit || null} onChange={(e) => {setScoreEdit(e.target.value || null )}}>  
+                                                    <option value = ""> </option>          
+                                                    <option value = "1"> 1 </option>
+                                                    <option value = "2"> 2 </option>
+                                                    <option value = "3"> 3 </option>
+                                                    <option value = "4"> 4 </option>
+                                                    <option value = "5"> 5 </option>
+                                                </select>
+                                            </label>
 
+                                            <input 
+                                                className="comment-input"
+                                                type="text" 
+                                                maxLength="255"
+                                                placeholder="Edit comment" 
+                                                value={commentEdit}
+                                                onChange={(e) =>
+                                                    setCommentEdit(e.target.value)}
+                                            />
+
+                                            <input type="submit" value="Edit Rating" className="btn btn-block" />
+                                        </form>
+                                        <Button text="Cancel" color="#7babe3" onClick={() => setIsEditRating(null)}></Button>
+                                    </div> ) : ( <div> 
                                         <div>
                                         {/*THIS WRITTEN WITH BELIEF IS LOGGED IN WILL BE NULL IF NOT LOGGED IN AND WILL BE USERNAME IF LOGGED IN */}
-                                        {onLogin ? <Button text="Edit" color="yellow" onClick={() => setIsEditingRating(rating.Rating_id)}></Button> : ''}
-                                        {/* ^to replace above isLoggedIn with ^(rating.Username) === (isLoggedIn)*/}
+                                        {onLogin ? <Button text="Edit" color="#7babe3" onClick={() => setIsEditRating(rating.Rating_id)}></Button> : ''}
+                                        {onLogin ? <Button text="Delete" color="#7babe3" onClick={() => deleteRating(rating.Rating_id)}></Button> : ''}
                                         </div>
+                                        {isCreateReport === rating.Rating_id? ( <div> 
+                                            
+                                            <SaveRatingIdReport ratingIdReport = {rating.Rating_id}/>
+                                            {/*form for creating reports when report button is pressed*/} 
+                                            <form onSubmit={createReport}>  
+                                                <label>
+                                                    Reason for report: {' '}
+                                                    <select value={reportReason || null} onChange={(e) => {setReportReason(e.target.value || null )}}>  
+                                                        <option value = ""> </option>          
+                                                        <option value = "Spam"> Spam </option>
+                                                        <option value = "False/Misleading"> False/Misleading </option>
+                                                        <option value = "Racism"> Racism </option>
+                                                        <option value = "Waluigi?"> Waluigi? </option>
+                                                        <option value = "Not able to come up with actually good report reasons"> Not able to come up with actually good report reasons </option>
+                                                    </select>
+                                                    {console.log(reportReason)}
+                                                </label>
+
+                                                <input type="submit" value="Submit" />
+                                            </form>
+                                            <Button text="Cancel" color="#7babe3" onClick={() => setIsCreateReport(null)}></Button>
+                                        </div> ):( <div>
+                                            <Button text="Report" color="#7babe3" onClick={() => setIsCreateReport(rating.Rating_id)}></Button>
+                                        </div>)}
                                     </div>)}  
                                     <br>
                                     </br>

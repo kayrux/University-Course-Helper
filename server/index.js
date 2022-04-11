@@ -349,11 +349,8 @@ app.post("/api/rating/:course_name", (req, res) => {
 // Tested: working
 // 5.2 Edit Rating
 // The administrator account can edit/modify ratings made by users of the website. 
-app.put("/api/rating/:course_name/:rating_id", (req, res) => {
-    const course_name = req.params.course_name
+app.put("/api/rating/:rating_id", (req, res) => {
     const rating_id = req.params.rating_id
-
-    const username = req.body.username
     const comment = req.body.comment
     const score = req.body.score
     const rating_date = req.body.rating_date
@@ -361,9 +358,9 @@ app.put("/api/rating/:course_name/:rating_id", (req, res) => {
     const sqlInsert = 
         ("UPDATE RATING AS r " + 
         "SET r.Comment=?, r.Score=?, r.Rating_date=? " + 
-        "WHERE r.Rating_id=? AND r.Username=?")
+        "WHERE r.Rating_id=?")
 
-    db.query(sqlInsert, [comment, score, rating_date, rating_id, username], (err, result) => {
+    db.query(sqlInsert, [comment, score, rating_date, rating_id], (err, result) => {
         if(err){
             console.log("error:", err)
             res.sendStatus(null, err)
@@ -375,7 +372,7 @@ app.put("/api/rating/:course_name/:rating_id", (req, res) => {
 // Tested: working
 // 5.3 Delete Rating
 // The administrator account can delete ratings/comments made by users of the website. 
-app.delete("/api/rating/:course_name/:rating_id", (req, res) => {
+app.delete("/api/rating/:rating_id", (req, res) => {
     const rating_id = req.params.rating_id
     const sqlDelete = "DELETE FROM RATING WHERE Rating_id = ?"
     db.query(sqlDelete, rating_id, (err, result) => {
@@ -407,7 +404,7 @@ app.get("/api/reportList", (req, res) => {
 // Tested (Database-v8): working
 // 6.2 View specific report
 // Administrator account can view information about a specific report that is stored in the database. 
-app.get("/api/reportList/:report_id", (req, res) => {
+app.get("/api/reportInfo/:report_id", (req, res) => {
     const report_id = req.params.report_id
     const sqlSelect = "SELECT * FROM REPORT WHERE Report_id=?"
     db.query(sqlSelect, report_id, (err, result) => {
@@ -422,7 +419,7 @@ app.get("/api/reportList/:report_id", (req, res) => {
 // Tested (Database-v8): working
 // 6.3 Specific report rating
 // View information for the specific rating the report pertains to
-app.get("/api/reportList/:report_id/rating", (req, res) => {
+app.get("/api/reportInfo/:report_id/rating", (req, res) => {
     const report_id = req.params.report_id
     const sqlSelect = "SELECT rt.Rating_id, rt.Comment, rt.Score, rt.Rating_date, rt.Username, rt.Course_name " + 
         "FROM REPORT AS rp NATURAL JOIN RATING AS rt " + 
@@ -439,7 +436,7 @@ app.get("/api/reportList/:report_id/rating", (req, res) => {
 // Tested (Database-v8): working
 // 6.4 Create report
 // Users of the website can create a report for comments that they believe should be removed from the website.
-app.post("/api/reportList", (req, res) => {
+app.post("/api/reportInfo", (req, res) => {
     const reason = req.body.reason
     const report_date = req.body.report_date
     const rating_id = req.body.rating_id
@@ -455,8 +452,8 @@ app.post("/api/reportList", (req, res) => {
 
 // Tested (Database-v8): working
 // 6.5 Delete report
-// Administrator account has the ability to delete a report to reject it. 
-app.delete("/api/reportList/:report_id", (req, res) => {
+// Administrator account has the ability to delete a report or to reject it. 
+app.delete("/api/reportInfo/:report_id", (req, res) => {
     const report_id = req.params.report_id
     const sqlDelete = "DELETE FROM REPORT WHERE Report_id = ?"
     db.query(sqlDelete, report_id, (err, result) => {

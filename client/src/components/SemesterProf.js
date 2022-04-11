@@ -17,7 +17,7 @@ const SemesterProf = ({name, startYear, startTerm}) => {
                 setSemesterProfInfo(data)
             }
             getSemesterProf()
-    }, [])
+    }, [name,startYear,startTerm])
 
     // Print out information specific to the semester and prof being examinined
     return(

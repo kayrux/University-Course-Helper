@@ -22,7 +22,7 @@ const ProfInfo = () => {
             setProfInfo(data)
         }
         getProfessors()
-    }, [])
+    }, [name])
 
     useEffect(() => {
         const getCourses = async () => {
@@ -31,7 +31,7 @@ const ProfInfo = () => {
             setCourseInfo(data)
         }
         getCourses()
-    }, [])
+    }, [name])
 
     // Print out course info
     return (

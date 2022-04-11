@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Navbar from './components/Navbar';
 import Footer from "./components/Footer";
@@ -39,7 +39,7 @@ const App = () => {
                     <Route path="/reports" element= {LoggedInAsAdmin ? <ReportList /> : <LoginContainer onLogin={login}/>}></Route>
                     <Route path="/login" element={LoggedInAsAdmin ? <CourseList /> : <LoginContainer onLogin={login}/>}></Route>
                     <Route path="/edit-account" element={LoggedInAsAdmin ? <EditAccountContainer /> : <LoginContainer onLogin={login}/>}></Route>
-                    <Route path="/courses/:courseId" element={<CourseInfo onLogin={login}/> }></Route>
+                    <Route path="/courses/:courseId" element={<CourseInfo onLogin={LoggedInAsAdmin}/> }></Route>
                     <Route path="/degrees/:degreeId" element={<DegreeInfo />}></Route>
                     <Route path="/reports/:reportId" element={LoggedInAsAdmin ? <ReportInfo /> : <LoginContainer onLogin={login}/>}></Route>
                     <Route path="/professors/:professorId" element={<ProfessorInfo />}></Route>

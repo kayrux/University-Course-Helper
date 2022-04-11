@@ -23,7 +23,7 @@ const DegreeInfo = () => {
             setDegreeInfo(data)
         }
         getDegrees()
-    }, [])
+    }, [name])
 
     useEffect(() => {
         const getRequiredCourses = async () => {
@@ -32,7 +32,7 @@ const DegreeInfo = () => {
             setRequiredCourseInfo(data)
         }
         getRequiredCourses()
-    }, [])
+    }, [name])
 
     useEffect(() => {
         const getOptionalCourses = async () => {
@@ -41,7 +41,7 @@ const DegreeInfo = () => {
             setOptionalCourseInfo(data)
         }
         getOptionalCourses()
-    }, [])
+    }, [name])
 
     // Print out course info
     return (
@@ -76,7 +76,7 @@ const DegreeInfo = () => {
                             
                         </h2> :
                         <h2>
-                            Required courses
+                            Optional courses
                         </h2>
                         }
                         {optionalCourseInfo.map((course) => {
