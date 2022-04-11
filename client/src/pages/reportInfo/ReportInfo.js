@@ -1,42 +1,96 @@
-import Button from "../../components/Button"
+//import Button from "../../components/Button"
+import { useEffect, useState } from "react"
+import { useLocation } from "react-router"
+import { Link } from "react-router-dom"
+import Axios from "axios"
 
 const ReportInfo = () => {
 
-    const deleteReport = (reportInfo) => {
-        console.log("Deleting report") // Assume login successful
+    // Read the URL for the course name
+    const location = useLocation()
+    const pathname = decodeURI(location.pathname.split("/")[2]);
+
+    const [reportInfo, setReportInfo] = useState([])
+    const [ratingInfo, setRatingInfo] = useState([])
+
+    // Fetch the report information from the database
+    useEffect(() => {
+        const fetchReportInfo = async () => {
+            const reports = await Axios.get(`http://localhost:3001/api/reportList/${pathname}`)
+            const data = await reports.data
+            setReportInfo(data)
+        }
+        fetchReportInfo()
+    }, [pathname])
+
+    // Fetch the rating information from the database
+    useEffect(() => {
+        const fetchRatingInfo = async () => {
+            const rating = await Axios.get(`http://localhost:3001/api/reportList/${pathname}/rating`)
+            const data = await rating.data
+            setRatingInfo(data)
+        }
+        fetchRatingInfo()
+    }, [pathname])
+
+    // Delete Report
+    const deleteReport = async (id) => {
+        await Axios.delete(`http://localhost:3001/api/reportList/${id}`)
+    }
+
+    // Delete Comment
+    const deleteRating = async (id) => {
+        await Axios.delete(`http://localhost:3001/api/rating/${id}`)
     }
 
     return (
+        
         <div className="display-container">
-            <h1>Report Information</h1>
-            <h3>Report Reason</h3>
-            <p1>Racism</p1>
-            <h3>Date</h3>
-            <p1>30/03/2022</p1>
-            <button onClick={deleteReport}
-            className="btn-delete">
-                Reject Report
-            </button>
-            <hr />
-            <h1>Rating Reported</h1>
-            <h3>Course Name and Number</h3>
-            <p1>
-                CPSC 331
-            </p1>
-            <h3>Score</h3>
-            <p1>
-                2.5/5
-            </p1>
-            <h3>Comment</h3>
-            <p1>
-                This course reminds me of *insert something racist
-            </p1>
-            <h3>Date</h3>
-            <p1>29/03/2022</p1>
-            <button onClick={deleteReport}
-            className="btn-delete">
-                Delete Comment
-            </button>
+            {/* Display report info */}
+            {reportInfo.map((report) => {
+            return(
+                <div>
+                    <h1>Report Information</h1>
+                    <h3>Report Reason</h3>
+                    <p>{report.Reason}</p>
+                    <h3>Date</h3>
+                    <p>{report.Report_date}</p>
+                    <Link to="/reports">
+                        <button onClick={() => deleteReport(report.Report_id)}
+                            className="btn-delete">
+                            Delete Report
+                        </button>
+                    </Link>
+                    <hr />
+                    {/* Display rating info */}
+                    {ratingInfo.length > 0 ? (
+                        <>{ratingInfo.map((rating) => {
+                            return (
+                                <>
+                                    <h1>Rating Reported</h1>
+                                    <h3>Course Name and Number</h3>
+                                    <p>{rating.Course_name}</p>
+                                    <h3>Score</h3>
+                                    <p>{rating.Score}/5</p>
+                                    <h3>Comment</h3>
+                                    <p>{rating.Comment}</p>
+                                    <h3>Date</h3>
+                                    <p>{rating.Rating_date}</p>
+                                    <Link to="/reports">
+                                        <button onClick={() => deleteRating(rating.Rating_id)}
+                                            className="btn-delete">
+                                            Delete Rating
+                                        </button>
+                                    </Link>
+                                </>
+                            )
+                        })}</>
+                    ) : <p>Comment Removed</p>}
+                    
+                    
+                </div>
+                );
+            })}
         </div>
     )
 }

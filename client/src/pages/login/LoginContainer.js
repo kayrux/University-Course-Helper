@@ -1,11 +1,26 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import Axios from "axios"
 
 // onLogin is called when the user succesfully logs in
 const LoginContainer = ({onLogin}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [dbPassword, setDbPassword] = useState("") // Password returned from database
+    const [loginError, setLoginError] = useState(false) // Used for wrong username/password
+    const [loggedIn, setLoggedIn] = useState(false); // Keeps track of whether the user is logged in
 
-    const onSubmit = (e) => {
+    const fetchPassword = async () => {
+        
+        const password1 = await Axios.get(`http://localhost:3001/api/password/${username}`)
+        const data = await password1.data
+        {data.map((pswrd) => {
+            //console.log("Setting database password")
+            setDbPassword(pswrd.Password)
+        })}
+    }
+
+
+    const onSubmit = async (e) => {
         e.preventDefault()
 
         if(!username) {
@@ -17,19 +32,37 @@ const LoginContainer = ({onLogin}) => {
             alert("Please enter a password")
             return
         }
-        // TO DO:
-            // Try to login
-        // Upon successful login:
-        onLogin({username, password}) // To do
+        
+        fetchPassword()
+        // console.log({username})
+        // console.log({dbPassword})
+
+        // Verify password
+        if (dbPassword === password && dbPassword != "") {
+            
+            onLogin({username, password})
+            
+            setLoggedIn(true)
+            setLoginError(false)
+        } else {
+            setLoggedIn(false)
+            setLoginError(true)
+        }
         setUsername("")
-        setPassword("")        
+        setPassword("")
+        setDbPassword("")
     }
+
+    
 
     return (
         <>
             {/* removed the conditional (and variables relating to it) to deal with user being logged in that was here because made it so this chunk of code is only acessable if not logged in (via app.js)*/}
             <form className="login-form" onSubmit={onSubmit}>
                 <h1>Sign in</h1>
+                
+                {loginError && (<p className="err">Incorrect username or password</p>)}
+
                 <input 
                     type="text" 
                     placeholder="Username" 

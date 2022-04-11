@@ -33,16 +33,16 @@ app.listen(3001, () => {
 // -------------------------------------------------- Admin Account --------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------------
 
-// Tested: working
-// CHANGED FUNCTIONALITY: now only updates the password
-// Update user password
-app.put("/api/user", (req, res) => {
+// Tested (Database-v11): working
+// 1.3 Edit Account 
+// User has the ability to edit/update your account information.
+app.put("/api/user/:username", (req, res) => {
+    const currentUsername = req.params.username
+    const newUsername = req.body.newUsername
+    const newPassword = req.body.newPassword
 
-    const username = req.body.username
-    const password = req.body.password
-
-    const sqlInsert = "UPDATE ADMIN_ACCOUNT AS a SET a.Password=? WHERE a.Username=?"
-    db.query(sqlInsert, [password, username], (err, result) => {
+    const sqlInsert = "UPDATE ADMIN_ACCOUNT AS a SET a.Password=?, a.Username=? WHERE a.Username=?"
+    db.query(sqlInsert, [newPassword, newUsername, currentUsername], (err, result) => {
         if (err) console.log(err)
     })
 })
@@ -50,9 +50,9 @@ app.put("/api/user", (req, res) => {
 // Tested: working
 // Find the password and account_id relating to the username.
 // Changed from /api/username to /api/password
-app.get("/api/password", (req, res) => {
-    const username = req.body.username
-
+app.get("/api/password/:username", (req, res) => {
+    const username = req.params.username
+    //console.log("API: " + username)
     const sqlSelect = "SELECT a.Password FROM ADMIN_ACCOUNT AS a WHERE a.Username = ?"
     db.query(sqlSelect, username, (err, result) => {
         if(err){
@@ -457,6 +457,18 @@ app.delete("/api/reportInfo/:report_id", (req, res) => {
     const report_id = req.params.report_id
     const sqlDelete = "DELETE FROM REPORT WHERE Report_id = ?"
     db.query(sqlDelete, report_id, (err, result) => {
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+    });
+})
+
+// Administrator account has the ability to delete a rating. 
+app.delete("/api/reportList/:report_id/rating", (req, res) => {
+    const Rating_id = req.body.Rating_id
+    const sqlDelete = "DELETE FROM RATING WHERE Rating_id = ?"
+    db.query(sqlDelete, Rating_id, (err, result) => {
         if(err){
             console.log("error:", err)
             res.sendStatus(null, err)

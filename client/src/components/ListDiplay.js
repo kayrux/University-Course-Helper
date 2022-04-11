@@ -51,7 +51,7 @@ const ListDisplay = ({list,type}) => {
                 {list.map((val) => {
                     return(
                         <h2>
-                            <Link to={`/reports/${val}`}>{val}</Link>
+                            <Link to={`/reports/${val.Report_id}`}>Report {val.Report_id}</Link>
                         </h2>
                     );
                 })}

@@ -1,45 +1,56 @@
 import { useState } from "react"
+import Axios from "axios"
 
-const EditAccountContainer = ({ account_id }) => {
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
+const EditAccountContainer = ({ username }) => {
+    const [newPassword, setNewPassword] = useState("")
+    const [newUsername, setNewUsername] = useState("")
+    const [success, setSuccess] = useState(false)
 
     const onSubmit = (e) => {
         e.preventDefault()
 
-        if(!username) {
+        if(!newUsername) {
             alert("Please enter a username")
             return
         }
 
-        if (!password) {
+        if (!newPassword) {
             alert("Please enter a password")
             return
         }
-        // Should be updating the database somewhere
-        setUsername("")
-        setPassword("")
+
+        // Update database
+        try {
+            Axios.put(`http://localhost:3001/api/user/${username}`, {newUsername, newPassword})
+            setSuccess(true)
+        } catch (err) {
+            console.log(err)
+            setSuccess(false)
+        }
+        
+        // Clear input fields
+        setNewUsername("")
+        setNewPassword("")
     }
 
     return (
         <form className="login-form" onSubmit={onSubmit}>
             <h1>Edit Account</h1>
+            {success && <p>Password updated</p>}
             <input
                 type="text"
                 placeholder="New Username"
-                value={username}
+                value={newUsername}
                 onChange={(e) =>
-                    setUsername(e.target.value)}
+                    setNewUsername(e.target.value)}
             />
-
             <input
                 type="password"
                 placeholder="New Password"
-                value={password}
+                value={newPassword}
                 onChange={(e) =>
-                    setPassword(e.target.value)}
+                    setNewPassword(e.target.value)}
             />
-
             <input type="submit" value="Update" className="btn btn-block" />
         </form>
     )

@@ -14,12 +14,15 @@ import ReportInfo from "./pages/reportInfo/ReportInfo";
 import ProfessorInfo from "./pages/professorInfo/ProfessorInfo";
 
 const App = () => {
-    const [LoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
+    const [showLoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
+    const [username, setUsername] = useState("")
 
     // TO DO: interacts with database to verify before logging in
     const login = (loginInfo) => {
-        console.log("Logging in") // Assume login successful
+        
         setLoggedAsAdmin(true) 
+        setUsername(loginInfo.username)
+        console.log("Logging in: " + username)
     }
 
     const logout = (loginInfo) => {

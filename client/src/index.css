@@ -1,3 +1,7 @@
+.err {
+    color: red;
+}
+
 .navbar {
     padding: 20px;
     align-items: center;

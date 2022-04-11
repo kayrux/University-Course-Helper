@@ -5,7 +5,7 @@ import Axios from "axios"
 import { Link } from "react-router-dom";
 
 const DegreeInfo = () => {
-
+    //
     // Read the URL for the course name
     const location = useLocation()
     const name = decodeURI(location.pathname.split("/")[2]);
