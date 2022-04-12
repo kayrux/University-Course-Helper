@@ -1,6 +1,5 @@
 import { useState } from "react"
 import Axios from "axios"
-import auth from "../../context/Auth"
 import { Navigate } from "react-router-dom"
 
 // onLogin is called when the user succesfully logs in
@@ -44,7 +43,7 @@ const LoginContainer = ({onLogin}) => {
             passwords.push(pswrd.Password)
         })
 
-        // Make sure database request is complete
+        // Make sure database request is complete before verifying password
         Promise.all(requests).then(() => {
             // Verify password
             verifyPassword(passwords)

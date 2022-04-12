@@ -62,7 +62,7 @@ const ReportInfo = () => {
                         </button>
                     </Link>
                     <hr />
-                    {/* Display rating info */}
+                    {/* Display rating info */}  
                     {ratingInfo.length > 0 ? (
                         <>{ratingInfo.map((rating) => {
                             return (

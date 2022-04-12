@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
-import auth from "../context/Auth";
+
 
 /**
  * 
@@ -17,10 +16,10 @@ const Navbar = ({onLogout, loggedIn}) => {
                 <Link to="/">Courses</Link>
                 <Link to="/professors">Professors</Link>
                 <Link to="/degrees">Degrees</Link>
-                <input 
+                {/* <input 
                     type="text" 
                     placeholder="Search" 
-                />
+                /> */}
                 {/* Logout button is displayed only when user is logged in */}
                 {loggedIn ? <Link to="/"><Button text="Logout" color="red" onClick={onLogout}></Button></Link>
                 : <Link to="/login">Login</Link>}

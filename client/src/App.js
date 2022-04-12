@@ -21,7 +21,7 @@ const App = () => {
 
     // Updates whether user is logged in
     useEffect(() => {
-        {auth.isAuthenticated() ? setLoggedAsAdmin(true): setLoggedAsAdmin(false)}
+        auth.isAuthenticated() ? setLoggedAsAdmin(true): setLoggedAsAdmin(false)
     }, [])
 
     // Logs in a user
