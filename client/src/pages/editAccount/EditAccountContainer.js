@@ -21,7 +21,8 @@ const EditAccountContainer = ({ username }) => {
 
         // Update database
         try {
-            Axios.put(`http://localhost:3001/api/user/${username}`, {newUsername, newPassword})
+            Axios.put(`http://localhost:3001/api/user/${localStorage.getItem("user")}`, {newUsername, newPassword})
+            localStorage.setItem("user", newUsername) // Update username in local storage
             setSuccess(true)
         } catch (err) {
             console.log(err)
