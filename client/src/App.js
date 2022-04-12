@@ -54,14 +54,19 @@ const App = () => {
                     <Route path="/professors" element={<ProfessorList />}></Route>
                     <Route path="/degrees" element={<DegreeList />}></Route>
                     <Route path="/reports" element={
+                        // Report page only accessible for logged in users
                         <RequireAuth redirectTo="/login">
                             <ReportList />
                         </RequireAuth>
                     } />
                     <Route path="/login" element={
+                        // Prevents logged in users from accessing login page
+                        <RequireNotAuth redirectTo="/">
                             <LoginContainer onLogin={login}/>
+                        </RequireNotAuth>
                     } />
                     <Route path="/edit-account" element={
+                        // Edit account page only accessible for logged in users
                         <RequireAuth redirectTo="/">
                             <EditAccountContainer />
                         </RequireAuth>
@@ -83,9 +88,9 @@ function RequireAuth({ children, redirectTo } ) {
     return isAuthenticated ? children : <Navigate to={redirectTo} />;
 }
 
-// function RequireNotAuth({ children, redirectTo } ) {
-//     let isAuthenticated = auth.isAuthenticated()
-//     return (!auth.isAuthenticated()) ? children : <Navigate to={redirectTo} />;
-// }
+function RequireNotAuth({ children, redirectTo } ) {
+    let isAuthenticated = auth.isAuthenticated()
+    return (!auth.isAuthenticated()) ? children : <Navigate to={redirectTo} />;
+}
 
 export default App;
