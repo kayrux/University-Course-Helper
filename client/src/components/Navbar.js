@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 
@@ -7,27 +8,40 @@ import Button from "./Button";
  * @param loggedIn whether or not the user is logged in 
  * @returns
  */
-const Navbar = ({onLogout, loggedIn}) => {
-  return (
-    <div className="navbar">
-        <div className="links">
-            <Link to="/">Courses</Link>
-            <Link to="/professors">Professors</Link>
-            <Link to="/degrees">Degrees</Link>
-            <input 
-                type="text" 
-                placeholder="Search" 
-            />
-            {/* Logout button is displayed only when user is logged in */}
-            {loggedIn ? <Link to="/"><Button text="Logout" color="red" onClick={onLogout}></Button></Link>
-            : <Link to="/login">Login</Link>}
+const Navbar = ({onLogout}) => {
+    const [loggedIn, setLoggedIn] = useState(false)
 
-            {/* Edit Account button is displayed only when user is logged in */}
-            {loggedIn && <Link to="/edit-account"><Button text="Edit Account" color="grey"></Button></Link>}
+    useEffect(() => {
+        const loggedInUser = localStorage.getItem("user")
+        //console.log("RUn")
+        if (loggedInUser) {
+            setLoggedIn(true)
+            console.log("User: " + loggedInUser)
+        } else {
+            setLoggedIn(false)
+        }
+    }, [])
+
+    return (
+        <div className="navbar">
+            <div className="links">
+                <Link to="/">Courses</Link>
+                <Link to="/professors">Professors</Link>
+                <Link to="/degrees">Degrees</Link>
+                <input 
+                    type="text" 
+                    placeholder="Search" 
+                />
+                {/* Logout button is displayed only when user is logged in */}
+                {loggedIn ? <Link to="/"><Button text="Logout" color="red" onClick={onLogout}></Button></Link>
+                : <Link to="/login">Login</Link>}
+
+                {/* Edit Account button is displayed only when user is logged in */}
+                {loggedIn && <Link to="/edit-account"><Button text="Edit Account" color="grey"></Button></Link>}
+            </div>
+            
         </div>
-        
-    </div>
-  )
+    )
 }
 
 export default Navbar

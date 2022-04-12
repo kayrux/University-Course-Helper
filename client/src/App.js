@@ -22,11 +22,13 @@ const App = () => {
         
         setLoggedAsAdmin(true) 
         setUsername(loginInfo.username)
-        console.log("Logging in: " + username)
+        localStorage.setItem("user", loginInfo.username) // Store username in local storage
+        console.log("Logging in: " + loginInfo.username)
     }
 
     const logout = (loginInfo) => {
-        console.log("Logging out") // Assume login successful
+        console.log("Logging out")
+        localStorage.clear() // Clear local storage
         setLoggedAsAdmin(false) 
     }
 
