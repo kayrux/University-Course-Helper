@@ -84,7 +84,7 @@ const CourseInfo = ({username}) => {
 
         }
         else{
-            if(!username){
+            if(!localStorage.getItem("user")){
                 try{
                     await Axios.post(`http://localhost:3001/api/rating/${name}`, {
                         score,
@@ -103,7 +103,7 @@ const CourseInfo = ({username}) => {
                         score,
                         comment,
                         rating_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
-                        username: username,
+                        username: localStorage.getItem("user"),
                         course_name: name
                     })
                 }
@@ -136,7 +136,7 @@ const CourseInfo = ({username}) => {
         else{
             try{
                 await Axios.put(`http://localhost:3001/api/rating/${ratingIdEdit}`, {
-                    username: username,
+                    username: localStorage.getItem("user"),
                     score: scoreEdit,
                     comment: commentEdit,
                     rating_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
@@ -338,10 +338,10 @@ const CourseInfo = ({username}) => {
                                     </div> ) : ( <div> 
                                         <div>
                                         {/*THIS WRITTEN WITH BELIEF IS LOGGED IN WILL BE NULL IF NOT LOGGED IN AND WILL BE USERNAME IF LOGGED IN */}
-                                        {username === rating.Username ? <Button text="Edit" color="#7babe3" onClick={() => setIsEditRating(rating.Rating_id)}></Button> : '' }
+                                        {localStorage.getItem("user") === rating.Username ? <Button text="Edit" color="#7babe3" onClick={() => setIsEditRating(rating.Rating_id)}></Button> : '' }
                                         </div>
                                         <div>
-                                        {!username ? '' : <Button text="Delete" color="#7babe3" onClick={() => deleteRating(rating.Rating_id)}></Button>}
+                                        {!localStorage.getItem("user") ? '' : <Button text="Delete" color="#7babe3" onClick={() => deleteRating(rating.Rating_id)}></Button>}
                                         </div>
                                         {isCreateReport === rating.Rating_id? ( <div> 
                                             
