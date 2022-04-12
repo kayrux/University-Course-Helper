@@ -17,7 +17,6 @@ import { Navigate } from "react-router-dom";
 
 const App = () => {
     const [showLoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
-    const [username, setUsername] = useState("")
 
     // Updates whether user is logged in
     useEffect(() => {
@@ -27,7 +26,7 @@ const App = () => {
     // Logs in a user
     const login = (loginInfo) => {
         setLoggedAsAdmin(true) 
-        setUsername(loginInfo.username)
+        //setUsername(loginInfo.username)
         auth.login(() => {
             // Redirects to home page
             <Navigate to={"/"} />
@@ -42,7 +41,7 @@ const App = () => {
             <Navigate to={"/"} />
         })
         setLoggedAsAdmin(false) 
-        setUsername(null)
+        //setUsername(null)
     }
 
     //renders current page as well as persistent elements, such as navbar
@@ -64,7 +63,7 @@ const App = () => {
                     } />
                     <Route path="/edit-account" element={
                         <RequireAuth redirectTo="/">
-                            <EditAccountContainer username={username}/>
+                            <EditAccountContainer />
                         </RequireAuth>
                     } />
                     <Route path="/courses/:courseId" element={<CourseInfo />}></Route>
