@@ -42,6 +42,7 @@ const App = () => {
             <Navigate to={"/"} />
         })
         setLoggedAsAdmin(false) 
+        setUsername(null)
     }
 
     //renders current page as well as persistent elements, such as navbar
@@ -68,7 +69,7 @@ const App = () => {
                     } />
                     <Route path="/courses/:courseId" element={<CourseInfo />}></Route>
                     <Route path="/degrees/:degreeId" element={<DegreeInfo />}></Route>
-                    <Route path="/reports/:reportId" element={<ReportInfo />}></Route>
+                    <Route path="/reports/:reportId" element={showLoggedInAsAdmin ? <ReportInfo /> : <LoginContainer onLogin={login}/>}></Route>
                     <Route path="/professors/:professorId" element={<ProfessorInfo />}></Route>
                 </Routes>
                 <b>{showLoggedInAsAdmin ? <Footer loggedIn={showLoggedInAsAdmin}/> : "" } </b>

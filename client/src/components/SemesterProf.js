@@ -17,32 +17,34 @@ const SemesterProf = ({name, startYear, startTerm}) => {
                 setSemesterProfInfo(data)
             }
             getSemesterProf()
-    }, [])
+    }, [name,startYear,startTerm])
 
     // Print out information specific to the semester and prof being examinined
     return(
         <div>
             {semesterProfInfo.map((semProf) => {
                 return(
-                    <div>
-                        <br>
-                        </br>
+                    <div key={semProf.Prof_name} value={semProf}>
                         <div>
-                            <Link to={`/professors/${semProf.Prof_name}`}>{semProf.Prof_name}</Link>
-                        </div>
-                        <div>
-                            -Rating (rate my professor): {' '}
-                            {!!(semProf.Prof_rating)? semProf.Prof_rating : 'Not rated'}
-                        </div>
-                        <div>
-                            -Mode of delivery: {' '}
-                            {!!(semProf.Mode_of_delivery)? semProf.Mode_of_delivery : 'Not listed'}
-                        </div>
-                        <div>
-                            {!!(semProf.Rate_my_professor_link)? <a target="_blank" href={semProf.Rate_my_professor_link} > Rate my professor</a> : ''}
-                        </div>
-                        <div>
-                            {!!(semProf.Syllabus_link)? <a target="_blank" href={semProf.Syllabus_link} > Syllabus</a> : 'No syllabus provided'}
+                            <br>
+                            </br>
+                            <div>
+                                <Link to={`/professors/${semProf.Prof_name}`}>{semProf.Prof_name}</Link>
+                            </div>
+                            <div>
+                                -Rating (rate my professor): {' '}
+                                {!!(semProf.Prof_rating)? semProf.Prof_rating : 'Not rated'}
+                            </div>
+                            <div>
+                                -Mode of delivery: {' '}
+                                {!!(semProf.Mode_of_delivery)? semProf.Mode_of_delivery : 'Not listed'}
+                            </div>
+                            <div>
+                                {!!(semProf.Rate_my_professor_link)? <a target="_blank" rel="noopener noreferrer" href={semProf.Rate_my_professor_link} > Rate my professor</a> : ''}
+                            </div>
+                            <div>
+                                {!!(semProf.Syllabus_link)? <a target="_blank" rel="noopener noreferrer" href={semProf.Syllabus_link} > Syllabus</a> : 'No syllabus provided'}
+                            </div>
                         </div>
                     </div>
                 );

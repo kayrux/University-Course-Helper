@@ -22,7 +22,7 @@ const ProfInfo = () => {
             setProfInfo(data)
         }
         getProfessors()
-    }, [])
+    }, [name])
 
     useEffect(() => {
         const getCourses = async () => {
@@ -31,14 +31,14 @@ const ProfInfo = () => {
             setCourseInfo(data)
         }
         getCourses()
-    }, [])
+    }, [name])
 
     // Print out course info
     return (
         <div>
             {profInfo.map((prof) => {
                 return(
-                    <div>
+                    <div key={prof.Prof_name} value={prof}>
                         <h1>
                             {prof.Prof_name}
                         </h1> 
@@ -47,14 +47,14 @@ const ProfInfo = () => {
                             {!!(prof.Prof_rating)? prof.Prof_rating : 'Not rated'}
                         </div>
                         <div>
-                            {!!(prof.Rate_my_professor_link)? <a target="_blank" href={prof.Rate_my_professor_link} > Rate my professor</a> : ''}
+                            {!!(prof.Rate_my_professor_link)? <a target="_blank" rel="noopener noreferrer" href={prof.Rate_my_professor_link} > Rate my professor</a> : ''}
                         </div>
                         <h2>
                             Has offered
                         </h2>
                         {courseInfo.map((course) => {
                             return(
-                                <div>
+                                <div key={course.Course_name} value={course}>
                                     <Link to={`/courses/${course.Course_name}`}>{course.Course_name}</Link>
                                 </div>
                             );

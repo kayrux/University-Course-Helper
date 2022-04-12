@@ -10,18 +10,6 @@ import auth from "../context/Auth";
  * @returns
  */
 const Navbar = ({onLogout, loggedIn}) => {
-    //const [loggedIn, setLoggedIn] = useState(false)
-
-    // useEffect(() => {
-    //     const loggedInUser = localStorage.getItem("user")
-    //     //console.log("RUn")
-    //     if (loggedInUser) {
-    //         setLoggedIn(true)
-    //         console.log("User: " + loggedInUser)
-    //     } else {
-    //         setLoggedIn(false)
-    //     }
-    // }, [])
 
     return (
         <div className="navbar">

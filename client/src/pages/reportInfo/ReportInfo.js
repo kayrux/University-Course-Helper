@@ -16,7 +16,7 @@ const ReportInfo = () => {
     // Fetch the report information from the database
     useEffect(() => {
         const fetchReportInfo = async () => {
-            const reports = await Axios.get(`http://localhost:3001/api/reportList/${pathname}`)
+            const reports = await Axios.get(`http://localhost:3001/api/reportInfo/${pathname}`)
             const data = await reports.data
             setReportInfo(data)
         }
@@ -26,7 +26,7 @@ const ReportInfo = () => {
     // Fetch the rating information from the database
     useEffect(() => {
         const fetchRatingInfo = async () => {
-            const rating = await Axios.get(`http://localhost:3001/api/reportList/${pathname}/rating`)
+            const rating = await Axios.get(`http://localhost:3001/api/reportInfo/${pathname}/rating`)
             const data = await rating.data
             setRatingInfo(data)
         }
@@ -35,7 +35,7 @@ const ReportInfo = () => {
 
     // Delete Report
     const deleteReport = async (id) => {
-        await Axios.delete(`http://localhost:3001/api/reportList/${id}`)
+        await Axios.delete(`http://localhost:3001/api/reportInfo/${id}`)
     }
 
     // Delete Comment
@@ -58,7 +58,7 @@ const ReportInfo = () => {
                     <Link to="/reports">
                         <button onClick={() => deleteReport(report.Report_id)}
                             className="btn-delete">
-                            Delete Report
+                            Reject Report
                         </button>
                     </Link>
                     <hr />
@@ -79,7 +79,7 @@ const ReportInfo = () => {
                                     <Link to="/reports">
                                         <button onClick={() => deleteRating(rating.Rating_id)}
                                             className="btn-delete">
-                                            Delete Rating
+                                            Accept Report
                                         </button>
                                     </Link>
                                 </>

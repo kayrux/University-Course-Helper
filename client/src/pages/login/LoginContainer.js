@@ -81,9 +81,10 @@ const LoginContainer = ({onLogin}) => {
                 />
 
                 <input type="submit" value="Login" className="btn btn-block" />
-            </form>)}
+            </form>)
+        }
         </>
-        )
+    )
 }
 
 export default LoginContainer

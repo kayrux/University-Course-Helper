@@ -8,6 +8,7 @@ const DegreeList = () => {
     const [degreeListMajor, setDegreeListMajor] = useState([])
     const [degreeListMinor, setDegreeListMinor] = useState([])
     const [degreeListOther, setDegreeListOther] = useState([])
+    const [search, setSearch] = useState([])
 
     //This is used to tell ListDisplay which page to render the list (one of /,/professors,/faculties,/reports)
     const type = "degree"
@@ -44,23 +45,29 @@ const DegreeList = () => {
     //Call Listdisplay to render the list
     return(
         <div>
+            <input 
+                type="text" 
+                placeholder="Search Courses" 
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
             <h1>
                 Majors
             </h1>
             <div>
-                <ListDisplay list = {degreeListMajor} type = {type} />
+                <ListDisplay list = {degreeListMajor} type = {type} search = {search} />
             </div>
             <h1>
                 Minors
             </h1>
             <div>
-                <ListDisplay list = {degreeListMinor} type = {type} />
+                <ListDisplay list = {degreeListMinor} type = {type} search = {search} />
             </div>
             <h1>
                 Other
             </h1>
             <div>
-                <ListDisplay list = {degreeListOther} type = {type} />
+                <ListDisplay list = {degreeListOther} type = {type} search = {search} />
             </div>
         </div>
     )

@@ -314,7 +314,7 @@ app.get("/api/degreeInfo/:degree_name/coursesOptional", (req, res) => {
 app.get("/api/rating/:course_name", (req, res) => {
     const course_name = req.params.course_name
     const sqlSelect = (
-        "SELECT r.Comment, r.Score, r.Rating_date, r.Username " +
+        "SELECT r.Rating_id, r.Comment, r.Score, r.Rating_date, r.Username " +
         "FROM RATING as r " +
         "WHERE r.Course_name = ?" )
     db.query(sqlSelect, course_name, (err, result) => {
@@ -347,11 +347,9 @@ app.post("/api/rating/:course_name", (req, res) => {
 
 // Tested: working
 // 5.2 Edit Rating
-// The administrator account can edit/modify ratings made by users of the website. 
-app.put("/api/rating/:course_name/:rating_id", (req, res) => {
-    const course_name = req.params.course_name
+// The administrator account can edit/modify theor own ratings. 
+app.put("/api/rating/:rating_id", (req, res) => {
     const rating_id = req.params.rating_id
-
     const username = req.body.username
     const comment = req.body.comment
     const score = req.body.score
@@ -406,7 +404,7 @@ app.get("/api/reportList", (req, res) => {
 // Tested (Database-v8): working
 // 6.2 View specific report
 // Administrator account can view information about a specific report that is stored in the database. 
-app.get("/api/reportList/:report_id", (req, res) => {
+app.get("/api/reportInfo/:report_id", (req, res) => {
     const report_id = req.params.report_id
     const sqlSelect = "SELECT * FROM REPORT WHERE Report_id=?"
     db.query(sqlSelect, report_id, (err, result) => {
@@ -421,7 +419,7 @@ app.get("/api/reportList/:report_id", (req, res) => {
 // Tested (Database-v8): working
 // 6.3 Specific report rating
 // View information for the specific rating the report pertains to
-app.get("/api/reportList/:report_id/rating", (req, res) => {
+app.get("/api/reportInfo/:report_id/rating", (req, res) => {
     const report_id = req.params.report_id
     const sqlSelect = "SELECT rt.Rating_id, rt.Comment, rt.Score, rt.Rating_date, rt.Username, rt.Course_name " + 
         "FROM REPORT AS rp NATURAL JOIN RATING AS rt " + 
@@ -438,7 +436,7 @@ app.get("/api/reportList/:report_id/rating", (req, res) => {
 // Tested (Database-v8): working
 // 6.4 Create report
 // Users of the website can create a report for comments that they believe should be removed from the website.
-app.post("/api/reportList", (req, res) => {
+app.post("/api/reportInfo", (req, res) => {
     const reason = req.body.reason
     const report_date = req.body.report_date
     const rating_id = req.body.rating_id
@@ -454,8 +452,8 @@ app.post("/api/reportList", (req, res) => {
 
 // Tested (Database-v8): working
 // 6.5 Delete report
-// Administrator account has the ability to delete a report to reject it. 
-app.delete("/api/reportList/:report_id", (req, res) => {
+// Administrator account has the ability to delete a report or to reject it. 
+app.delete("/api/reportInfo/:report_id", (req, res) => {
     const report_id = req.params.report_id
     const sqlDelete = "DELETE FROM REPORT WHERE Report_id = ?"
     db.query(sqlDelete, report_id, (err, result) => {

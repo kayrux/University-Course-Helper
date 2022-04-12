@@ -6,6 +6,7 @@ const ProfessorList = () => {
 
     //This is the list of professors to be displayed
     const [professorList, setProfessorList] = useState([])
+    const [search, setSearch] = useState([])
 
     //This is used to tell ListDisplay which page to render the list (one of /,/professors,/faculties,/reports)
     const type = "professor"
@@ -23,7 +24,13 @@ const ProfessorList = () => {
     //Call Listdisplay to render the list
     return(
         <div>
-            <ListDisplay list = {professorList} type = {type} />
+            <input 
+                type="text" 
+                placeholder="Search Courses" 
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
+            <ListDisplay list = {professorList} type = {type} search = {search} />
         </div>
     )
 }
