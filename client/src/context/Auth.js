@@ -1,8 +1,5 @@
 
 class Auth {
-    constructor() {
-        this.authenticated = false
-    }
 
     login(cb, loginInfo) {
         localStorage.setItem("user", loginInfo.username)
