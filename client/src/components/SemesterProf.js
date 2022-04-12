@@ -9,7 +9,7 @@ const SemesterProf = ({name, startYear, startTerm}) => {
     // Setup state hooks to store data gotten from api calls
     const [semesterProfInfo, setSemesterProfInfo] = useState([])
 
-    // Call apis (for more info on what each does look at client > index.js)
+    // Call apis (for more info on what each does look at client > index.js) 
     useEffect(() => {
             const getSemesterProf = async () => {
                 const courses = await Axios.get(`http://localhost:3001/api/courseInfo/${name}/${startYear}/${startTerm}/professor`)
