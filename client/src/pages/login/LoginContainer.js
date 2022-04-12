@@ -1,5 +1,7 @@
 import { useState } from "react"
 import Axios from "axios"
+import auth from "../../context/Auth"
+import { Navigate } from "react-router-dom"
 
 // onLogin is called when the user succesfully logs in
 const LoginContainer = ({onLogin}) => {
@@ -12,7 +14,6 @@ const LoginContainer = ({onLogin}) => {
     const verifyPassword = (passwords) => {
         if (passwords[0] === password && passwords[0] !== "") {
             onLogin({username, password})
-            
             setLoggedIn(true)
             setLoginError(false)
         } else {
@@ -56,7 +57,7 @@ const LoginContainer = ({onLogin}) => {
     return (
         <>
             {loggedIn ? (
-                <h2>Welcome</h2>
+                <Navigate to={"/"} />
             ) : (
             <form className="login-form" onSubmit={onSubmit}>
                 <h1>Sign in</h1>

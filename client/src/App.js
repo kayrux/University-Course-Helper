@@ -12,23 +12,35 @@ import CourseInfo from "./pages/courseInfo/CourseInfo";
 import DegreeInfo from "./pages/degreeInfo/DegreeInfo";
 import ReportInfo from "./pages/reportInfo/ReportInfo";
 import ProfessorInfo from "./pages/professorInfo/ProfessorInfo";
+import auth from "./context/Auth";
+import { Navigate } from "react-router-dom";
 
 const App = () => {
     const [showLoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
     const [username, setUsername] = useState("")
 
-    // TO DO: interacts with database to verify before logging in
+    // Updates whether user is logged in
+    useEffect(() => {
+        {auth.isAuthenticated() ? setLoggedAsAdmin(true): setLoggedAsAdmin(false)}
+    }, [])
+
+    // Logs in a user
     const login = (loginInfo) => {
-        
         setLoggedAsAdmin(true) 
         setUsername(loginInfo.username)
-        localStorage.setItem("user", loginInfo.username) // Store username in local storage
+        auth.login(() => {
+            // Redirects to home page
+            <Navigate to={"/"} />
+        }, loginInfo);
         console.log("Logging in: " + loginInfo.username)
     }
 
     const logout = (loginInfo) => {
         console.log("Logging out")
-        localStorage.clear() // Clear local storage
+        auth.logout(() => {
+            // Redirects to home page
+            <Navigate to={"/"} />
+        })
         setLoggedAsAdmin(false) 
     }
 
@@ -41,9 +53,19 @@ const App = () => {
                     <Route path="/" element={<CourseList />}></Route>
                     <Route path="/professors" element={<ProfessorList />}></Route>
                     <Route path="/degrees" element={<DegreeList />}></Route>
-                    <Route path="/reports" element={<ReportList />}></Route>
-                    <Route path="/login" element={<LoginContainer onLogin={login}/>}></Route>
-                    <Route path="/edit-account" element={<EditAccountContainer username={username}/>}></Route>
+                    <Route path="/reports" element={
+                        <RequireAuth redirectTo="/login">
+                            <ReportList />
+                        </RequireAuth>
+                    } />
+                    <Route path="/login" element={
+                            <LoginContainer onLogin={login}/>
+                    } />
+                    <Route path="/edit-account" element={
+                        <RequireAuth redirectTo="/">
+                            <EditAccountContainer username={username}/>
+                        </RequireAuth>
+                    } />
                     <Route path="/courses/:courseId" element={<CourseInfo />}></Route>
                     <Route path="/degrees/:degreeId" element={<DegreeInfo />}></Route>
                     <Route path="/reports/:reportId" element={<ReportInfo />}></Route>
@@ -54,5 +76,16 @@ const App = () => {
         </Router>
     )
 }
+
+// Makes sure a user is authenticated before allowing them to access a route
+function RequireAuth({ children, redirectTo } ) {
+    let isAuthenticated = auth.isAuthenticated()
+    return isAuthenticated ? children : <Navigate to={redirectTo} />;
+}
+
+// function RequireNotAuth({ children, redirectTo } ) {
+//     let isAuthenticated = auth.isAuthenticated()
+//     return (!auth.isAuthenticated()) ? children : <Navigate to={redirectTo} />;
+// }
 
 export default App;

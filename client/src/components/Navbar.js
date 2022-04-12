@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
+import auth from "../context/Auth";
 
 /**
  * 
@@ -8,19 +9,19 @@ import Button from "./Button";
  * @param loggedIn whether or not the user is logged in 
  * @returns
  */
-const Navbar = ({onLogout}) => {
-    const [loggedIn, setLoggedIn] = useState(false)
+const Navbar = ({onLogout, loggedIn}) => {
+    //const [loggedIn, setLoggedIn] = useState(false)
 
-    useEffect(() => {
-        const loggedInUser = localStorage.getItem("user")
-        //console.log("RUn")
-        if (loggedInUser) {
-            setLoggedIn(true)
-            console.log("User: " + loggedInUser)
-        } else {
-            setLoggedIn(false)
-        }
-    }, [])
+    // useEffect(() => {
+    //     const loggedInUser = localStorage.getItem("user")
+    //     //console.log("RUn")
+    //     if (loggedInUser) {
+    //         setLoggedIn(true)
+    //         console.log("User: " + loggedInUser)
+    //     } else {
+    //         setLoggedIn(false)
+    //     }
+    // }, [])
 
     return (
         <div className="navbar">
