@@ -66,7 +66,7 @@ const ReportInfo = () => {
                     {ratingInfo.length > 0 ? (
                         <>{ratingInfo.map((rating) => {
                             return (
-                                <>
+                                <div key={rating.Rating_id} value={rating}>
                                     <h1>Rating Reported</h1>
                                     <h3>Course Name and Number</h3>
                                     <p>{rating.Course_name}</p>
@@ -82,7 +82,7 @@ const ReportInfo = () => {
                                             Accept Report
                                         </button>
                                     </Link>
-                                </>
+                                </div>
                             )
                         })}</>
                     ) : <p>Comment Removed</p>}
