@@ -49,7 +49,7 @@ const ReportInfo = () => {
             {/* Display report info */}
             {reportInfo.map((report) => {
             return(
-                <div>
+                <div key={report.Report_id} value={report}>
                     <h1>Report Information</h1>
                     <h3>Report Reason</h3>
                     <p>{report.Reason}</p>
