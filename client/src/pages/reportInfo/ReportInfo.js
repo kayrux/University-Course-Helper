@@ -54,7 +54,7 @@ const ReportInfo = () => {
                     <h3>Report Reason</h3>
                     <p>{report.Reason}</p>
                     <h3>Date</h3>
-                    <p>{report.Report_date}</p>
+                    <p>{report.Report_date.slice(0, 10)}</p>
                     <Link to="/reports">
                         <button onClick={() => deleteReport(report.Report_id)}
                             className="btn-delete">
@@ -66,7 +66,7 @@ const ReportInfo = () => {
                     {ratingInfo.length > 0 ? (
                         <>{ratingInfo.map((rating) => {
                             return (
-                                <>
+                                <div key={rating.Rating_id} value={rating}>
                                     <h1>Rating Reported</h1>
                                     <h3>Course Name and Number</h3>
                                     <p>{rating.Course_name}</p>
@@ -75,14 +75,14 @@ const ReportInfo = () => {
                                     <h3>Comment</h3>
                                     <p>{rating.Comment}</p>
                                     <h3>Date</h3>
-                                    <p>{rating.Rating_date}</p>
+                                    <p>{rating.Rating_date.slice(0, 10)}</p>
                                     <Link to="/reports">
                                         <button onClick={() => deleteRating(rating.Rating_id)}
                                             className="btn-delete">
                                             Accept Report
                                         </button>
                                     </Link>
-                                </>
+                                </div>
                             )
                         })}</>
                     ) : <p>Comment Removed</p>}
