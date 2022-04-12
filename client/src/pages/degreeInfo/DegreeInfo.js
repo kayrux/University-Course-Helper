@@ -48,12 +48,12 @@ const DegreeInfo = () => {
         <div>
             {degreeInfo.map((degree) => {
                 return(
-                    <div>
+                    <div key={degree.Degree_name} value={degree}>
                         <h1>
                             {degree.Degree_name}
                         </h1> 
                         <div>
-                            <a target="_blank" href={degree.Degree_link} > Detailed degree information</a>
+                            <a target="_blank" rel="noopener noreferrer" href={degree.Degree_link} > Detailed degree information</a>
                         </div>
                         {/* only print courses if looking at major or minor degree, not other (which has flag 3) */}
                         {degree.Flag === 3?
@@ -64,9 +64,9 @@ const DegreeInfo = () => {
                                 Required courses
                             </h2>
                         }
-                        {requiredCourseInfo.map((course) => {
+                        {requiredCourseInfo.map((course) => { 
                             return(
-                                <div>
+                                <div key={course.Course_name} value={course}>
                                     <Link to={`/courses/${course.Course_name}`}>{course.Course_name}</Link>
                                 </div>
                             );
@@ -81,7 +81,7 @@ const DegreeInfo = () => {
                         }
                         {optionalCourseInfo.map((course) => {
                             return(
-                                <div>
+                                <div key={course.Course_name} value={course}>
                                     <Link to={`/courses/${course.Course_name}`}>{course.Course_name}</Link>
                                 </div>
                             );

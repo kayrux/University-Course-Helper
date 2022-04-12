@@ -86,12 +86,12 @@ const CourseInfo = ({username}) => {
         else{
             if(!username){
                 try{
-                    const rating = await Axios.post(`http://localhost:3001/api/rating/${name}`, {
+                    await Axios.post(`http://localhost:3001/api/rating/${name}`, {
                         score,
                         comment,
                         rating_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
                         username: null,
-                        course_name: 'Cpsc 331'
+                        course_name: name
                     })
                 }
                 catch(err) {
@@ -99,12 +99,12 @@ const CourseInfo = ({username}) => {
             }
             else{
                 try{
-                    const rating = await Axios.post(`http://localhost:3001/api/rating/${name}`, {
+                    await Axios.post(`http://localhost:3001/api/rating/${name}`, {
                         score,
                         comment,
                         rating_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
                         username: username,
-                        course_name: 'Cpsc 331'
+                        course_name: name
                     })
                 }
                 catch(err) {
@@ -135,7 +135,7 @@ const CourseInfo = ({username}) => {
         }
         else{
             try{
-                const rating = await Axios.put(`http://localhost:3001/api/rating/${ratingIdEdit}`, {
+                await Axios.put(`http://localhost:3001/api/rating/${ratingIdEdit}`, {
                     username: username,
                     score: scoreEdit,
                     comment: commentEdit,
@@ -173,7 +173,7 @@ const CourseInfo = ({username}) => {
             e.preventDefault();
             try{
                 alert("Report Submitted")
-                const rating = await Axios.post(`http://localhost:3001/api/reportInfo`, {
+                await Axios.post(`http://localhost:3001/api/reportInfo`, {
                     reason: reportReason,
                     report_date: new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 10),
                     rating_id: ratingIdReport,
@@ -190,7 +190,7 @@ const CourseInfo = ({username}) => {
             {/*generic course info */}
             {courseInfo.map((course) => {
                 return(
-                    <div>
+                    <div key={course.Course_name} value={course}>
                         <h1>
                             {course.Course_name}
                         </h1>
@@ -219,7 +219,7 @@ const CourseInfo = ({username}) => {
                         {/*course info for each semester taught*/}
                         {semesterInfo.map((sem) => {
                             return(
-                                <div>
+                                <div key={[sem.Sem_start_year, sem.Sem_start_term]} value={sem}>
                                     <h3>
                                         {sem.Sem_start_year} {' '}
                                         {sem.Sem_start_term}
@@ -244,7 +244,7 @@ const CourseInfo = ({username}) => {
                         {/*info on how the course related to degrees*/}
                         {degreeRequiredInfo.map((required) => {
                             return(
-                                <div>
+                                <div key={required.Degree_name} value={required}>
                                     <Link to={`/degrees/${required.Degree_name}`}>{required.Degree_name}</Link>
                                 </div>
                             );
@@ -254,7 +254,7 @@ const CourseInfo = ({username}) => {
                         </h3>
                         {degreeOptionalInfo.map((optional) => {
                             return(
-                                <div>
+                                <div key={optional.Degree_name} value={optional}>
                                     <Link to={`/degrees/${optional.Degree_name}`}>{optional.Degree_name}</Link>
                                 </div>
                             );
@@ -266,7 +266,7 @@ const CourseInfo = ({username}) => {
 
                                 <label>
                                     Rate this class: {' '}
-                                    <select value={score || null} onChange={(e) => {setScore(e.target.value || null )}}>  
+                                    <select value={score || ""} onChange={(e) => {setScore(e.target.value || "" )}}>  
                                         <option value = ""> </option>          
                                         <option value = "1"> 1 </option>
                                         <option value = "2"> 2 </option>
@@ -292,7 +292,7 @@ const CourseInfo = ({username}) => {
                         <hr />
                         {getRatings.map((rating) => {
                             return(
-                                <div>
+                                <div key={rating.Rating_id} value={rating}>
                                     {/*list all ratings for the given class*/}                     
                                     <div>
                                         Posted: {' '}
@@ -311,8 +311,8 @@ const CourseInfo = ({username}) => {
                                         {/*form for editing ratings when edit button is pressed*/} 
                                         <form className="rating-form" onSubmit={editRating}>  
                                             <label>
-                                                Edit score: {' '}
-                                                <select value={scoreEdit || null} onChange={(e) => {setScoreEdit(e.target.value || null )}}>  
+                                                New score: {' '}
+                                                <select value={scoreEdit || ""} onChange={(e) => {setScoreEdit(e.target.value || "" )}}>  
                                                     <option value = ""> </option>          
                                                     <option value = "1"> 1 </option>
                                                     <option value = "2"> 2 </option>
@@ -326,7 +326,7 @@ const CourseInfo = ({username}) => {
                                                 className="comment-input"
                                                 type="text" 
                                                 maxLength="255"
-                                                placeholder="Edit comment" 
+                                                placeholder="New Comments" 
                                                 value={commentEdit}
                                                 onChange={(e) =>
                                                     setCommentEdit(e.target.value)}
@@ -350,7 +350,7 @@ const CourseInfo = ({username}) => {
                                             <form onSubmit={createReport}>  
                                                 <label>
                                                     Reason for report: {' '}
-                                                    <select value={reportReason || null} onChange={(e) => {setReportReason(e.target.value || null )}}>  
+                                                    <select value={reportReason || ""} onChange={(e) => {setReportReason(e.target.value || "" )}}>  
                                                         <option value = ""> </option>          
                                                         <option value = "Spam"> Spam </option>
                                                         <option value = "False/Misleading"> False/Misleading </option>
