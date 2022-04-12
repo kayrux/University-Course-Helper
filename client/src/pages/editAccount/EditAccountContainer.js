@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Axios from "axios"
 
-const EditAccountContainer = ({ username }) => {
+const EditAccountContainer = () => {
     const [newPassword, setNewPassword] = useState("")
     const [newUsername, setNewUsername] = useState("")
     const [success, setSuccess] = useState(false)
