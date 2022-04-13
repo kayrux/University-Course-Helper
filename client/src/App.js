@@ -74,9 +74,9 @@ function RequireAuth({ children, redirectTo } ) {
     return isAuthenticated ? children : <Navigate to={redirectTo} />;
 }
 
-// function RequireNotAuth({ children, redirectTo } ) {
-//     let isAuthenticated = auth.isAuthenticated()
-//     return (!auth.isAuthenticated()) ? children : <Navigate to={redirectTo} />;
-// }
+function RequireNotAuth({ children, redirectTo } ) {
+    let isAuthenticated = auth.isAuthenticated()
+    return (!isAuthenticated) ? children : <Navigate to={redirectTo} />;
+}
 
 export default App;
