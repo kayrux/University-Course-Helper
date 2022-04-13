@@ -529,16 +529,3 @@ app.delete("/api/reportInfo/:report_id", (req, res) => {
         res.send(result)
     });
 })
-
-// Administrator account has the ability to delete a rating. 
-app.delete("/api/reportList/:report_id/rating", (req, res) => {
-    const Rating_id = req.body.Rating_id
-    const sqlDelete = "DELETE FROM RATING WHERE Rating_id = ?"
-    db.query(sqlDelete, Rating_id, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
-    });
-})
