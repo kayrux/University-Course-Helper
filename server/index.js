@@ -17,7 +17,6 @@ app.use(cors())
 app.use(express.json()) // For parsing application/json
 app.use(bodyParser.urlencoded({extended: true})) // For parsing application/x-www-form-urlencoded
 
-//original
 db.connect(function(err) {
     if (err) {
       return console.error('error: ' + err.message);
@@ -29,36 +28,104 @@ app.listen(3001, () => {
     console.log("running");
 });
 
+//setting up for bycrypt
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 // -------------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------- Admin Account --------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------------
 
-// Tested (Database-v11): working
-// 1.3 Edit Account 
-// User has the ability to edit/update your account information.
-app.put("/api/user/:username", (req, res) => {
-    const currentUsername = req.params.username
-    const newUsername = req.body.newUsername
-    const newPassword = req.body.newPassword
+// Allow users to create a account
+app.post("/api/user", (req, res) => {
+    encryptCreate(req, res)
+});
 
-    const sqlInsert = "UPDATE ADMIN_ACCOUNT AS a SET a.Password=?, a.Username=? WHERE a.Username=?"
-    db.query(sqlInsert, [newPassword, newUsername, currentUsername], (err, result) => {
-        if (err) console.log(err)
-    })
-})
+//creating seperate function to use await for bycrypt
+async function encryptCreate(req, res){
+    const username = req.body.username
+    const password = req.body.password
 
-// Tested: working
-// Find the password and account_id relating to the username.
-// Changed from /api/username to /api/password
-app.get("/api/password/:username", (req, res) => {
-    const username = req.params.username
-    const sqlSelect = "SELECT a.Password FROM ADMIN_ACCOUNT AS a WHERE a.Username = ?"
-    db.query(sqlSelect, username, (err, result) => {
+    const encryptedPassword = await bcrypt.hash(password, saltRounds)
+
+    const sqlInsert = "INSERT INTO ADMIN_ACCOUNT (Username, Password) VALUES (?,?)"
+    db.query(sqlInsert, [username, encryptedPassword], (err, result) => {
         if(err){
             console.log("error:", err)
             res.sendStatus(null, err)
         }
         res.send(result)
+    });
+}
+
+// Tested (Database-v11): working
+// 1.3 Edit Account 
+// User has the ability to edit/update your account information.
+app.put("/api/user/:username", (req, res) => {
+    encryptEdit(req, res)
+});
+
+//creating seperate function to use await for bycrypt
+async function encryptEdit(req, res){
+    const currentUsername = req.params.username
+    const newUsername = req.body.newUsername
+    const newPassword = req.body.newPassword
+
+    const encryptedNewPassword = await bcrypt.hash(newPassword, saltRounds)
+
+    //deal with case of user entering same username they already had
+    if(newUsername != currentUsername){
+        const sqlInsert = "UPDATE ADMIN_ACCOUNT AS a SET a.Password=?, a.Username=? WHERE a.Username=?"
+        db.query(sqlInsert, [encryptedNewPassword, newUsername, currentUsername], (err, result) => {
+            if (err) {
+                console.log(err)
+                res.sendStatus(null,err)
+            }
+            res.send(result)
+        })
+    }
+    //deal with case of user entering new username
+    else{
+        const sqlInsert = "UPDATE ADMIN_ACCOUNT AS a SET a.Password=? WHERE a.Username=?"
+        db.query(sqlInsert, [encryptedNewPassword, currentUsername], (err, result) => {
+            if (err) {
+                console.log(err)
+                res.sendStatus(null,err)
+            }
+            res.send(result)
+        })
+    }
+}
+
+// Tested: working
+// Find the password relating to the username.
+// Changed from /api/username to /api/password
+app.get("/api/user/:username/:password", (req, res) => {
+    const username = req.params.username
+    const password = req.params.password
+    const sqlSelect = "SELECT a.Password FROM ADMIN_ACCOUNT AS a WHERE a.Username = ?"
+    db.query(sqlSelect, [username], async function (err, result) { //creating seperate function to use await for bycrypt
+        if(err){
+            console.log("error:", err)
+            res.sendStatus(null, err)
+        }
+
+        //username is not in database, resulting in no password being retrived so check is false
+        let hasPassword = true
+        try{
+            result[0].password == null
+        }
+        catch{
+            hasPassword = false
+            console.log(false)
+            res.send(false)
+        }
+
+        //if username was in databse check if corasponding password matches
+        if(hasPassword == true){
+            const Check = await bcrypt.compare(password, result[0].Password)
+            res.send(Check)
+        }
     });
 })
 
@@ -67,12 +134,6 @@ app.get("/api/password/:username", (req, res) => {
 // ------------------------------------------------------------------------------------------------------------
 
 //NOTE: have not tested the chunk of code:
-/*
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-*/
 
 // 2.1 List of courses
 // View a list of all courses
@@ -342,12 +403,13 @@ app.post("/api/rating/:course_name", (req, res) => {
             console.log("error:", err)
             res.sendStatus(null, err)
         }
+        res.send(result)
     });
 });
 
 // Tested: working
 // 5.2 Edit Rating
-// The administrator account can edit/modify theor own ratings. 
+// The administrator account can edit/modify their own ratings. 
 app.put("/api/rating/:rating_id", (req, res) => {
     const rating_id = req.params.rating_id
     const username = req.body.username
@@ -365,6 +427,7 @@ app.put("/api/rating/:rating_id", (req, res) => {
             console.log("error:", err)
             res.sendStatus(null, err)
         }
+        res.send(result)
     });
 });
 
@@ -380,6 +443,7 @@ app.delete("/api/rating/:rating_id", (req, res) => {
             console.log("error:", err)
             res.sendStatus(null, err)
         }
+        res.send(result)
     });
 })
 
@@ -447,6 +511,7 @@ app.post("/api/reportInfo", (req, res) => {
             console.log("error:", err)
             res.sendStatus(null, err)
         }
+        res.send(result)
     });
 });
 
@@ -461,6 +526,7 @@ app.delete("/api/reportInfo/:report_id", (req, res) => {
             console.log("error:", err)
             res.sendStatus(null, err)
         }
+        res.send(result)
     });
 })
 
@@ -473,5 +539,6 @@ app.delete("/api/reportList/:report_id/rating", (req, res) => {
             console.log("error:", err)
             res.sendStatus(null, err)
         }
+        res.send(result)
     });
 })

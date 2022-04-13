@@ -60,9 +60,16 @@ const DegreeInfo = () => {
                             <h2>
                                 Courses not listed for other degrees
                             </h2> :
-                            <h2>
-                                Required courses
-                            </h2>
+                            <>
+                                <h2>
+                                    Required courses
+                                </h2>
+                                <div>
+                                    *note some required courses may not actually be manditory to complete the degree,
+                                    and instead may be replaced with a different required course to complete the degree
+                                    check detailed degree information for more details
+                                </div>
+                            </>
                         }
                         {requiredCourseInfo.map((course) => { 
                             return(

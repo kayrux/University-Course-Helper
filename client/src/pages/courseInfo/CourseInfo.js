@@ -241,6 +241,11 @@ const CourseInfo = ({username}) => {
                         <h3>
                             Required for:
                         </h3>
+                        <div>
+                            *note some required courses may not actually be manditory to complete the degree,
+                            and instead may be replaced with a different required course to complete the degree
+                            check detailed degree information on the corasponding degree page for more details
+                        </div>
                         {/*info on how the course related to degrees*/}
                         {degreeRequiredInfo.map((required) => {
                             return(
