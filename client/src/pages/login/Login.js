@@ -27,7 +27,7 @@ const Login = ({onLogin}) => {
         const check = await Axios.get(`http://localhost:3001/api/user/${username}/${password}`)
         const data = await check.data
 
-        //recording if logged in
+        // Log in if passowrd is accurate
         if (data == true){
             onLogin({username}) //NOTE this used to be {username,password} is something breaks take a peek
             setLoggedIn(true)
@@ -43,10 +43,12 @@ const Login = ({onLogin}) => {
 
     return (
         <>
+            {/* If already logged in return user to homepage (courselist) */}
             {loggedIn ? (
                 <Navigate to={"/"} />
             ) : (
             <form className="login-form" onSubmit={onSubmit}>
+            {/* If not already logged in create form to rerieve username and password input */}
                 <h1>Sign in</h1>
                 
                 {loginError && (<p className="err">Incorrect username or password</p>)}

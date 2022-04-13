@@ -6,7 +6,7 @@ const ListDisplay = ({list,type,search}) => {
     //determine which page the list is being displayed on to determine where the link should lead
     if (type === "course"){
         //returns every course name in the given list and turns them into links to the corasponding course page
-        //(note all other if statements below do the same, just with a different path)
+        //(note all other if statements below do the same thing, just with a different path)
         return (
             <div>
                 {list.map((val) => {

@@ -5,7 +5,7 @@ import Axios from "axios"
 import { Link } from "react-router-dom";
 
 const DegreeInfo = () => {
-    //
+    
     // Read the URL for the course name
     const location = useLocation()
     const name = decodeURI(location.pathname.split("/")[2]);
@@ -15,7 +15,7 @@ const DegreeInfo = () => {
     const [requiredCourseInfo, setRequiredCourseInfo] = useState([])
     const [optionalCourseInfo, setOptionalCourseInfo] = useState([])
 
-    // Call apis (for more info on what each does look at client > index.js)
+    // Call get apis (for more info on what each does look at client > index.js)
     useEffect(() => {
         const getDegrees = async () => {
             const degrees = await Axios.get(`http://localhost:3001/api/degreeInfo/${name}`)

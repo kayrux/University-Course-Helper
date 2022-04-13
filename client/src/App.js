@@ -23,7 +23,7 @@ const App = () => {
         auth.isAuthenticated() ? setLoggedAsAdmin(true): setLoggedAsAdmin(false)
     }, [])
 
-    // Logs in a user
+    // Login a user
     const login = (loginInfo) => {
         setLoggedAsAdmin(true) 
         auth.login(() => {
@@ -33,6 +33,7 @@ const App = () => {
         console.log("Logging in: " + loginInfo.username)
     }
 
+    // Logout a user
     const logout = (loginInfo) => {
         console.log("Logging out")
         auth.logout(() => {
@@ -42,7 +43,7 @@ const App = () => {
         setLoggedAsAdmin(false) 
     }
 
-    //renders current page as well as persistent elements, such as navbar
+    // Renders current page as well as persistent elements, such as navbar
     return ( 
         <Router>
             <div className="container">
@@ -73,10 +74,5 @@ function RequireAuth({ children, redirectTo } ) {
     let isAuthenticated = auth.isAuthenticated()
     return isAuthenticated ? children : <Navigate to={redirectTo} />;
 }
-
-// function RequireNotAuth({ children, redirectTo } ) {
-//     let isAuthenticated = auth.isAuthenticated()
-//     return (!auth.isAuthenticated()) ? children : <Navigate to={redirectTo} />;
-// }
 
 export default App;

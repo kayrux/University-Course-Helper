@@ -1,4 +1,5 @@
 
+// Used to store the username in a local variable to check if the user is logged in (athenticated)
 class Auth {
     constructor() {
         this.authenticated = false
@@ -23,7 +24,6 @@ class Auth {
             console.log("Logged in")
             return true
         }
-        //return this.authenticated
     }
 
 }
