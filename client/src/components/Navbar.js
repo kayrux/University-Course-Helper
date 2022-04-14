@@ -10,6 +10,7 @@ import Button from "./Button";
  */
 const Navbar = ({onLogout, loggedIn}) => {
 
+    // Return a list of links to be displayed on the navbar
     return (
         <div className="navbar">
             <div className="links">

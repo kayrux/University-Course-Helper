@@ -6,6 +6,7 @@ const EditAccount = () => {
     const [newUsername, setNewUsername] = useState("")
     const [success, setSuccess] = useState(false)
 
+    // When user submits username and password make sure they exist
     const onSubmit = (e) => {
         e.preventDefault()
 
@@ -19,7 +20,7 @@ const EditAccount = () => {
             return
         }
 
-        // Update database
+        // Attempt to edit account using inputted new username and new password
         try {
             Axios.put(`http://localhost:3001/api/user/${localStorage.getItem("user")}`, {newUsername, newPassword})
             localStorage.setItem("user", newUsername) // Update username in local storage
@@ -35,6 +36,7 @@ const EditAccount = () => {
     }
 
     return (
+        // Form to retrieve inputed username and password from user
         <form className="login-form" onSubmit={onSubmit}>
             <h1>Edit Account</h1>
             {success && <p>Account Updated</p>}

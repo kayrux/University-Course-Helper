@@ -28,7 +28,7 @@ const CourseInfo = ({username}) => {
     const [ratingIdReport, setRatingIdReport] = useState("")
     const [reportReason, setReportReason] = useState("")
 
-    // Call apis (for more info on what each does look at client > index.js)
+    // Call get apis (for more info on what each does look at client > index.js)
     useEffect(() => {
         const getCourses = async () => {
             const courses = await Axios.get(`http://localhost:3001/api/courseInfo/${name}`)

@@ -43,10 +43,12 @@ const Login = ({onLogin}) => {
 
     return (
         <>
+            {/* If already logged in return user to homepage (courselist) */}
             {loggedIn ? (
                 <Navigate to={"/"} />
             ) : (
             <form className="login-form" onSubmit={onSubmit}>
+            {/* If not already logged in create form to rerieve username and password input */}
                 <h1>Sign in</h1>
                 
                 {loginError && (<p className="err">Incorrect username or password</p>)}

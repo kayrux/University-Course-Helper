@@ -6,6 +6,7 @@ const CreateAccount = () => {
     const [Username, setUsername] = useState("")
     const [success, setSuccess] = useState(false)
 
+    // When user submits username and password make sure they exist
     const onSubmit = (e) => {
         e.preventDefault()
 
@@ -19,7 +20,7 @@ const CreateAccount = () => {
             return
         }
 
-        // Update database
+        // Attempt to create account using inputted username and password
         try {
             Axios.post(`http://localhost:3001/api/user/`, {
                 username : Username,
@@ -37,6 +38,7 @@ const CreateAccount = () => {
     }
 
     return (
+        // Form to retrieve inputed username and password from user
         <form className="login-form" onSubmit={onSubmit}>
             <h1>Create Account</h1>
             <div>
