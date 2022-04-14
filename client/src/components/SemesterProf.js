@@ -29,14 +29,14 @@ const SemesterProf = ({name, startYear, startTerm}) => {
                             <br>
                             </br>
                             <div>
-                                <Link to={`/professors/${semProf.Prof_name}`}>{semProf.Prof_name}</Link>
+                                <Link to={`/professors/${semProf.Prof_name}`} style={{ textDecoration: 'none' }}>{semProf.Prof_name}</Link>
                             </div>
                             <div>
-                                -Rating (rate my professor): {' '}
+                                Rating (rate my professor): {' '}
                                 {!!(semProf.Prof_rating)? semProf.Prof_rating : 'Not rated'}
                             </div>
                             <div>
-                                -Mode of delivery: {' '}
+                                Mode of delivery: {' '}
                                 {!!(semProf.Mode_of_delivery)? semProf.Mode_of_delivery : 'Not listed'}
                             </div>
                             <div>

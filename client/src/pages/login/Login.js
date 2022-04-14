@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Axios from "axios"
 import { Navigate } from "react-router-dom"
 
@@ -28,7 +28,7 @@ const Login = ({onLogin}) => {
         const data = await check.data
 
         // Log in if passowrd is accurate
-        if (data == true){
+        if (data === true){
             onLogin({username}) //NOTE this used to be {username,password} is something breaks take a peek
             setLoggedIn(true)
             setLoginError(false)

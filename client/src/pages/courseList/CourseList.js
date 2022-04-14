@@ -25,13 +25,17 @@ const CourseList = () => {
     // Call Listdisplay to render the list
     return(
         <div>
-            <input 
-                type="text" 
-                placeholder="Search Courses" 
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-            />
-            <ListDisplay list = {courseList} type = {type} search = {search} />
+            <div className="listSearch" >
+                <input 
+                    type="text" 
+                    placeholder="Search Courses" 
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+            </div>
+            <div className="list" >
+                <ListDisplay list = {courseList} type = {type} search = {search} />
+            </div>
         </div>
     )
 }

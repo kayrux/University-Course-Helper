@@ -1,108 +1,227 @@
 .err {
-    color: red;
+  color: red;
 }
 
+* {
+  font-family: Arial
+}
+
+hr {
+  border: solid #79615A;
+  border-radius: 1px;
+}
+
+html {background-color: #F5F4F9;}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}  
+
+/*
+------------------------------------------------------------------------------------------------------------
+-------------------------------------------------- Navbar --------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+*/
+
 .navbar {
-    padding: 20px;
-    align-items: center;
-    margin: auto;
-    width:100%;
-    border-bottom: 4px solid #f2f2f2;
-  }
+  width: 100%;
+  height: 75px;
+  background-color: #4C7E66;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0px;
+}
 
-  .navbar h1 {
-    color: black;
-  }
-  .navbar .links {
-    align-items: center;
-    margin-left: auto;
-  }
-  .navbar a {
-    margin-left: 16px;
-    text-decoration: none;
-    padding: 6px;
-  }
-  .navbar a:hover {
-    color: #f1356d;
-  }
-  
-  .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width:100%;
-    height: 50px;
-    border-top: 4px solid #f2f2f2;
-  }
+.navbarLeft{
+  flex: 3;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-left: 50px;
+}
 
-  .footer a {
-    margin-left: 16px;
-    text-decoration: none;
-    padding: auto;
-    padding-top: 10px;
-  }
+.navbarCenter{
+  flex: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .footer a:hover {
-    color: #f1356d;
-  }
+.navbarRight{
+  flex: 3;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-right: 50px;
+}
 
+.navbar a {
+  color: #F5F4F9;
+  text-decoration: none;
+  padding: 10px;
+}
 
-  .btn-block {
-    display: block;
-    width: 100%;
-    height: 30px;
-  }
+.navbar a:hover {
+  color: #F8DD4E;
+}
 
-  .btn-delete {
-    display: block;
-    width: 100%;
-    height: 30px;
-    background-color:red
-  }
-  
-  .login-form {
-    max-width: 500px;
-    margin: 30px auto;
-    overflow: auto;
-    min-height: 300px;
-    border: 1px solid steelblue;
-    padding: 30px;
-    border-radius: 5px;
-  }
+.shortButton {
+  cursor: pointer;
+  background-color: #F8DD4E;
+  font-weight: 600;
+  padding: 6px;
+  border: none;
+  border-radius: 100px;
+  text-align: center;
+  width: 60px;
+  align-self: center;
+}
 
-  .login-form input {
-    width: 90%;
-    height: 40px;
-    margin: 5px;
-    padding: 3px 7px;
-    font-size: 17px;
-  }
+.longButton {
+  cursor: pointer;
+  background-color: #F8DD4E;
+  font-weight: 600;
+  padding: 6px;
+  border: none;
+  border-radius: 100px;
+  text-align: center;
+  width: 120px;
+  align-self: center;
+}
 
-  .display-container {
-    width: 60%;
-    margin: 30px auto;
-    overflow: auto;
-    border: 1px solid steelblue;
-    padding: 30px;
-    border-radius: 5px;
-  }
+/*
+------------------------------------------------------------------------------------------------------------
+-------------------------------------------------- List Pages ----------------------------------------------
+------------------------------------------------------------------------------------------------------------
+*/
 
-  .rating-form {
-    max-width: 800px;
-    margin: 30px auto;
-    overflow: auto;
-    height: 200px;
-    border: 1px solid steelblue;
-    padding: 30px;
-    border-radius: 5px;
-  }
+.listSearch{
+  padding-top: 50px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  overflow: auto;
+  height: 50px;
+}
 
-  .comment-input {
-    width: 90%;
-    height: 100px;
-    margin: 5px;
-    padding: 3px 7px;
-    font-size: 17px;
-  }
+.list{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.listDisplay {
+  cursor: pointer;
+  font-size: 150%;
+  font-weight: 700;
+  padding: 10px;
+}
+
+.headingSimulation{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.smallText{
+  font-size: small;
+  color: rgb(108, 107, 107)
+}
+
+/*
+------------------------------------------------------------------------------------------------------------
+-------------------------------------------------- Info Pages ----------------------------------------------
+------------------------------------------------------------------------------------------------------------
+*/
+
+.info{
+  margin: auto;
+  width: 70%;
+}
+
+.semesterInline{
+  display: inline-block;
+  height: 150px;
+  padding-right: 20px;
+}
+
+.WTF{
+  display: flex;
+  justify-content: center;
+}
+
+.rating {
+  background-color: #6C6ED6;
+  width: 450px;
+  margin: 15px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
+.ratingDropdown {
+  flex: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*
+------------------------------------------------------------------------------------------------------------
+-------------------------------------------------- SURYA STUFF ---------------------------------------------
+------------------------------------------------------------------------------------------------------------
+*/
+
+.btn-block {
+  display: block;
+  width: 100%;
+  height: 30px;
+}
+
+.btn-delete {
+  display: block;
+  width: 100%;
+  height: 30px;
+  background-color:red
+}
+
+.login-form {
+  max-width: 500px;
+  margin: 30px auto;
+  overflow: auto;
+  min-height: 300px;
+  border: 1px solid steelblue;
+  padding: 30px;
+  border-radius: 5px;
+}
+
+.login-form input {
+  width: 90%;
+  height: 40px;
+  margin: 5px;
+  padding: 3px 7px;
+  font-size: 17px;
+}
+
+.display-container {
+  width: 60%;
+  margin: 30px auto;
+  overflow: auto;
+  border: 1px solid steelblue;
+  padding: 30px;
+  border-radius: 5px;
+}
+
+.comment-input {
+  width: 90%;
+  height: 100px;
+  margin: 5px;
+  padding: 3px 7px;
+  font-size: 17px;
+}
 
   

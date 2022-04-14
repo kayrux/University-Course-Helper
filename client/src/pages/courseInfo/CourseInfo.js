@@ -186,7 +186,7 @@ const CourseInfo = ({username}) => {
 
     //Print out course info
     return(
-        <div>
+        <div className = "info">
             {/*generic course info */}
             {courseInfo.map((course) => {
                 return(
@@ -217,62 +217,66 @@ const CourseInfo = ({username}) => {
                             Offered in
                         </h2>
                         {/*course info for each semester taught*/}
-                        {semesterInfo.map((sem) => {
-                            return(
-                                <div key={[sem.Sem_start_year, sem.Sem_start_term]} value={sem}>
-                                    <h3>
-                                        {sem.Sem_start_year} {' '}
-                                        {sem.Sem_start_term}
-                                    </h3>
-                                    <div>
-                                        Duration: {sem.Duration} months
-                                    </div>
-                                    {/* semesterProf returns information on further info on semester (related to prof) as well as prof info*/}
-                                    {<SemesterProf name = {course.Course_name} startYear = {sem.Sem_start_year} startTerm = {sem.Sem_start_term} />}
-                                </div>
-                            );
-                        })}
+                        <div>
+                            {semesterInfo.map((sem) => {
+                                return(
+                                    <span className = "semesterInline" key={[sem.Sem_start_year, sem.Sem_start_term]} value={sem}>
+                                        <div className = "headingSimulation">
+                                            {sem.Sem_start_year} {' '}
+                                            {sem.Sem_start_term}
+                                        </div>
+                                        <div className = "smallText">
+                                            Duration: {sem.Duration} months
+                                        </div>
+                                        {/* semesterProf returns information on further info on semester (related to prof) as well as prof info*/}
+                                        {<SemesterProf name = {course.Course_name} startYear = {sem.Sem_start_year} startTerm = {sem.Sem_start_term} />}
+                                    </span>
+                                );
+                            })}
+                        </div>
 
                         <hr />
 
                         <h2>
                             Degrees relevant to
                         </h2>
-                        <h3>
+                        <div className = "headingSimulation">
                             Required for:
-                        </h3>
-                        <div>
+                        </div>
+                        <div className = "smallText">
                             *note some required courses may not actually be manditory to complete the degree,
                             and instead may be replaced with a different required course to complete the degree
                             check detailed degree information on the corasponding degree page for more details
                         </div>
+                        <br></br>
                         {/*info on how the course related to degrees*/}
                         {degreeRequiredInfo.map((required) => {
                             return(
                                 <div key={required.Degree_name} value={required}>
-                                    <Link to={`/degrees/${required.Degree_name}`}>{required.Degree_name}</Link>
+                                    <Link to={`/degrees/${required.Degree_name}`} style={{ textDecoration: 'none' }}>{required.Degree_name}</Link>
                                 </div>
                             );
                         })}
-                        <h3>
+                        <br></br>
+                        <div className = "headingSimulation">
                             Optional for:
-                        </h3>
+                        </div>
+                        <br></br>
                         {degreeOptionalInfo.map((optional) => {
                             return(
                                 <div key={optional.Degree_name} value={optional}>
-                                    <Link to={`/degrees/${optional.Degree_name}`}>{optional.Degree_name}</Link>
+                                    <Link to={`/degrees/${optional.Degree_name}`} style={{ textDecoration: 'none' }}>{optional.Degree_name}</Link>
                                 </div>
                             );
                         })}
                         <hr />
                         {/*form to submit rating*/}
-                        <div>
-                            <form className="rating-form" onSubmit={createRating}>
+                        <div className="WTF">
+                            <form className="rating" onSubmit={createRating}>
 
-                                <label>
-                                    Rate this class: {' '}
+                                <label className="ratingDropdown">
                                     <select value={score || ""} onChange={(e) => {setScore(e.target.value || "" )}}>  
-                                        <option value = ""> </option>          
+                                        <option value = ""> Rate this class </option>          
                                         <option value = "1"> 1 </option>
                                         <option value = "2"> 2 </option>
                                         <option value = "3"> 3 </option>

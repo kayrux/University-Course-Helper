@@ -22,7 +22,7 @@ const ReportList = () => {
 
     //Call Listdisplay to render the list
     return(
-        <div>
+        <div className="list">
             <ListDisplay list = {reportList} type = {type} />
         </div>
     )
