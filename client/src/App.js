@@ -15,6 +15,8 @@ import ProfessorInfo from "./pages/professorInfo/ProfessorInfo";
 import auth from "./context/Auth";
 import { Navigate } from "react-router-dom";
 
+?
+
 const App = () => {
     const [LoggedInAsAdmin, setLoggedAsAdmin] = useState(false) // Keep track of whether the user is logged in as admin
 
