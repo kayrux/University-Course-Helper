@@ -226,8 +226,10 @@ const CourseInfo = ({username}) => {
                                         <div className = "smallText">
                                             Duration: {sem.Duration} months
                                         </div>
-                                        {/* semesterProf returns information on further info on semester (related to prof) as well as prof info*/}
-                                        {<SemesterProf name = {course.Course_name} startYear = {sem.Sem_start_year} startTerm = {sem.Sem_start_term} />}
+                                        <div>
+                                            {/* semesterProf returns information on further info on semester (related to prof) as well as prof info*/}
+                                            {<SemesterProf name = {course.Course_name} startYear = {sem.Sem_start_year} startTerm = {sem.Sem_start_term} />}
+                                        </div>
                                     </span>
                                 );
                             })}

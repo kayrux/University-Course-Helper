@@ -147,7 +147,8 @@ html, body {
 
 .semesterInline{
   display: inline-block;
-  height: 150px;
+  vertical-align:top;
+  height: auto;
   padding-right: 20px;
 }
 
