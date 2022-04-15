@@ -1,42 +1,118 @@
-import Button from "../../components/Button"
+//import Button from "../../components/Button"
+import { useEffect, useState } from "react"
+import { useLocation } from "react-router"
+import { Link } from "react-router-dom"
+import Axios from "axios"
 
 const ReportInfo = () => {
 
-    const deleteReport = (reportInfo) => {
-        console.log("Deleting report") // Assume login successful
+    // Read the URL for the course name
+    const location = useLocation()
+    const pathname = decodeURI(location.pathname.split("/")[2]);
+
+    const [reportInfo, setReportInfo] = useState([])
+    const [ratingInfo, setRatingInfo] = useState([])
+
+    // Fetch the report information from the database
+    useEffect(() => {
+        const fetchReportInfo = async () => {
+            const reports = await Axios.get(`http://localhost:3001/api/reportInfo/${pathname}`)
+            const data = await reports.data
+            setReportInfo(data)
+        }
+        fetchReportInfo()
+    }, [pathname])
+
+    // Fetch the rating information from the database
+    useEffect(() => {
+        const fetchRatingInfo = async () => {
+            const rating = await Axios.get(`http://localhost:3001/api/reportInfo/${pathname}/rating`)
+            const data = await rating.data
+            setRatingInfo(data)
+        }
+        fetchRatingInfo()
+    }, [pathname])
+
+    // Delete Report
+    const deleteReport = async (id) => {
+        await Axios.delete(`http://localhost:3001/api/reportInfo/${id}`)
+        window.location.reload();
+    }
+
+    // Delete Comment
+    const deleteRating = async (id) => {
+        await Axios.delete(`http://localhost:3001/api/rating/${id}`)
+        window.location.reload();
     }
 
     return (
-        <div className="display-container">
-            <h1>Report Information</h1>
-            <h3>Report Reason</h3>
-            <p1>Racism</p1>
-            <h3>Date</h3>
-            <p1>30/03/2022</p1>
-            <button onClick={deleteReport}
-            className="btn-delete">
-                Reject Report
-            </button>
-            <hr />
-            <h1>Rating Reported</h1>
-            <h3>Course Name and Number</h3>
-            <p1>
-                CPSC 331
-            </p1>
-            <h3>Score</h3>
-            <p1>
-                2.5/5
-            </p1>
-            <h3>Comment</h3>
-            <p1>
-                This course reminds me of *insert something racist
-            </p1>
-            <h3>Date</h3>
-            <p1>29/03/2022</p1>
-            <button onClick={deleteReport}
-            className="btn-delete">
-                Delete Comment
-            </button>
+        
+        <div className="info">
+            {/* Display report info */}
+            {reportInfo.map((report) => {
+            return(
+                <div key={report.Report_id} value={report}>
+                    <h2>
+                        Report
+                    </h2>
+                    <div className = "bold">
+                        Reported: {' '}
+                        {report.Report_date.slice(0, 10)}
+                    </div>
+                    <div>
+                        Reason: {' '}
+                        {report.Reason}
+                    </div>
+
+                    <hr />
+
+                    {/* Display rating info */}  
+                    {ratingInfo.length > 0 ? (
+                        <>
+                            <h2>
+                                Reported Comment
+                            </h2>
+                            {ratingInfo.map((rating) => {
+                                return(
+                                    <div key={rating.Rating_id} value={rating}>
+                                        {/*list all ratings for the given class*/}                     
+                                        <div className = "bold">
+                                            Posted: {' '}
+                                            {rating.Rating_date.slice(0, 10)}
+                                            {!!(rating.Username)? ` By admin ${rating.Username}` : ''}     
+                                        </div>
+                                        <div>
+                                            Rating: {' '}
+                                            {rating.Score}
+                                            /5
+                                        </div>
+                                        <div className="commentWraping">
+                                            Comment: {' '}
+                                            {rating.Comment}
+                                        </div>
+
+                                        <br></br>
+                                        
+                                        <Link to="/reports">
+                                            <button onClick={() => deleteReport(report.Report_id)}
+                                                className="modifyButtonBig">
+                                                Reject Report
+                                            </button>
+                                        </Link>
+                                        <Link to="/reports">
+                                            <button onClick={() => deleteRating(rating.Rating_id)}
+                                                className="modifyButtonBig">
+                                                Accept Report
+                                            </button>
+                                        </Link>
+                                    </div>
+                                )
+                            })}
+                        </>
+                    ) : <p>Comment Removed</p>}                  
+                </div>
+                );
+            })}
         </div>
     )
 }

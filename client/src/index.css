@@ -1,112 +1,323 @@
+* {
+  font-family: Arial
+}
+
+hr {
+  border: solid #79615A;
+  margin-top: 15px;
+}
+
+html {background-color: #F5F4F9;}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}  
+
+/*
+------------------------------------------------------------------------------------------------------------
+-------------------------------------------------- Navbar --------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+*/
+
 .navbar {
-    padding: 20px;
-    align-items: center;
-    margin: auto;
-    width:100%;
-    border-bottom: 4px solid #f2f2f2;
-  }
+  width: 100%;
+  height: 75px;
+  background-color: #4C7E66;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0px;
+}
 
-  .navbar h1 {
-    color: black;
-  }
-  .navbar .links {
-    align-items: center;
-    margin-left: auto;
-  }
-  .navbar a {
-    margin-left: 16px;
-    text-decoration: none;
-    padding: 6px;
-  }
-  .navbar a:hover {
-    color: #f1356d;
-  }
-  
-  .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width:100%;
-    height: 50px;
-    border-top: 4px solid #f2f2f2;
-  }
+.navbarLeft{
+  flex: 3;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-left: 60px;
+}
 
-  .footer a {
-    margin-left: 16px;
-    text-decoration: none;
-    padding: auto;
-    padding-top: 10px;
-  }
+.navbarCenter{
+  flex: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .footer a:hover {
-    color: #f1356d;
-  }
+.navbarRight{
+  flex: 3;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-right: 60px;
+}
 
+.navbar a {
+  color: #F5F4F9;
+  text-decoration: none;
+  padding: 10px;
+}
 
-  .btn-block {
-    display: block;
-    width: 100%;
-    height: 30px;
-  }
+.navbar a:hover {
+  color: #F8DD4E;
+}
 
-  .btn-delete {
-    display: block;
-    width: 100%;
-    height: 30px;
-    background-color:red
-  }
-  
-  .login-form {
-    max-width: 500px;
-    margin: 30px auto;
-    overflow: auto;
-    min-height: 300px;
-    border: 1px solid steelblue;
-    padding: 30px;
-    border-radius: 5px;
-  }
+.shortButton {
+  cursor: pointer;
+  background-color: #F8DD4E;
+  font-weight: 600;
+  padding: 6px;
+  border: none;
+  border-radius: 100px;
+  width: 60px;
+  align-self: center;
+}
 
-  .login-form input {
-    width: 90%;
-    height: 40px;
-    margin: 5px;
-    padding: 3px 7px;
-    font-size: 17px;
-  }
+.longButton {
+  cursor: pointer;
+  background-color: #F8DD4E;
+  font-weight: 600;
+  padding: 6px;
+  border: none;
+  border-radius: 100px;
+  width: 120px;
+  align-self: center;
+}
 
-  .display-container {
-    width: 60%;
-    margin: 30px auto;
-    overflow: auto;
-    border: 1px solid steelblue;
-    padding: 30px;
-    border-radius: 5px;
-  }
+/*
+------------------------------------------------------------------------------------------------------------
+-------------------------------------------------- List Pages ----------------------------------------------
+------------------------------------------------------------------------------------------------------------
+*/
 
-  .rating-form {
-    max-width: 800px;
-    margin: 30px auto;
-    overflow: auto;
-    height: 200px;
-    border: 1px solid steelblue;
-    padding: 30px;
-    border-radius: 5px;
-  }
+.listTitle{
+  font-size: 40px;
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  overflow: auto;
+}
 
-  .rating-input {
-    width: 20%;
-    height: 25px;
-    margin: 5px;
-    padding: 3px 7px;
-    font-size: 17px;
-  }
+.listSearch{
+  padding-top: 15px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  overflow: auto;
+  height: 30px;
+}
 
-  .comment-input {
-    width: 90%;
-    height: 100px;
-    margin: 5px;
-    padding: 3px 7px;
-    font-size: 17px;
-  }
+.list{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.listDisplay {
+  cursor: pointer;
+  font-size: 150%;
+  font-weight: 700;
+  padding: 10px;
+}
+
+.headingSimulation{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/*
+------------------------------------------------------------------------------------------------------------
+-------------------------------------------------- Info Pages ----------------------------------------------
+------------------------------------------------------------------------------------------------------------
+*/
+
+.headingSimulationLarge{
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.smallText{
+  font-size: small;
+  color: #767676
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.info{
+  margin: auto;
+  width: 65%;
+}
+
+.semesterInline{
+  display: inline-block;
+  vertical-align:top;
+  height: auto;
+  padding-right: 20px;
+  padding-bottom: 30px;
+}
+
+.ratingAlign{
+  display: flex;
+  justify-content: center;
+}
+
+.rating {
+  background-color: #6C6ED6;
+  width: 400px;
+  margin: 15px;
+  padding-top: 23px;
+  padding-bottom: 16px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.ratingDropdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ratingComment {
+  resize: none;
+  width: 100%;
+  height: 100px;
+  font-size: 17px;
+  margin-top: 7px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: center;
+}
+
+.commentWraping{
+  width:100%;
+  word-wrap: break-word;
+}
+
+.reportDropdown {
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ratingButtonAlign  {
+  display: flex;
+  justify-content: center;
+}
+
+.ratingButton {
+  cursor: pointer;
+  background-color: #F8DD4E;
+  font-weight: 600;
+  padding: 6px;
+  border: none;
+  border-radius: 100px;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+}
+
+.modifyButton {
+  cursor: pointer;
+  background-color: #6C6ED6;
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 6px;
+  margin-top: 3px;
+  margin-right: 3px;
+  border: none;
+  border-radius: 100px;
+  width: 60px;
+  align-self: center;
+}
+
+.modifyButtonBig {
+  cursor: pointer;
+  background-color: #6C6ED6;
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 8px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 100px;
+  width: 140px;
+  align-self: center;
+}
+
+/*
+------------------------------------------------------------------------------------------------------------
+-------------------------------------------------- Account Pages -------------------------------------------
+------------------------------------------------------------------------------------------------------------
+*/
+
+.accountAlign{
+  display: flex;
+  justify-content: center;
+}
+
+.account {
+  background-color: #6C6ED6;
+  width: 400px;
+  margin: 15px;
+  padding-top: 23px;
+  padding-bottom: 55px;
+  padding-left: 70px;
+  padding-right: 70px;
+  margin-top: 100px;
+}
+
+.accountText{
+  display: flex;
+  justify-content: center;
+  color: #FFFFFF;
+}
+
+.accountHeadingSimulation{
+  display: flex;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.accountTextSmall{
+  display: flex;
+  justify-content: center;
+  font-size: small;
+  color: #FFFFFF;
+}
+
+.accountInput {
+  resize: none;
+  width: 95%;
+  height: 40px;
+  margin: 5px;
+  font-size: 17px;
+  display: flex;
+  justify-content: center;
+}
+
+.accountButtonAlign  {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.accountButton {
+  cursor: pointer;
+  background-color: #F8DD4E;
+  font-weight: 600;
+  padding: 8px;
+  border: none;
+  border-radius: 100px;
+  width: 140px;
+  display: flex;
+  justify-content: center;
+}
 
   

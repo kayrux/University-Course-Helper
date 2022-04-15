@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Button from "./Button";
+
 
 /**
  * 
@@ -8,26 +8,29 @@ import Button from "./Button";
  * @returns
  */
 const Navbar = ({onLogout, loggedIn}) => {
-  return (
-    <div className="navbar">
-        <div className="links">
-            <Link to="/">Courses</Link>
-            <Link to="/professors">Professors</Link>
-            <Link to="/degrees">Degrees</Link>
-            <input 
-                type="text" 
-                placeholder="Search" 
-            />
-            {/* Logout button is displayed only when user is logged in */}
-            {loggedIn ? <Link to="/"><Button text="Logout" color="red" onClick={onLogout}></Button></Link>
-            : <Link to="/login">Login</Link>}
 
-            {/* Edit Account button is displayed only when user is logged in */}
-            {loggedIn && <Link to="/edit-account"><Button text="Edit Account" color="grey"></Button></Link>}
+    // Return a list of links to be displayed on the navbar
+    return (
+        <div className="navbar">
+            <span className="navbarLeft">
+            </span>
+            <span className="navbarCenter">
+                <Link to="/">Courses</Link>
+                <Link to="/professors">Professors</Link>
+                <Link to="/degrees">Degrees</Link>
+            </span>
+            <span className="navbarRight">
+                {loggedIn && <Link to="/reports">Reports</Link>}   
+                {/* Logout button is displayed only when user is logged in */}
+                {loggedIn ? <Link to="/"><button className="shortButton" type="submit" onClick={onLogout}> Logout </button></Link>
+                : <Link to="/login"><button className="shortButton" type="submit"> Login </button></Link>}
+
+                {/* Edit Account button is displayed wen logged in and create account button is displayed when logged out */}
+                {loggedIn ? <Link to="/edit-account"><button className="longButton" type="submit"> Edit Account </button></Link>
+                : <Link to="/create-account"><button className="longButton" type="submit"> Create Account </button></Link>}
+            </span>  
         </div>
-        
-    </div>
-  )
+    )
 }
 
 export default Navbar

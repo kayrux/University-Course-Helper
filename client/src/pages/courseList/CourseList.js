@@ -5,26 +5,40 @@ import ListDisplay from '../../components/ListDiplay'
 
 const CourseList = () => {
 
-    //This is the list of courses to be displayed
+    // This is the list of courses to be displayed
     const [courseList, setCourseList] = useState([])
+    const [search, setSearch] = useState([])
 
-    //This is used to tell ListDisplay which page to render the list (one of /,/professors,/faculties,/reports)
+    // This is used to tell ListDisplay which page to render the list (one of /,/professors,/faculties,/reports)
     const type = "course"
 
-    //Updates the list of courses
+    // Updates the list of courses
     useEffect(() => {
         const getCourses = async () => {
-            const courses = await Axios.get("http://localhost:3001/api/courseList")
+            const courses = await Axios.get(`http://localhost:3001/api/courseList`)
             const data = await courses.data
             setCourseList(data)
         }
         getCourses()
     }, [])
 
-    //Call Listdisplay to render the list
+    // Call Listdisplay to render the list
     return(
         <div>
-            <ListDisplay list = {courseList} type = {type} />
+            <h1 className="listTitle">
+                University Course Helper
+            </h1>
+            <div className="listSearch" >
+                <input 
+                    type="text" 
+                    placeholder="Search Courses" 
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+            </div>
+            <div className="list" >
+                <ListDisplay list = {courseList} type = {type} search = {search} />
+            </div>
         </div>
     )
 }
