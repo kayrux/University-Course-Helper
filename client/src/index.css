@@ -114,7 +114,7 @@ html, body {
 .list{
   display: flex;
   justify-content: center;
-  text-align: left;
+  text-align: center;
 }
 
 .listDisplay {
