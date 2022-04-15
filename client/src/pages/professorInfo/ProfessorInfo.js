@@ -35,7 +35,7 @@ const ProfInfo = () => {
 
     // Print out course info
     return (
-        <div>
+        <div className = "info">
             {profInfo.map((prof) => {
                 return(
                     <div key={prof.Prof_name} value={prof}>
@@ -43,19 +43,20 @@ const ProfInfo = () => {
                             {prof.Prof_name}
                         </h1> 
                         <div>
-                            -Rating (rate my professor): {' '}
+                            Rating (rate my professor): {' '}
                             {!!(prof.Prof_rating)? prof.Prof_rating : 'Not rated'}
                         </div>
                         <div>
                             {!!(prof.Rate_my_professor_link)? <a target="_blank" rel="noopener noreferrer" href={prof.Rate_my_professor_link} > Rate my professor</a> : ''}
                         </div>
+                        <hr />
                         <h2>
                             Has offered
                         </h2>
                         {courseInfo.map((course) => {
                             return(
                                 <div key={course.Course_name} value={course}>
-                                    <Link to={`/courses/${course.Course_name}`}>{course.Course_name}</Link>
+                                    <Link to={`/courses/${course.Course_name}`} style={{ textDecoration: 'none' }}>{course.Course_name}</Link>
                                 </div>
                             );
                         })}

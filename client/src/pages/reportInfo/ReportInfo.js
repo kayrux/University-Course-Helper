@@ -45,49 +45,69 @@ const ReportInfo = () => {
 
     return (
         
-        <div className="display-container">
+        <div className="info">
             {/* Display report info */}
             {reportInfo.map((report) => {
             return(
                 <div key={report.Report_id} value={report}>
-                    <h1>Report Information</h1>
-                    <h3>Report Reason</h3>
-                    <p>{report.Reason}</p>
-                    <h3>Date</h3>
-                    <p>{report.Report_date.slice(0, 10)}</p>
-                    <Link to="/reports">
-                        <button onClick={() => deleteReport(report.Report_id)}
-                            className="btn-delete">
-                            Reject Report
-                        </button>
-                    </Link>
+                    <h2>
+                        Report
+                    </h2>
+                    <div className = "bold">
+                        Reported: {' '}
+                        {report.Report_date.slice(0, 10)}
+                    </div>
+                    <div>
+                        Reason: {' '}
+                        {report.Reason}
+                    </div>
+
                     <hr />
+
                     {/* Display rating info */}  
                     {ratingInfo.length > 0 ? (
-                        <>{ratingInfo.map((rating) => {
-                            return (
-                                <div key={rating.Rating_id} value={rating}>
-                                    <h1>Rating Reported</h1>
-                                    <h3>Course Name and Number</h3>
-                                    <p>{rating.Course_name}</p>
-                                    <h3>Score</h3>
-                                    <p>{rating.Score}/5</p>
-                                    <h3>Comment</h3>
-                                    <p>{rating.Comment}</p>
-                                    <h3>Date</h3>
-                                    <p>{rating.Rating_date.slice(0, 10)}</p>
-                                    <Link to="/reports">
-                                        <button onClick={() => deleteRating(rating.Rating_id)}
-                                            className="btn-delete">
-                                            Accept Report
-                                        </button>
-                                    </Link>
-                                </div>
-                            )
-                        })}</>
-                    ) : <p>Comment Removed</p>}
-                    
-                    
+                        <>
+                            <h2>
+                                Reported Comment
+                            </h2>
+                            {ratingInfo.map((rating) => {
+                                return(
+                                    <div key={rating.Rating_id} value={rating}>
+                                        {/*list all ratings for the given class*/}                     
+                                        <div className = "bold">
+                                            Posted: {' '}
+                                            {rating.Rating_date.slice(0, 10)}
+                                            {!!(rating.Username)? ` By admin ${rating.Username}` : ''}     
+                                        </div>
+                                        <div>
+                                            Rating: {' '}
+                                            {rating.Score}
+                                            /5
+                                        </div>
+                                        <div className="commentWraping">
+                                            Comment: {' '}
+                                            {rating.Comment}
+                                        </div>
+
+                                        <br></br>
+                                        
+                                        <Link to="/reports">
+                                            <button onClick={() => deleteReport(report.Report_id)}
+                                                className="modifyButtonBig">
+                                                Reject Report
+                                            </button>
+                                        </Link>
+                                        <Link to="/reports">
+                                            <button onClick={() => deleteRating(rating.Rating_id)}
+                                                className="modifyButtonBig">
+                                                Accept Report
+                                            </button>
+                                        </Link>
+                                    </div>
+                                )
+                            })}
+                        </>
+                    ) : <p>Comment Removed</p>}                  
                 </div>
                 );
             })}

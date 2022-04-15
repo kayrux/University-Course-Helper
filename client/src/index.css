@@ -1,14 +1,10 @@
-.err {
-  color: red;
-}
-
 * {
   font-family: Arial
 }
 
 hr {
   border: solid #79615A;
-  border-radius: 1px;
+  margin-top: 15px;
 }
 
 html {background-color: #F5F4F9;}
@@ -40,7 +36,7 @@ html, body {
   display: flex;
   justify-content: left;
   align-items: center;
-  margin-left: 50px;
+  margin-left: 60px;
 }
 
 .navbarCenter{
@@ -55,7 +51,7 @@ html, body {
   display: flex;
   justify-content: right;
   align-items: center;
-  margin-right: 50px;
+  margin-right: 60px;
 }
 
 .navbar a {
@@ -75,7 +71,6 @@ html, body {
   padding: 6px;
   border: none;
   border-radius: 100px;
-  text-align: center;
   width: 60px;
   align-self: center;
 }
@@ -87,7 +82,6 @@ html, body {
   padding: 6px;
   border: none;
   border-radius: 100px;
-  text-align: center;
   width: 120px;
   align-self: center;
 }
@@ -105,7 +99,7 @@ html, body {
   justify-content: center;
   text-align: center;
   overflow: auto;
-  height: 50px;
+  height: 30px;
 }
 
 .list{
@@ -126,20 +120,29 @@ html, body {
   font-weight: bold;
 }
 
-.smallText{
-  font-size: small;
-  color: rgb(108, 107, 107)
-}
-
 /*
 ------------------------------------------------------------------------------------------------------------
 -------------------------------------------------- Info Pages ----------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 */
 
+.headingSimulationLarge{
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.smallText{
+  font-size: small;
+  color: #767676
+}
+
+.bold{
+  font-weight: bold;
+}
+
 .info{
   margin: auto;
-  width: 70%;
+  width: 65%;
 }
 
 .semesterInline{
@@ -148,80 +151,162 @@ html, body {
   padding-right: 20px;
 }
 
-.WTF{
+.ratingAlign{
   display: flex;
   justify-content: center;
 }
 
 .rating {
   background-color: #6C6ED6;
-  width: 450px;
+  width: 400px;
   margin: 15px;
-  padding-top: 25px;
-  padding-bottom: 25px;
-  padding-left: 60px;
-  padding-right: 60px;
+  padding-top: 23px;
+  padding-bottom: 16px;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 .ratingDropdown {
-  flex: 3;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.ratingComment {
+  resize: none;
+  width: 100%;
+  height: 100px;
+  font-size: 17px;
+  margin-top: 7px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: center;
+}
+
+.commentWraping{
+  width:100%;
+  word-wrap: break-word;
+}
+
+.reportDropdown {
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ratingButtonAlign  {
+  display: flex;
+  justify-content: center;
+}
+
+.ratingButton {
+  cursor: pointer;
+  background-color: #F8DD4E;
+  font-weight: 600;
+  padding: 6px;
+  border: none;
+  border-radius: 100px;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+}
+
+.modifyButton {
+  cursor: pointer;
+  background-color: #6C6ED6;
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 6px;
+  margin-right: 3px;
+  border: none;
+  border-radius: 100px;
+  width: 60px;
+  align-self: center;
+}
+
+.modifyButtonBig {
+  cursor: pointer;
+  background-color: #6C6ED6;
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 8px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 100px;
+  width: 140px;
+  align-self: center;
+}
+
 /*
 ------------------------------------------------------------------------------------------------------------
--------------------------------------------------- SURYA STUFF ---------------------------------------------
+-------------------------------------------------- Account Pages -------------------------------------------
 ------------------------------------------------------------------------------------------------------------
 */
 
-.btn-block {
-  display: block;
-  width: 100%;
-  height: 30px;
+.accountAlign{
+  display: flex;
+  justify-content: center;
 }
 
-.btn-delete {
-  display: block;
-  width: 100%;
-  height: 30px;
-  background-color:red
+.account {
+  background-color: #6C6ED6;
+  width: 400px;
+  margin: 15px;
+  padding-top: 23px;
+  padding-bottom: 55px;
+  padding-left: 70px;
+  padding-right: 70px;
+  margin-top: 100px;
 }
 
-.login-form {
-  max-width: 500px;
-  margin: 30px auto;
-  overflow: auto;
-  min-height: 300px;
-  border: 1px solid steelblue;
-  padding: 30px;
-  border-radius: 5px;
+.accountText{
+  display: flex;
+  justify-content: center;
+  color: #FFFFFF;
 }
 
-.login-form input {
-  width: 90%;
+.accountHeadingSimulation{
+  display: flex;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.accountTextSmall{
+  display: flex;
+  justify-content: center;
+  font-size: small;
+  color: #FFFFFF;
+}
+
+.accountInput {
+  resize: none;
+  width: 95%;
   height: 40px;
   margin: 5px;
-  padding: 3px 7px;
   font-size: 17px;
+  display: flex;
+  justify-content: center;
 }
 
-.display-container {
-  width: 60%;
-  margin: 30px auto;
-  overflow: auto;
-  border: 1px solid steelblue;
-  padding: 30px;
-  border-radius: 5px;
+.accountButtonAlign  {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
 }
 
-.comment-input {
-  width: 90%;
-  height: 100px;
-  margin: 5px;
-  padding: 3px 7px;
-  font-size: 17px;
+.accountButton {
+  cursor: pointer;
+  background-color: #F8DD4E;
+  font-weight: 600;
+  padding: 8px;
+  border: none;
+  border-radius: 100px;
+  width: 140px;
+  display: flex;
+  justify-content: center;
 }
 
   

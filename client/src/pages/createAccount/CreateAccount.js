@@ -39,28 +39,38 @@ const CreateAccount = () => {
 
     return (
         // Form to retrieve inputed username and password from user
-        <form className="login-form" onSubmit={onSubmit}>
-            <h1>Create Account</h1>
-            <div>
-                Being able to freely create an admin account is for demo purposes
-            </div>
-            {success && <p>Account created</p>}
-            <input
-                type="text"
-                placeholder="Username"
-                value={Username}
-                onChange={(e) =>
-                    setUsername(e.target.value)}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={Password}
-                onChange={(e) =>
-                    setPassword(e.target.value)}
-            />
-            <input type="submit" value="Create" className="btn btn-block" />
-        </form>
+        <div className="accountAlign">
+            <form className="account" onSubmit={onSubmit}>
+                <br></br>
+                <div className="accountHeadingSimulation">
+                    Create Account
+                </div>
+                <div className="accountTextSmall">
+                    Being able to freely create an admin account is for demo purposes
+                </div>
+                <br></br>
+                {success && <p className="accountText"> Account created</p>}
+                <input
+                    className = "accountInput"
+                    type="text"
+                    placeholder="Username"
+                    value={Username}
+                    onChange={(e) =>
+                        setUsername(e.target.value)}
+                />
+                <input
+                    className = "accountInput"
+                    type="password"
+                    placeholder="Password"
+                    value={Password}
+                    onChange={(e) =>
+                        setPassword(e.target.value)}
+                />
+                <div className="accountButtonAlign">
+                    <input type="submit" value="Create" className="accountButton" />
+                </div>
+            </form>
+        </div>
     )
 }
 

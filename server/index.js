@@ -118,7 +118,6 @@ app.get("/api/user/:username/:password", (req, res) => {
         }
         catch{
             hasPassword = false
-            console.log(false)
             res.send(false)
         }
 

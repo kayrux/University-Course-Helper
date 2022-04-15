@@ -47,30 +47,39 @@ const Login = ({onLogin}) => {
             {loggedIn ? (
                 <Navigate to={"/"} />
             ) : (
-            <form className="login-form" onSubmit={onSubmit}>
-            {/* If not already logged in create form to rerieve username and password input */}
-                <h1>Sign in</h1>
-                
-                {loginError && (<p className="err">Incorrect username or password</p>)}
+                <div className="accountAlign"> 
+                    <form className="account" onSubmit={onSubmit}>
+                    {/* If not already logged in create form to rerieve username and password input */}
+                        <h1 className="accountText">
+                            Sign In
+                        </h1>
+                        
+                        {loginError && (<p className="accountText">Incorrect username or password</p>)}
 
-                <input 
-                    type="text" 
-                    placeholder="Username" 
-                    value={username} 
-                    onChange={(e) =>
-                        setUsername(e.target.value)}
-                />
+                        <input 
+                            className = "accountInput"
+                            type="text" 
+                            placeholder="Username" 
+                            value={username} 
+                            onChange={(e) =>
+                                setUsername(e.target.value)}
+                        />
 
-                <input 
-                    type="password" 
-                    placeholder="Password" 
-                    value={password} 
-                    onChange={(e) =>
-                        setPassword(e.target.value)}
-                />
+                        <input 
+                            className = "accountInput"
+                            type="password" 
+                            placeholder="Password" 
+                            value={password} 
+                            onChange={(e) =>
+                                setPassword(e.target.value)}
+                        />
 
-                <input type="submit" value="Login" className="btn btn-block" />
-            </form>)
+                        <div className="accountButtonAlign">
+                            <input type="submit" value="Login" className="accountButton" />
+                        </div>
+                    </form>
+                </div>
+            )
         }
         </>
     )
