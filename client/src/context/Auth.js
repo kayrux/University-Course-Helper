@@ -18,10 +18,8 @@ class Auth {
     isAuthenticated() {
         
         if (localStorage.getItem("user") == null) {
-            console.log("Not logged in")
             return false
         } else {
-            console.log("Logged in")
             return true
         }
     }

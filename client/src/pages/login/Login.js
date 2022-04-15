@@ -1,13 +1,13 @@
 import { useState } from "react"
 import Axios from "axios"
 import { Navigate } from "react-router-dom"
+import auth from "../../context/Auth";
 
 // onLogin is called when the user succesfully logs in
 const Login = ({onLogin}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loginError, setLoginError] = useState(false) // Used for wrong username/password
-    const [loggedIn, setLoggedIn] = useState(false); // Keeps track of whether the user is logged in
 
     // Authenticates username and password
     const onSubmit = async (e) => {
@@ -30,11 +30,9 @@ const Login = ({onLogin}) => {
         // Log in if passowrd is accurate
         if (data === true){
             onLogin({username}) //NOTE this used to be {username,password} is something breaks take a peek
-            setLoggedIn(true)
             setLoginError(false)
         }
         else{
-            setLoggedIn(false)
             setLoginError(true)
         }
         setUsername("")
@@ -44,7 +42,7 @@ const Login = ({onLogin}) => {
     return (
         <>
             {/* If already logged in return user to homepage (courselist) */}
-            {loggedIn ? (
+            {auth.isAuthenticated() ? (
                 <Navigate to={"/"} />
             ) : (
                 <div className="accountAlign"> 
