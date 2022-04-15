@@ -1,9 +1,6 @@
 
 // Used to store the username in a local variable to check if the user is logged in (athenticated)
 class Auth {
-    constructor() {
-        this.authenticated = false
-    }
 
     login(cb, loginInfo) {
         localStorage.setItem("user", loginInfo.username)
@@ -16,7 +13,6 @@ class Auth {
     }
 
     isAuthenticated() {
-        
         if (localStorage.getItem("user") == null) {
             return false
         } else {
