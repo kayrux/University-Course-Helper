@@ -147,8 +147,10 @@ html, body {
 
 .semesterInline{
   display: inline-block;
-  height: 150px;
+  vertical-align:top;
+  height: auto;
   padding-right: 20px;
+  padding-bottom: 30px;
 }
 
 .ratingAlign{
@@ -218,6 +220,7 @@ html, body {
   color: #FFFFFF;
   font-weight: 600;
   padding: 6px;
+  margin-top: 3px;
   margin-right: 3px;
   border: none;
   border-radius: 100px;

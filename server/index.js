@@ -195,8 +195,9 @@ app.get("/api/courseInfo/:Course_name/semester", (req, res) => {
     const course_name = req.params.Course_name
     const sqlSelect = (
         "SELECT s.Sem_start_year, s.Sem_start_term, s.Duration " + 
-        "FROM SEMESTER AS s " + 
-        "WHERE s.Course_name = ?" )
+        "FROM SEMESTER AS s " +
+        "WHERE s.Course_name = ? " +
+        "ORDER BY s.Sem_start_year DESC, s.Ordering DESC")
     db.query(sqlSelect, course_name, (err, result) => {
         if(err){
             console.log("error:", err)

@@ -6,6 +6,7 @@ const ReportList = () => {
 
     //This is the list of reports to be displayed
     const [reportList, setReportList] = useState([])
+    const [reportLoaded, setReportLoaded] = useState(false)
 
     //This is used to tell ListDisplay which page to render the list (one of /,/professors,/faculties,/reports)
     const type = "report"
@@ -16,6 +17,7 @@ const ReportList = () => {
             const reports = await Axios.get("http://localhost:3001/api/reportList")
             const data = await reports.data
             setReportList(data)
+            setReportLoaded(true)
         }
         getReports()
     }, [])
@@ -23,15 +25,18 @@ const ReportList = () => {
     //Call Listdisplay to render the list
     return(
         <div>
-            {reportList.length > 0 ? (
-            <div className="list">
-                <ListDisplay list = {reportList} type = {type} />
-            </div>
-            ) : (
-            <h1 className="list">
-                All Reports Resolved
-            </h1>
-            )}
+            {/* waiting for reports to load because page will flicker with "All Reports Resolved" text if not */}
+            {reportLoaded === true? (<>
+                {reportList.length > 0 ? (
+                <div className="list">
+                    <ListDisplay list = {reportList} type = {type} />
+                </div>
+                ) : (
+                <h1 className="list">
+                    All Reports Resolved
+                </h1>
+                )}
+            </>) : (<></>)}
         </div>
     )
 }
