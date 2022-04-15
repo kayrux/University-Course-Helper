@@ -10,6 +10,7 @@ const EditAccount = () => {
     // When user submits username and password make sure they exist
     const onSubmit = async (e) => {
         e.preventDefault()
+        let successfulUpdate = false // Keeps track of whether the update was successful
 
         if(!newUsername) {
             alert("Please enter a username")
@@ -21,39 +22,28 @@ const EditAccount = () => {
             return
         }
 
-        // Attempt to edit account using inputted new username and new password
+        // Attempt to edit account using entered new username and new password
         try {
-            // Check if username in database
-            // const usernameAlreadyDefined = await Axios.get(`http://localhost:3001/api/user/${newUsername}`)
-            // const data = await usernameAlreadyDefined.data
-
-            // if (data) {
-            //     setSuccess(false)
-            //     setFailure(true)
-            // } else {
-            //     // If username is not already defined, Edit Account
-            //     Axios.put(`http://localhost:3001/api/user/${localStorage.getItem("user")}`, {newUsername, newPassword})
-            //     localStorage.setItem("user", newUsername) // Update username in local storage
-            //     setSuccess(true)
-            //     setFailure(false)
-            // }
-            Axios.put(`http://localhost:3001/api/user/${localStorage.getItem("user")}`, {newUsername, newPassword})
-            
+            await Axios.put(`http://localhost:3001/api/user/${localStorage.getItem("user")}`, {newUsername, newPassword})
+            successfulUpdate = true
+        } catch (err) {   
+            if (err.response?.status === 500) {
+                console.log("Edit account failed")
+            } else {
+                console.log(err)
+            }
+        }
+        
+        // If the update was successful, set the new username in local storage
+        if (successfulUpdate) {
+            localStorage.setItem("user", newUsername) // Update username in local storage
             setSuccess(true)
             setFailure(false)
-            
-        } catch (err) {
-            if (err.response?.status === 500) {
-                console.log("500 ERROR")
-            }
-            console.log("ASDKASJBD")
-            console.log(err)
+        } else {
             setSuccess(false)
             setFailure(true)
         }
-        
-        if (success) localStorage.setItem("user", newUsername) // Update username in local storage
-        
+
         // Clear input fields
         setNewUsername("")
         setNewPassword("")
