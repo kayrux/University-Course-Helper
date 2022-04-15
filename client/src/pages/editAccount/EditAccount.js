@@ -53,7 +53,7 @@ const EditAccount = () => {
                         Edit Account
                     </h1>
                 {success && <p className="accountText"> Account Updated</p>}
-                {failure && <p className="err">Username already taken</p>}
+                {failure && <p className="accountText">Username already taken</p>}
                 <input
                     className = "accountInput"
                     type="text"

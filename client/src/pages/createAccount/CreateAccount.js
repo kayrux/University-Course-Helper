@@ -63,7 +63,7 @@ const CreateAccount = () => {
                 </div>
                 <br></br>
                 {success && <p className="accountText"> Account created</p>}
-                {failure && <p className="err">Username already taken</p>}
+                {failure && <p className="accountText">Username already taken</p>}
                 <input
                     className = "accountInput"
                     type="text"
