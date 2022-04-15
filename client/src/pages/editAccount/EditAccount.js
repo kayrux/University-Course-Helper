@@ -30,7 +30,7 @@ const EditAccount = () => {
             if (err.response?.status === 500) {
                 console.log("Edit account failed")
             } else {
-                console.log(err)
+                //console.log(err)
             }
         }
         
