@@ -53,11 +53,11 @@ async function encryptCreate(req, res){
 
     const sqlInsert = "INSERT INTO ADMIN_ACCOUNT (Username, Password) VALUES (?,?)"
     db.query(sqlInsert, [username, encryptedPassword], (err, result) => {
-        if(err) {
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error creating Account"
+            });
+        } else res.send(result)
     });
 }
 
@@ -80,18 +80,10 @@ async function encryptEdit(req, res){
         const sqlInsert = "UPDATE ADMIN_ACCOUNT AS a SET a.Password=?, a.Username=? WHERE a.Username=?"
         db.query(sqlInsert, [encryptedNewPassword, newUsername, currentUsername], (err, result) => {
             if (err) {
-                if (err.kind === "not_found") {
-                    res.status(404).send({
-                        message: `Not found Account with Username: ${currentUsername}.`
-                    });
-                } else {
-                    res.status(500).send({
-                        message: "Error updating Account with Username " + currentUsername
-                    });
-                }
-                // console.log(err)
-                // res.sendStatus(null,err)
-            }else res.send(result)
+                res.status(500).send({
+                    message: "Error when updating Account"
+                });
+            } else res.send(result)
         })
     }
     //deal with case of user entering new username
@@ -99,10 +91,10 @@ async function encryptEdit(req, res){
         const sqlInsert = "UPDATE ADMIN_ACCOUNT AS a SET a.Password=? WHERE a.Username=?"
         db.query(sqlInsert, [encryptedNewPassword, currentUsername], (err, result) => {
             if (err) {
-                console.log(err)
-                res.sendStatus(null,err)
-            }
-            res.send(result)
+                res.status(500).send({
+                    message: "Error when updating Account with Username " + currentUsername
+                });
+            } else res.send(result)
         })
     }
 }
@@ -114,9 +106,11 @@ app.get("/api/user/:username/:password", (req, res) => {
     const password = req.params.password
     const sqlSelect = "SELECT a.Password FROM ADMIN_ACCOUNT AS a WHERE a.Username = ?"
     db.query(sqlSelect, [username], async function (err, result) { //creating seperate function to use await for bycrypt
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
+        if (err) {
+            res.status(500).send({
+                message: "Error when verifying Account"
+            });
+            return;
         }
 
         // Username is not in database, resulting in no password being retrived so check is false
@@ -145,9 +139,12 @@ app.get("/api/user/:username", (req, res) => {
     const sqlSelect = "SELECT Username FROM ADMIN_ACCOUNT WHERE Username=?"
 
     db.query(sqlSelect, username, (err, result) => {
-        if(err){
-            res.sendStatus(null, err)
-        }
+        if (err) {
+            res.status(500).send({
+                message: "Error when checking Username"
+            });
+            return
+        } 
         // Return true if a result is found
         if (result.length > 0) {
             res.send(true)
@@ -168,11 +165,11 @@ app.get("/api/user/:username", (req, res) => {
 app.get("/api/courseList", (req, res) => {
     const sqlSelect = "SELECT Course_name FROM COURSE"
     db.query(sqlSelect, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching courses"
+            });
+        } else res.send(result)
     });
 })
 
@@ -182,11 +179,11 @@ app.get("/api/courseInfo/:Course_name", (req, res) => {
     const course_name = req.params.Course_name
     const sqlSelect = "SELECT * FROM COURSE as c WHERE c.Course_name = ?"
     db.query(sqlSelect, course_name, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching course information"
+            });
+        } else res.send(result)
     });
 })
 
@@ -199,11 +196,11 @@ app.get("/api/courseInfo/:Course_name/semester", (req, res) => {
         "FROM SEMESTER AS s " + 
         "WHERE s.Course_name = ?" )
     db.query(sqlSelect, course_name, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching semester information"
+            });
+        } else res.send(result)
     });
 })
 
@@ -219,11 +216,11 @@ app.get("/api/courseInfo/:Course_name/:Sem_start_year/:Sem_start_term/professor"
         "WHERE o.Course_name = ? and o.Sem_start_year = ? and o.Sem_start_term = ? and " +
         "o.Prof_name = p.Prof_name ")
     db.query(sqlSelect, [course_name, sem_start_year, sem_start_term], (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching professor information"
+            });
+        } else res.send(result)
     });
 })
 
@@ -236,11 +233,11 @@ app.get("/api/courseInfo/:Course_name/degreeRequired", (req, res) => {
         "FROM REQUIRED_FOR AS r " + 
         "WHERE r.Course_name = ?" )
     db.query(sqlSelect, course_name, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching required degree information"
+            });
+        } else res.send(result)
     });
 })
 
@@ -253,11 +250,11 @@ app.get("/api/courseInfo/:Course_name/degreeOptional", (req, res) => {
         "FROM OPTIONAL_FOR as o " + 
         "WHERE o.Course_name = ?" )
     db.query(sqlSelect, course_name, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching optional degree information"
+            });
+        } else res.send(result)
     });
 })
 
@@ -270,11 +267,11 @@ app.get("/api/courseInfo/:Course_name/degreeOptional", (req, res) => {
 app.get("/api/profList", (req, res) => {
     const sqlSelect = "SELECT Prof_name FROM PROFESSOR"
     db.query(sqlSelect, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching professors"
+            });
+        } else res.send(result)
     });
 })
 
@@ -284,11 +281,11 @@ app.get("/api/profInfo/:prof_name", (req, res) => {
     const prof_name = req.params.prof_name
     const sqlSelect = "SELECT * FROM PROFESSOR AS p WHERE p.Prof_name = ?" 
     db.query(sqlSelect, prof_name, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching professor information"
+            });
+        } else res.send(result)
     });
 })
 
@@ -301,11 +298,11 @@ app.get("/api/profInfo/:prof_name/courses", (req, res) => {
         "FROM OFFERED_IN AS o NATURAL JOIN PROFESSOR AS p " + 
         "WHERE p.Prof_name = ?")
     db.query(sqlSelect, prof_name, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching course information"
+            });
+        } else res.send(result)
     });
 })
 
@@ -318,11 +315,11 @@ app.get("/api/profInfo/:prof_name/courses", (req, res) => {
 app.get("/api/degreeList/major", (req, res) => {
     const sqlSelect = "SELECT d.Degree_name FROM DEGREE as d WHERE d.flag = 1"
     db.query(sqlSelect, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching major degrees"
+            });
+        } else res.send(result)
     });
 })
 
@@ -331,11 +328,11 @@ app.get("/api/degreeList/major", (req, res) => {
 app.get("/api/degreeList/minor", (req, res) => {
     const sqlSelect = "SELECT d.Degree_name FROM DEGREE as d WHERE d.flag = 2"
     db.query(sqlSelect, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching minor degrees"
+            });
+        } else res.send(result)
     });
 })
 
@@ -344,11 +341,11 @@ app.get("/api/degreeList/minor", (req, res) => {
 app.get("/api/degreeList/other", (req, res) => {
     const sqlSelect = "SELECT d.Degree_name FROM DEGREE as d WHERE d.flag = 3"
     db.query(sqlSelect, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching other degrees"
+            });
+        } else res.send(result)
     });
 })
 
@@ -358,11 +355,11 @@ app.get("/api/degreeInfo/:degree_name", (req, res) => {
     const degree_name = req.params.degree_name
     const sqlSelect = "SELECT * FROM DEGREE AS d WHERE d.Degree_name = ?" 
     db.query(sqlSelect, degree_name, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching degree information"
+            });
+        } else res.send(result)
     });
 })
 
@@ -375,11 +372,11 @@ app.get("/api/degreeInfo/:degree_name/coursesRequired", (req, res) => {
         "FROM REQUIRED_FOR AS r NATURAL JOIN DEGREE as d " +
         "WHERE d.Degree_name = ?" )
     db.query(sqlSelect, degree_name, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching course information"
+            });
+        } else res.send(result)
     });
 })
 
@@ -392,11 +389,11 @@ app.get("/api/degreeInfo/:degree_name/coursesOptional", (req, res) => {
         "FROM OPTIONAL_FOR AS o NATURAL JOIN DEGREE as d " +
         "WHERE d.Degree_name = ?" )
     db.query(sqlSelect, degree_name, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching optional courses"
+            });
+        } else res.send(result)
     });
 })
 
@@ -413,11 +410,11 @@ app.get("/api/rating/:course_name", (req, res) => {
         "FROM RATING as r " +
         "WHERE r.Course_name = ?" )
     db.query(sqlSelect, course_name, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching ratings"
+            });
+        } else res.send(result)
     });
 })
 
@@ -432,11 +429,11 @@ app.post("/api/rating/:course_name", (req, res) => {
 
     const sqlInsert = "INSERT INTO RATING (Comment, Score, Rating_date, Username, Course_name) VALUES (?,?,?,?,?)"
     db.query(sqlInsert, [comment, score, rating_date, username, course_name], (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when creating rating"
+            });
+        } else res.send(result)
     });
 });
 
@@ -455,11 +452,11 @@ app.put("/api/rating/:rating_id", (req, res) => {
         "WHERE r.Rating_id=? AND r.Username=?")
 
     db.query(sqlInsert, [comment, score, rating_date, rating_id, username], (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when updating rating"
+            });
+        } else res.send(result)
     });
 });
 
@@ -470,11 +467,11 @@ app.delete("/api/rating/:rating_id", (req, res) => {
     const rating_id = req.params.rating_id
     const sqlDelete = "DELETE FROM RATING WHERE Rating_id = ?"
     db.query(sqlDelete, rating_id, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when deleting rating"
+            });
+        } else res.send(result)
     });
 })
 
@@ -487,11 +484,11 @@ app.delete("/api/rating/:rating_id", (req, res) => {
 app.get("/api/reportList", (req, res) => {
     const sqlSelect = "SELECT Report_id, Report_date FROM REPORT"
     db.query(sqlSelect, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching reports"
+            });
+        } else res.send(result)
     });
 })
 
@@ -501,11 +498,11 @@ app.get("/api/reportInfo/:report_id", (req, res) => {
     const report_id = req.params.report_id
     const sqlSelect = "SELECT * FROM REPORT WHERE Report_id=?"
     db.query(sqlSelect, report_id, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching report information"
+            });
+        } else res.send(result)
     });
 })
 
@@ -517,11 +514,11 @@ app.get("/api/reportInfo/:report_id/rating", (req, res) => {
         "FROM REPORT AS rp NATURAL JOIN RATING AS rt " + 
         "WHERE rp.Report_id=?"
     db.query(sqlSelect, report_id, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when fetching rating information"
+            });
+        } else res.send(result)
     });
 })
 
@@ -534,11 +531,11 @@ app.post("/api/reportInfo", (req, res) => {
     
     const sqlInsert = "INSERT INTO REPORT (Reason, Report_date, Rating_id) VALUES (?,?,?)"
     db.query(sqlInsert, [reason, report_date, rating_id], (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when creating report"
+            });
+        } else res.send(result)
     });
 });
 
@@ -548,10 +545,10 @@ app.delete("/api/reportInfo/:report_id", (req, res) => {
     const report_id = req.params.report_id
     const sqlDelete = "DELETE FROM REPORT WHERE Report_id = ?"
     db.query(sqlDelete, report_id, (err, result) => {
-        if(err){
-            console.log("error:", err)
-            res.sendStatus(null, err)
-        }
-        res.send(result)
+        if (err) {
+            res.status(500).send({
+                message: "Error when deleting report"
+            });
+        } else res.send(result)
     });
 })

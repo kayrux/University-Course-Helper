@@ -27,11 +27,7 @@ const EditAccount = () => {
             await Axios.put(`http://localhost:3001/api/user/${localStorage.getItem("user")}`, {newUsername, newPassword})
             successfulUpdate = true
         } catch (err) {   
-            if (err.response?.status === 500) {
-                console.log("Edit account failed")
-            } else {
-                console.log(err)
-            }
+            console.log(err.response.data.message)
         }
         
         // If the update was successful, set the new username in local storage
