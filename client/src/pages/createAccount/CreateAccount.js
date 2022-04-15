@@ -40,6 +40,7 @@ const CreateAccount = () => {
                 setFailure(false)
             }
         } catch (err) {
+            console.log(err.response.data.message)
             setSuccess(false)
             setFailure(true)
         }
