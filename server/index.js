@@ -53,7 +53,7 @@ async function encryptCreate(req, res){
 
     const sqlInsert = "INSERT INTO ADMIN_ACCOUNT (Username, Password) VALUES (?,?)"
     db.query(sqlInsert, [username, encryptedPassword], (err, result) => {
-        if(err){
+        if(err) {
             console.log("error:", err)
             res.sendStatus(null, err)
         }
@@ -80,10 +80,18 @@ async function encryptEdit(req, res){
         const sqlInsert = "UPDATE ADMIN_ACCOUNT AS a SET a.Password=?, a.Username=? WHERE a.Username=?"
         db.query(sqlInsert, [encryptedNewPassword, newUsername, currentUsername], (err, result) => {
             if (err) {
-                console.log(err)
-                res.sendStatus(null,err)
-            }
-            res.send(result)
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `Not found Account with Username: ${currentUsername}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error updating Account with Username " + currentUsername
+                    });
+                }
+                // console.log(err)
+                // res.sendStatus(null,err)
+            }else res.send(result)
         })
     }
     //deal with case of user entering new username
@@ -99,8 +107,8 @@ async function encryptEdit(req, res){
     }
 }
 
-// 1.3 Verifity Account
-// Find whether the passoword entered is correct for the corasponding username
+// 1.3 Verify Account
+// Find whether the password entered is correct for the corresponding username
 app.get("/api/user/:username/:password", (req, res) => {
     const username = req.params.username
     const password = req.params.password
@@ -122,12 +130,33 @@ app.get("/api/user/:username/:password", (req, res) => {
             res.send(false)
         }
 
-        // If username was in databse check if corasponding password matches
+        // If username was in database check if corresponding password matches
         if(hasPassword == true){
             const Check = await bcrypt.compare(password, result[0].Password)
             res.send(Check)
         }
     });
+})
+
+// 1.4 Check for existing username
+// Check if a username is already in the database
+app.get("/api/user/:username", (req, res) => {
+    const username = req.params.username
+    const sqlSelect = "SELECT Username FROM ADMIN_ACCOUNT WHERE Username=?"
+
+    db.query(sqlSelect, username, (err, result) => {
+        if(err){
+            res.sendStatus(null, err)
+        }
+        // Return true if a result is found
+        if (result.length > 0) {
+            res.send(true)
+            return
+        } else {
+            res.send(false)
+            return
+        }
+    })
 })
 
 // ------------------------------------------------------------------------------------------------------------
@@ -453,7 +482,7 @@ app.delete("/api/rating/:rating_id", (req, res) => {
 // -------------------------------------------------- Report -----------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
 
-// 4.1 List Reports
+// 6.1 List Reports
 // View a list of all reports
 app.get("/api/reportList", (req, res) => {
     const sqlSelect = "SELECT Report_id, Report_date FROM REPORT"

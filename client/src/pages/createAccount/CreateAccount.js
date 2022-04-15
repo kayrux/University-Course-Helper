@@ -5,9 +5,10 @@ const CreateAccount = () => {
     const [Password, setPassword] = useState("")
     const [Username, setUsername] = useState("")
     const [success, setSuccess] = useState(false)
+    const [failure, setFailure] = useState(false)
 
     // When user submits username and password make sure they exist
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
 
         if(!Username) {
@@ -20,16 +21,27 @@ const CreateAccount = () => {
             return
         }
 
-        // Attempt to create account using inputted username and password
+        // Attempt to create account using entered username and password
         try {
-            Axios.post(`http://localhost:3001/api/user/`, {
-                username : Username,
-                password : Password
-            })
-            setSuccess(true)
+            // Check if username in database
+            const usernameAlreadyDefined = await Axios.get(`http://localhost:3001/api/user/${Username}`)
+            const data = await usernameAlreadyDefined.data
+
+            if (data) {
+                setSuccess(false)
+                setFailure(true)
+            } else {
+                // If username is not already defined, create a new account
+                Axios.post(`http://localhost:3001/api/user/`, {
+                    username : Username,
+                    password : Password
+                })
+                setSuccess(true)
+                setFailure(false)
+            }
         } catch (err) {
-            console.log(err)
             setSuccess(false)
+            setFailure(true)
         }
         
         // Clear input fields
@@ -45,6 +57,7 @@ const CreateAccount = () => {
                 Being able to freely create an admin account is for demo purposes
             </div>
             {success && <p>Account created</p>}
+            {failure && <p className="err">Username already taken</p>}
             <input
                 type="text"
                 placeholder="Username"
