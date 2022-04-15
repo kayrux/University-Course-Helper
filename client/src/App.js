@@ -30,12 +30,10 @@ const App = () => {
             // Redirects to home page upon login
             <Navigate to={"/"} />
         }, loginInfo);
-        console.log("Logging in: " + loginInfo.username)
     }
 
     // Logout a user
     const logout = (loginInfo) => {
-        console.log("Logging out")
         auth.logout(() => {
             // Redirects to home page upon logout
             <Navigate to={"/"} />

@@ -50,27 +50,35 @@ const EditAccount = () => {
     }
 
     return (
-        // Form to retrieve inputed username and password from user
-        <form className="login-form" onSubmit={onSubmit}>
-            <h1>Edit Account</h1>
-            {success && <p>Account Updated</p>}
-            {failure && <p className="err">Username already taken</p>}
-            <input
-                type="text"
-                placeholder="New Username"
-                value={newUsername}
-                onChange={(e) =>
-                    setNewUsername(e.target.value)}
-            />
-            <input
-                type="password"
-                placeholder="New Password"
-                value={newPassword}
-                onChange={(e) =>
-                    setNewPassword(e.target.value)}
-            />
-            <input type="submit" value="Update" className="btn btn-block" />
-        </form>
+        <div className="accountAlign">
+            {/* Form to retrieve inputed username and password from user */}
+            <form className="account" onSubmit={onSubmit}>
+                    <h1 className="accountText">
+                        Edit Account
+                    </h1>
+                {success && <p className="accountText"> Account Updated</p>}
+                {failure && <p className="err">Username already taken</p>}
+                <input
+                    className = "accountInput"
+                    type="text"
+                    placeholder="New Username"
+                    value={newUsername}
+                    onChange={(e) =>
+                        setNewUsername(e.target.value)}
+                />
+                <input
+                    className = "accountInput"
+                    type="password"
+                    placeholder="New Password"
+                    value={newPassword}
+                    onChange={(e) =>
+                        setNewPassword(e.target.value)}
+                />
+                <div className="accountButtonAlign">
+                    <input type="submit" value="Edit" className="accountButton" />
+                </div>
+            </form>
+        </div>
     )
 }
 

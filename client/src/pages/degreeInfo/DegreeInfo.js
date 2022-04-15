@@ -45,7 +45,7 @@ const DegreeInfo = () => {
 
     // Print out course info
     return (
-        <div>
+        <div className = "info">
             {degreeInfo.map((degree) => {
                 return(
                     <div key={degree.Degree_name} value={degree}>
@@ -55,41 +55,48 @@ const DegreeInfo = () => {
                         <div>
                             <a target="_blank" rel="noopener noreferrer" href={degree.Degree_link} > Detailed degree information</a>
                         </div>
-                        {/* only print courses if looking at major or minor degree, not other (which has flag 3) */}
+                        <hr />
+                        {/* only print courses if looking at major or minor degree, not other (other has flag 3) */}
                         {degree.Flag === 3?
                             <h2>
                                 Courses not listed for other degrees
                             </h2> :
                             <>
-                                <h2>
+                                <br></br>
+                                <div className = "headingSimulationLarge">
                                     Required courses
-                                </h2>
-                                <div>
+                                </div>
+                                <div className = "smallText">
                                     *note some required courses may not actually be manditory to complete the degree,
                                     and instead may be replaced with a different required course to complete the degree
+                                <div></div>
                                     check detailed degree information for more details
                                 </div>
+                                <br></br>
                             </>
                         }
                         {requiredCourseInfo.map((course) => { 
                             return(
                                 <div key={course.Course_name} value={course}>
-                                    <Link to={`/courses/${course.Course_name}`}>{course.Course_name}</Link>
+                                    <Link to={`/courses/${course.Course_name}`} style={{ textDecoration: 'none' }}>{course.Course_name}</Link>
                                 </div>
                             );
                         })}
                         {degree.Flag === 3?
-                        <h2>
-                            
-                        </h2> :
-                        <h2>
-                            Optional courses
-                        </h2>
+                        <> </> :
+                        <>
+                        <hr />
+                            <br></br>
+                            <div className = "headingSimulationLarge">
+                                Optional courses
+                            </div>
+                            <br></br>
+                        </>
                         }
                         {optionalCourseInfo.map((course) => {
                             return(
                                 <div key={course.Course_name} value={course}>
-                                    <Link to={`/courses/${course.Course_name}`}>{course.Course_name}</Link>
+                                    <Link to={`/courses/${course.Course_name}`} style={{ textDecoration: 'none' }}>{course.Course_name}</Link>
                                 </div>
                             );
                         })}

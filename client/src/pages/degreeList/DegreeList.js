@@ -45,30 +45,32 @@ const DegreeList = () => {
     //Call Listdisplay to render the list
     return(
         <div>
-            <input 
-                type="text" 
-                placeholder="Search Courses" 
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-            />
-            <h1>
-                Majors
-            </h1>
-            <div>
-                <ListDisplay list = {degreeListMajor} type = {type} search = {search} />
+            <div className="listSearch" >
+                <input 
+                    type="text" 
+                    placeholder="Search Courses" 
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
             </div>
-            <h1>
-                Minors
-            </h1>
-            <div>
-                <ListDisplay list = {degreeListMinor} type = {type} search = {search} />
-            </div>
-            <h1>
-                Other
-            </h1>
-            <div>
-                <ListDisplay list = {degreeListOther} type = {type} search = {search} />
-            </div>
+                <h1 className="list">
+                    Majors
+                </h1>
+                <div className="list">
+                    <ListDisplay list = {degreeListMajor} type = {type} search = {search} />
+                </div>
+                <h1 className="list">
+                    Minors
+                </h1>
+                <div className="list">
+                    <ListDisplay list = {degreeListMinor} type = {type} search = {search} />
+                </div>
+                <h1 className="list">
+                    Other
+                </h1>
+                <div className="list">
+                    <ListDisplay list = {degreeListOther} type = {type} search = {search} />
+                </div>
         </div>
     )
 }

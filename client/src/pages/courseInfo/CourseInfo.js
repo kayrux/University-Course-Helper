@@ -3,7 +3,6 @@ import { useState, useEffect } from "react"
 import Axios from "axios"
 import SemesterProf from '../../components/SemesterProf'
 import { Link } from "react-router-dom";
-import Button from "../../components/Button";
 
 const CourseInfo = ({username}) => {
 
@@ -80,7 +79,7 @@ const CourseInfo = ({username}) => {
         //stops prevents the post request and reload if no score selected
         if(!score) {
             e.preventDefault();
-            alert("Please select a score")
+            alert("Please select a rating")
 
         }
         else{
@@ -156,8 +155,7 @@ const CourseInfo = ({username}) => {
         useEffect(() => {
             setRatingIdReport(prop.ratingIdReport)
         })
-        return(
-            
+        return(    
             <></>
         )
     }
@@ -186,7 +184,7 @@ const CourseInfo = ({username}) => {
 
     //Print out course info
     return(
-        <div>
+        <div className = "info">
             {/*generic course info */}
             {courseInfo.map((course) => {
                 return(
@@ -217,62 +215,67 @@ const CourseInfo = ({username}) => {
                             Offered in
                         </h2>
                         {/*course info for each semester taught*/}
-                        {semesterInfo.map((sem) => {
-                            return(
-                                <div key={[sem.Sem_start_year, sem.Sem_start_term]} value={sem}>
-                                    <h3>
-                                        {sem.Sem_start_year} {' '}
-                                        {sem.Sem_start_term}
-                                    </h3>
-                                    <div>
-                                        Duration: {sem.Duration} months
-                                    </div>
-                                    {/* semesterProf returns information on further info on semester (related to prof) as well as prof info*/}
-                                    {<SemesterProf name = {course.Course_name} startYear = {sem.Sem_start_year} startTerm = {sem.Sem_start_term} />}
-                                </div>
-                            );
-                        })}
+                        <div>
+                            {semesterInfo.map((sem) => {
+                                return(
+                                    <span className = "semesterInline" key={[sem.Sem_start_year, sem.Sem_start_term]} value={sem}>
+                                        <div className = "headingSimulation">
+                                            {sem.Sem_start_year} {' '}
+                                            {sem.Sem_start_term}
+                                        </div>
+                                        <div className = "smallText">
+                                            Duration: {sem.Duration} months
+                                        </div>
+                                        {/* semesterProf returns information on further info on semester (related to prof) as well as prof info*/}
+                                        {<SemesterProf name = {course.Course_name} startYear = {sem.Sem_start_year} startTerm = {sem.Sem_start_term} />}
+                                    </span>
+                                );
+                            })}
+                        </div>
 
                         <hr />
 
                         <h2>
                             Degrees relevant to
                         </h2>
-                        <h3>
+                        <div className = "headingSimulation">
                             Required for:
-                        </h3>
-                        <div>
+                        </div>
+                        <div className = "smallText">
                             *note some required courses may not actually be manditory to complete the degree,
                             and instead may be replaced with a different required course to complete the degree
+                        <div></div>
                             check detailed degree information on the corasponding degree page for more details
                         </div>
+                        <br></br>
                         {/*info on how the course related to degrees*/}
                         {degreeRequiredInfo.map((required) => {
                             return(
                                 <div key={required.Degree_name} value={required}>
-                                    <Link to={`/degrees/${required.Degree_name}`}>{required.Degree_name}</Link>
+                                    <Link to={`/degrees/${required.Degree_name}`} style={{ textDecoration: 'none' }}>{required.Degree_name}</Link>
                                 </div>
                             );
                         })}
-                        <h3>
+                        <br></br>
+                        <div className = "headingSimulation">
                             Optional for:
-                        </h3>
+                        </div>
+                        <br></br>
                         {degreeOptionalInfo.map((optional) => {
                             return(
                                 <div key={optional.Degree_name} value={optional}>
-                                    <Link to={`/degrees/${optional.Degree_name}`}>{optional.Degree_name}</Link>
+                                    <Link to={`/degrees/${optional.Degree_name}`} style={{ textDecoration: 'none' }}>{optional.Degree_name}</Link>
                                 </div>
                             );
                         })}
                         <hr />
                         {/*form to submit rating*/}
-                        <div>
-                            <form className="rating-form" onSubmit={createRating}>
+                        <div className="ratingAlign">
+                            <form className="rating" onSubmit={createRating}>
 
-                                <label>
-                                    Rate this class: {' '}
+                                <label className="ratingDropdown">
                                     <select value={score || ""} onChange={(e) => {setScore(e.target.value || "" )}}>  
-                                        <option value = ""> </option>          
+                                        <option value = ""> Rate this class </option>          
                                         <option value = "1"> 1 </option>
                                         <option value = "2"> 2 </option>
                                         <option value = "3"> 3 </option>
@@ -280,8 +283,8 @@ const CourseInfo = ({username}) => {
                                         <option value = "5"> 5 </option>
                                     </select>
                                 </label>
-                                <input 
-                                    className="comment-input"
+                                <textarea 
+                                    className="ratingComment"
                                     type="text" 
                                     maxLength="255"
                                     placeholder="Additional Comments" 
@@ -289,88 +292,105 @@ const CourseInfo = ({username}) => {
                                     onChange={(e) =>
                                         setComment(e.target.value)}
                                 />
-
-                                <input type="submit" value="Add Rating" className="btn btn-block" />
+                                <div className="ratingButtonAlign">
+                                    <input type="submit" value="Add Rating" className="ratingButton" />
+                                </div>
                             </form>
                         </div>
 
                         <hr />
+
+                        <h2>
+                            Comments
+                        </h2>
+
                         {getRatings.map((rating) => {
                             return(
                                 <div key={rating.Rating_id} value={rating}>
                                     {/*list all ratings for the given class*/}                     
-                                    <div>
+                                    <div className = "bold">
                                         Posted: {' '}
                                         {rating.Rating_date.slice(0, 10)}
                                         {!!(rating.Username)? ` By admin ${rating.Username}` : ''}     
                                     </div>
                                     <div>
+                                        Rating: {' '}
                                         {rating.Score}
                                         /5
                                     </div>
-                                    <div>
+                                    <div className="commentWraping">
+                                        Comment: {' '}
                                         {rating.Comment}
                                     </div>
                                     {isEditRating === rating.Rating_id? ( <div> 
                                         <SaveRatingIdEdit ratingIdEdit = {rating.Rating_id}/>
-                                        {/*form for editing ratings when edit button is pressed*/} 
-                                        <form className="rating-form" onSubmit={editRating}>  
-                                            <label>
-                                                New score: {' '}
-                                                <select value={scoreEdit || ""} onChange={(e) => {setScoreEdit(e.target.value || "" )}}>  
-                                                    <option value = ""> </option>          
-                                                    <option value = "1"> 1 </option>
-                                                    <option value = "2"> 2 </option>
-                                                    <option value = "3"> 3 </option>
-                                                    <option value = "4"> 4 </option>
-                                                    <option value = "5"> 5 </option>
-                                                </select>
-                                            </label>
-
-                                            <input 
-                                                className="comment-input"
-                                                type="text" 
-                                                maxLength="255"
-                                                placeholder="New Comments" 
-                                                value={commentEdit}
-                                                onChange={(e) =>
-                                                    setCommentEdit(e.target.value)}
-                                            />
-
-                                            <input type="submit" value="Edit Rating" className="btn btn-block" />
-                                        </form>
-                                        <Button text="Cancel" color="#7babe3" onClick={() => setIsEditRating(null)}></Button>
-                                    </div> ) : ( <div> 
-                                        <div>
-                                        {/*THIS WRITTEN WITH BELIEF IS LOGGED IN WILL BE NULL IF NOT LOGGED IN AND WILL BE USERNAME IF LOGGED IN */}
-                                        {localStorage.getItem("user") === rating.Username ? <Button text="Edit" color="#7babe3" onClick={() => setIsEditRating(rating.Rating_id)}></Button> : '' }
-                                        </div>
-                                        <div>
-                                        {!localStorage.getItem("user") ? '' : <Button text="Delete" color="#7babe3" onClick={() => deleteRating(rating.Rating_id)}></Button>}
-                                        </div>
-                                        {isCreateReport === rating.Rating_id? ( <div> 
-                                            
-                                            <SaveRatingIdReport ratingIdReport = {rating.Rating_id}/>
-                                            {/*form for creating reports when report button is pressed*/} 
-                                            <form onSubmit={createReport}>  
-                                                <label>
-                                                    Reason for report: {' '}
-                                                    <select value={reportReason || ""} onChange={(e) => {setReportReason(e.target.value || "" )}}>  
-                                                        <option value = ""> </option>          
-                                                        <option value = "Spam"> Spam </option>
-                                                        <option value = "False/Misleading"> False/Misleading </option>
-                                                        <option value = "Racism"> Racism </option>
-                                                        <option value = "Waluigi?"> Waluigi? </option>
-                                                        <option value = "Not able to come up with actually good report reasons"> Not able to come up with actually good report reasons </option>
+                                        {/*form for editing ratings when edit button is pressed*/}
+                                        <div className="ratingAlign"> 
+                                            <form className="rating" onSubmit={editRating}>  
+                                                <label className="ratingDropdown">
+                                                    <select value={scoreEdit || ""} onChange={(e) => {setScoreEdit(e.target.value || "" )}}>  
+                                                    <option value = ""> Rate this class </option>          
+                                                        <option value = "1"> 1 </option>
+                                                        <option value = "2"> 2 </option>
+                                                        <option value = "3"> 3 </option>
+                                                        <option value = "4"> 4 </option>
+                                                        <option value = "5"> 5 </option>
                                                     </select>
                                                 </label>
 
-                                                <input type="submit" value="Submit" />
+                                                <textarea  
+                                                    className="ratingComment"
+                                                    type="text" 
+                                                    maxLength="255"
+                                                    placeholder="New Comments" 
+                                                    value={commentEdit}
+                                                    onChange={(e) =>
+                                                        setCommentEdit(e.target.value)}
+                                                />
+                                                <div className="ratingButtonAlign">
+                                                    <input type="submit" value="Edit Rating" className="ratingButton" />
+                                                </div>
                                             </form>
-                                            <Button text="Cancel" color="#7babe3" onClick={() => setIsCreateReport(null)}></Button>
-                                        </div> ):( <div>
-                                            <Button text="Report" color="#7babe3" onClick={() => setIsCreateReport(rating.Rating_id)}></Button>
-                                        </div>)}
+                                        </div>
+                                        <div>
+                                            <button className="modifyButton" type="submit" onClick={() => setIsEditRating(null)}> Cancel </button>
+                                        </div>
+                                    </div> ) : ( <div> 
+                                        {isCreateReport === rating.Rating_id? ( <div> 
+                                            <SaveRatingIdReport ratingIdReport = {rating.Rating_id}/>
+                                            {/*form for creating reports when report button is pressed*/} 
+                                            <div className="ratingAlign"> 
+                                                <form className="rating" onSubmit={createReport}>  
+                                                    <label className="reportDropdown">
+                                                        <select value={reportReason || ""} onChange={(e) => {setReportReason(e.target.value || "" )}}>  
+                                                            <option value = ""> Reason for report </option>          
+                                                            <option value = "Inappropriate Language"> Inappropriate Language </option>
+                                                            <option value = "Spam"> Spam </option>
+                                                            <option value = "Harassment"> Harassment </option>
+                                                            <option value = "Misinformation"> Misinformation </option>
+                                                            <option value = "Sharing Personal Information"> Sharing Personal Information </option>
+                                                            <option value = "Other"> Other </option>
+                                                        </select>
+                                                    </label>
+                                                    <div className="ratingButtonAlign">
+                                                        <input type="submit" value="Submit" className="ratingButton"/>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <button className="modifyButton" type="submit" onClick={() => setIsCreateReport(null)}> Cancel </button>
+                                        </div> ):( <>
+                                            {/*display buttons if not editing or reporting and ratings */}
+                                            <div>
+                                                {/*check user is logged in as well as if they are the one who posted the rating to see if they can edit the rating*/}
+                                                {!localStorage.getItem("user") ? '' : <>
+                                                    {localStorage.getItem("user") === rating.Username ? <button className="modifyButton" type="submit" onClick={() => setIsEditRating(rating.Rating_id)}> Edit </button> : '' }
+                                                </> }
+                                                {/*check user is logged in to see if they can delete the rating*/}
+                                                {!localStorage.getItem("user") ? '' : <button className="modifyButton" type="submit" onClick={() => deleteRating(rating.Rating_id)}> Delete </button>}
+
+                                                <button className="modifyButton" type="submit" onClick={() => setIsCreateReport(rating.Rating_id)}> Report </button>
+                                            </div>
+                                        </>)}
                                     </div>)}  
                                     <br>
                                     </br>
