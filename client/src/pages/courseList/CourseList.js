@@ -25,6 +25,9 @@ const CourseList = () => {
     // Call Listdisplay to render the list
     return(
         <div>
+            <h1 className="listTitle">
+                University Course Helper
+            </h1>
             <div className="listSearch" >
                 <input 
                     type="text" 

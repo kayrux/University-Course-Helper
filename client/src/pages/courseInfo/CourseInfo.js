@@ -271,6 +271,10 @@ const CourseInfo = ({username}) => {
                             );
                         })}
                         <hr />
+
+                        <h2>
+                            Add Rating
+                        </h2>
                         {/*form to submit rating*/}
                         <div className="ratingAlign">
                             <form className="rating" onSubmit={createRating}>
@@ -303,7 +307,7 @@ const CourseInfo = ({username}) => {
                         <hr />
 
                         <h2>
-                            Comments
+                            Ratings
                         </h2>
 
                         {getRatings.map((rating) => {
