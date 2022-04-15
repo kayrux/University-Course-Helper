@@ -294,7 +294,7 @@ app.get("/api/profInfo/:prof_name", (req, res) => {
 app.get("/api/profInfo/:prof_name/courses", (req, res) => {
     const prof_name = req.params.prof_name
     const sqlSelect = (
-        "SELECT o.Course_name " + 
+        "SELECT DISTINCT o.Course_name " + 
         "FROM OFFERED_IN AS o NATURAL JOIN PROFESSOR AS p " + 
         "WHERE p.Prof_name = ?")
     db.query(sqlSelect, prof_name, (err, result) => {

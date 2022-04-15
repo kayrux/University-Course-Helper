@@ -92,9 +92,18 @@ html, body {
 ------------------------------------------------------------------------------------------------------------
 */
 
+.listTitle{
+  color: #4C7E66;
+  font-size: 40px;
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  overflow: auto;
+}
+
 .listSearch{
-  padding-top: 50px;
-  padding-bottom: 10px;
+  padding-top: 15px;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -105,7 +114,7 @@ html, body {
 .list{
   display: flex;
   justify-content: center;
-  text-align: center;
+  text-align: left;
 }
 
 .listDisplay {
