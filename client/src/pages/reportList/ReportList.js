@@ -22,8 +22,16 @@ const ReportList = () => {
 
     //Call Listdisplay to render the list
     return(
-        <div className="list">
-            <ListDisplay list = {reportList} type = {type} />
+        <div>
+            {reportList.length > 0 ? (
+            <div className="list">
+                <ListDisplay list = {reportList} type = {type} />
+            </div>
+            ) : (
+            <h1 className="list">
+                All Reports Resolved
+            </h1>
+            )}
         </div>
     )
 }

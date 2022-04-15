@@ -36,11 +36,13 @@ const ReportInfo = () => {
     // Delete Report
     const deleteReport = async (id) => {
         await Axios.delete(`http://localhost:3001/api/reportInfo/${id}`)
+        window.location.reload();
     }
 
     // Delete Comment
     const deleteRating = async (id) => {
         await Axios.delete(`http://localhost:3001/api/rating/${id}`)
+        window.location.reload();
     }
 
     return (
