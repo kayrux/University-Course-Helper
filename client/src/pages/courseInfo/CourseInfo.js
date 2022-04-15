@@ -319,8 +319,10 @@ const CourseInfo = ({username}) => {
                                         /5
                                     </div>
                                     <div className="commentWraping">
-                                        Comment: {' '}
-                                        {rating.Comment}
+                                        {!rating.Comment? (<></>) : (<>
+                                            Comment: {' '}
+                                            {rating.Comment}
+                                        </>)}
                                     </div>
                                     {isEditRating === rating.Rating_id? ( <div> 
                                         <SaveRatingIdEdit ratingIdEdit = {rating.Rating_id}/>
